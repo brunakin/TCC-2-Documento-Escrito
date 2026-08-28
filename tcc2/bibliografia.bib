@@ -1,0 +1,214 @@
+
+% ================================================================
+% BIBLIOGRAFIA DO TCC
+% Classificação Automática de Chamados de TI Utilizando PLN
+% com Explicabilidade Baseada em Grafos
+% ================================================================
+
+% ----------------------------------------------------------------
+% 3 ARTIGOS DE RESOLUÇÃO DE PROBLEMA
+% ----------------------------------------------------------------
+
+@mastersthesis{zemp2021,
+  author  = {Zemp, Michael},
+  title   = {Text Classification of Service Desk Tickets},
+  school  = {Zurich University of Applied Sciences (ZHAW)},
+  year    = {2021},
+  type    = {Master Thesis -- MAS Data Science},
+  url     = {https://www.zhaw.ch/storage/shared/upload/MAS21_Ticket_Classification_Zemp.pdf}
+}
+
+@phdthesis{wahba2023,
+  author  = {Wahba, Yasmen M.},
+  title   = {A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of {IT} Support Tickets in the Presence of Class Overlap},
+  school  = {University of Western Ontario},
+  year    = {2023},
+  type    = {Tese de Doutorado em Ciência da Computação},
+  url     = {https://ir.lib.uwo.ca/etd/9192}
+}
+
+@mastersthesis{yokota2025,
+  author  = {Yokota, Beatriz},
+  title   = {Aprendizado de máquina baseado em Classificação hierárquica de textos aplicado ao contexto chamados de suporte},
+  school  = {Universidade de São Paulo -- USP/ICMC},
+  year    = {2025},
+  type    = {MBA em Inteligência Artificial e Big Data},
+  url     = {https://bdta.abcd.usp.br/directbitstream/43ebe5d7-98d6-4357-915e-71486db593d5/Beatriz_Yokota.pdf}
+}
+
+% ----------------------------------------------------------------
+% REFERENCIAL TEÓRICO — BLOCO 1: HELP DESK E TRIAGEM
+% ----------------------------------------------------------------
+
+@inproceedings{pereira2023,
+  author    = {Pereira, Leonardo Santiago Benitez and Pizzio, Robinson and Bonho, Samir and De Souza, Leonardo Mozzer Ferraz and Arnoni Junior, Antonio Carlos},
+  title     = {Machine Learning for Classification of {IT} Support Tickets},
+  booktitle = {International Conference on Cyber Management and Engineering (CyMaEn)},
+  publisher = {IEEE},
+  year      = {2023},
+  url       = {https://www.researchgate.net/publication/368906495}
+}
+
+@article{harun2023,
+  author  = {Harun, Noor Aklima and Huspi, Sharin Hazlin and Iahad, Noorminshah A.},
+  title   = {Question Classification Framework for Helpdesk Ticketing Support System using Machine Learning},
+  journal = {International Journal on Informatics and Communication Technology (IJIC)},
+  volume  = {13},
+  number  = {1},
+  year    = {2023},
+  url     = {https://ijic.utm.my/index.php/ijic/article/view/388}
+}
+
+@misc{paramesh2022,
+  author       = {Paramesh, S. P. and Shreedhara, K. S.},
+  title        = {A Deep Learning Based {IT} Service Desk Ticket Classifier Using {CNN}},
+  year         = {2022},
+  howpublished = {ResearchGate},
+  url          = {https://www.researchgate.net/publication/366986777}
+}
+
+@article{razma2026,
+  author    = {Razma, Audrius and Jurkus, Robertas},
+  title     = {{AI}-Based Classification of {IT} Support Requests in Enterprise Service Management Systems},
+  journal   = {Systems},
+  publisher = {MDPI},
+  volume    = {14},
+  number    = {223},
+  year      = {2026},
+  doi       = {10.3390/systems14020223},
+  url       = {https://doi.org/10.3390/systems14020223}
+}
+
+% ----------------------------------------------------------------
+% REFERENCIAL TEÓRICO — BLOCO 2: PLN E REPRESENTAÇÕES VETORIAIS
+% ----------------------------------------------------------------
+
+@inproceedings{mikolov2013,
+  author    = {Mikolov, Tomáš and Chen, Kai and Corrado, Greg and Dean, Jeffrey},
+  title     = {Efficient Estimation of Word Representations in Vector Space},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2013},
+  url       = {https://arxiv.org/abs/1301.3781}
+}
+
+% ----------------------------------------------------------------
+% REFERENCIAL TEÓRICO — BLOCO 3: BERT E VARIANTES
+% ----------------------------------------------------------------
+
+@inproceedings{vaswani2017,
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Łukasz and Polosukhin, Illia},
+  title     = {Attention Is All You Need},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1706.03762}
+}
+
+@inproceedings{devlin2019,
+  author    = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+  title     = {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  booktitle = {Proceedings of the Annual Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
+  year      = {2019},
+  url       = {https://arxiv.org/abs/1810.04805}
+}
+
+@inproceedings{souza2020,
+  author    = {Souza, Fábio and Nogueira, Rodrigo and Lotufo, Roberto},
+  title     = {{BERTimbau}: Pretrained {BERT} Models for {Brazilian Portuguese}},
+  booktitle = {Brazilian Conference on Intelligent Systems (BRACIS)},
+  publisher = {Springer},
+  year      = {2020},
+  url       = {https://www.researchgate.net/publication/345395208}
+}
+
+@mastersthesis{borges2024,
+  author  = {Borges, Beatriz Ribeiro},
+  title   = {Análise comparativa de algoritmos de classificação de texto},
+  school  = {Universidade Federal de Uberlândia},
+  year    = {2024},
+  type    = {Trabalho de Conclusão de Curso -- Sistemas de Informação},
+  url     = {https://repositorio.ufu.br/handle/123456789/43701}
+}
+
+% ----------------------------------------------------------------
+% REFERENCIAL TEÓRICO — BLOCO 4: XAI
+% ----------------------------------------------------------------
+
+@inproceedings{ribeiro2016,
+  author    = {Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  title     = {"Why Should {I} Trust You?": Explaining the Predictions of Any Classifier},
+  booktitle = {22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  publisher = {ACM},
+  year      = {2016},
+  url       = {https://arxiv.org/abs/1602.04938}
+}
+
+@inproceedings{lundberg2017,
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  year      = {2017},
+  url       = {https://arxiv.org/abs/1705.07874}
+}
+
+@article{salih2023,
+  author    = {Salih, Ahmed and others},
+  title     = {A Perspective on Explainable Artificial Intelligence Methods: {SHAP} and {LIME}},
+  journal   = {Advanced Intelligent Systems},
+  publisher = {Wiley},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2305.02012}
+}
+
+@article{mustafa2025,
+  author    = {Mustafa, Sumaya and {Hama Saeed}, Mariwan},
+  title     = {Empowering text classification with {NLP} and explainable {AI} for enhanced interpretability},
+  journal   = {Journal of Electrical Systems and Information Technology},
+  volume    = {12},
+  number    = {81},
+  publisher = {Springer},
+  year      = {2025},
+  url       = {https://link.springer.com/article/10.1186/s43067-025-00273-2}
+}
+
+% ----------------------------------------------------------------
+% REFERENCIAL TEÓRICO — BLOCO 5: GRAFOS DE CO-OCORRÊNCIA
+% ----------------------------------------------------------------
+
+@inproceedings{yao2019,
+  author    = {Yao, Liang and Mao, Chengsheng and Luo, Yuan},
+  title     = {Graph Convolutional Networks for Text Classification},
+  booktitle = {AAAI Conference on Artificial Intelligence},
+  year      = {2019},
+  url       = {https://arxiv.org/abs/1809.05679}
+}
+
+@article{yang2021,
+  author    = {Yang, Xingwu and Cui, Yuheng},
+  title     = {{BERT}-Enhanced Text Graph Neural Network for Classification},
+  journal   = {Entropy},
+  publisher = {MDPI},
+  volume    = {23},
+  number    = {1536},
+  year      = {2021},
+  url       = {https://www.mdpi.com/1099-4300/23/11/1536}
+}
+
+@article{talebi2025,
+  author  = {Talebi, Sajedeh and Abdolvand, Neda},
+  title   = {Building Safer Social Spaces: Body Shaming Detection Using {RoBERTa}, {LIME} and Term Co-occurrence Graph},
+  journal = {International Journal of Web Research (IJWR)},
+  year    = {2025},
+  url     = {https://doaj.org/article/3a3f1e1beed847909118aac97aacce05}
+}
+
+@misc{brasil2018,
+  author       = {{BRASIL}},
+  title        = {Lei n.º 13.709, de 14 de agosto de 2018. Lei Geral de
+                  Proteção de Dados Pessoais (LGPD)},
+  year         = {2018},
+  howpublished = {Diário Oficial da União, Brasília, DF, 15 ago. 2018},
+  url          = {https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm},
+  urlaccessdate = {26 ago. 2026}
+}

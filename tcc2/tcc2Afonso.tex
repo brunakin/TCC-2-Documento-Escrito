@@ -1,0 +1,281 @@
+% ---------------------------------------------------------------
+% TEMPLATE TCC2 - SENAC SANTO AMARO
+% ---------------------------------------------------------------
+% Trabalho de Conclusão de Curso 2
+% ---------------------------------------------------------------
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    english,
+    brazil
+]{abntex2}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lastpage}
+\usepackage{indentfirst}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{amsmath,amssymb}
+\usepackage[brazilian,hyperpageref]{backref}
+\usepackage[alf]{abntex2cite}
+
+\definecolor{blue}{RGB}{41,5,195}
+
+\makeatletter
+\hypersetup{
+    pdftitle={\@title},
+    pdfauthor={\@author},
+    pdfsubject={TCC2 - SENAC Santo Amaro},
+    pdfcreator={LaTeX with abnTeX2},
+    pdfkeywords={tcc2}{senac}{santo amaro}{trabalho de conclusão},
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    bookmarksdepth=4
+}
+\makeatother
+
+\titulo{Título do TCC2}
+\autor{Nome Completo do Aluno}
+\local{São Paulo}
+\data{2025}
+\orientador{Prof. Nome do Orientador}
+\tipotrabalho{Trabalho de Conclusão de Curso II}
+\instituicao{%
+  SENAC -- Serviço Nacional de Aprendizagem Comercial
+  \par
+  Unidade Santo Amaro
+  \par
+  Curso de Bacharelado em Ciência da Computação
+}
+\preambulo{Trabalho de Conclusão de Curso II apresentado ao SENAC Santo Amaro como requisito para conclusão do curso de Bacharelado em Ciência da Computação.}
+
+\makeindex
+
+\begin{document}
+
+\selectlanguage{brazil}
+\frenchspacing
+
+\pretextual
+
+\imprimircapa
+\imprimirfolhaderosto
+
+\begin{resumo}
+Este documento apresenta o TCC2 com base na estrutura recomendada por Raul Sidnei Wazlawick em \textit{Metodologia de Pesquisa para Ciência da Computação}. O foco está em evidenciar problema, objetivos, método, desenvolvimento, resultados e contribuição, evitando textos meramente descritivos.
+\end{resumo}
+
+\begin{resumo}[Abstract]
+This document follows the TCC structure proposed by Wazlawick for Computer Science, emphasizing the research problem, objectives, proposed method, development details, and scientific analysis of results.
+\end{resumo}
+
+\tableofcontents*
+\cleardoublepage
+
+\textual
+
+% ---------------------------------------------------------------
+% INTRODUÇÃO
+% ---------------------------------------------------------------
+\chapter{Introdução}
+
+\section{Contextualização do problema}
+Descreva o cenário atual e a lacuna identificada, embasando o texto em dados, estatísticas, políticas ou práticas profissionais. Evite narrativas históricas extensas e mantenha o foco no problema.
+
+Para citar a orientação do autor, use `\citeonline{Wazlawick2020}` quando precisar reproduzir uma afirmação direta sobre metodologia. Ao resumir outros trabalhos, integre as ideias ao seu texto e utilize `\cite{Silva2022}` como exemplo de citação indireta.
+
+\section{Formulação do problema}
+Coloque o problema em forma de pergunta clara, delimitando o que será investigado e qual resultado se espera atingir dentro da Computação.
+
+-\section{Objetivos e hipótese}
+\subsection{Objetivo geral}
+Declare o propósito principal do TCC2 em uma frase direta, conectando-o ao problema e deixando claro se o foco é compreender, comparar, validar ou propor algo novo.
+
+\subsection{Objetivos específicos}
+Liste objetivos mensuráveis que estruturam o plano de trabalho. Tente utilizar verbos como revisar, comparar, modelar, quantificar ou validar. Exemplos:
+\begin{itemize}
+    \item Revisar obras-chave sobre [tema] e identificar lacunas;
+    \item Modelar ou prototipar a abordagem proposta;
+    \item Implementar experimentos controlados;
+    \item Avaliar o desempenho por métricas (ex.: acurácia, latência).
+\end{itemize}
+
+\subsection{Hipótese ou critério de validação}
+Descreva a hipótese que será testada ou o critério usado para afirmar que o objetivo geral foi atingido. Caso não haja hipótese formal, explique como as métricas escolhidas demonstrarão o sucesso esperado.
+
+\section{Justificativa}
+Ressalte a importância do problema para a Computação, destacando contribuições acadêmicas, sociais ou industriais. Explique como a proposta evita se tornar um “manual de ferramenta”.
+
+% ---------------------------------------------------------------
+% REVISÃO BIBLIOGRÁFICA
+% ---------------------------------------------------------------
+\chapter{Revisão Bibliográfica / Trabalhos Relacionados}
+
+\section{Fundamentos teóricos necessários}
+Explique os conceitos essenciais, definindo termos e equações quando necessário. Utilize blocos de texto ou pequenos quadros comparativos para sintetizar modelos.
+
+Um exemplo de citação direta poderia ser `\citeonline{Silva2022}` para reforçar que determinados métodos exigem validação empírica; uma citação indireta pode ser escrita como “vários estudos destacam ...” seguido de `\cite{Wazlawick2020}`.
+
+\section{Técnicas, métodos ou abordagens existentes}
+Apresente abordagens já empregadas no contexto e destaque o que funcionou ou falhou. Inclua uma tabela comparativa simples para clarificar diferenças:
+\begin{table}[htb]
+  \centering
+  \caption{Comparativo de abordagens relacionadas}
+  \begin{tabular}{p{4cm}p{3cm}p{4cm}}
+    \toprule
+    Abordagem & Domínio & Limitação principal \\
+    \midrule
+    Técnica A & IoT & Falta de validação em larga escala \\
+    Técnica B & Redes neurais & Alto custo computacional \\
+    \bottomrule
+  \end{tabular}
+  \legend{Tabela ilustrativa com limitações observadas.}
+\end{table}
+
+\section{Trabalhos correlatos e limitações}
+Liste artigos diretamente relacionados e explique por que cada um não resolve totalmente o problema (ex.: falta de comparação, escopo diferente, dados limitados). Relacione essas lacunas com o que sua pesquisa pretende preencher.
+
+\textit{Evite a “síndrome da intersecção esquecida”: inclua trabalhos que aplicaram a técnica na mesma área.}
+
+% ---------------------------------------------------------------
+% METODOLOGIA
+% ---------------------------------------------------------------
+\chapter{Metodologia}
+
+\section{Tipo de pesquisa e hipótese}
+Informe qual tipo de pesquisa será conduzido (exploratória, empírica, formal etc.) e registre as hipóteses que serão avaliadas. Caso não haja hipótese formal, descreva o critério de sucesso esperado.
+
+\section{Procedimentos da abordagem proposta}
+Detalhe etapas da metodologia em ordem cronológica. Use listas numeradas, diagramas de fluxo ou pseudocódigo para tornar o processo claro.
+
+\section{Ferramentas, tecnologias e ambientes}
+Liste softwares, linguagens, bibliotecas, frameworks e ambientes (laboratórios, nuvem, simulação) que serão usados. Justifique a escolha com base no problema e nas métricas.
+
+\section{Procedimentos experimentais e métricas}
+Explique como os experimentos serão configurados, quais variáveis serão controladas e quais métricas demonstram que a proposta cumpre os objetivos (ex.: acurácia, latência, custo). Inclua tabelas que antecipem o plano de coleta, por exemplo:
+\begin{table}[htb]
+  \centering
+  \caption{Plano de experimentação}
+  \begin{tabular}{lccc}
+    \toprule
+    Experimento & Variável controlada & Métrica principal \\
+    \midrule
+    Comparação com baseline & algoritmo & acurácia \\
+    Escalabilidade & carga & tempo médio \\
+    \bottomrule
+  \end{tabular}
+  \legend{Exemplo de como documentar experimentos.}
+\end{table}
+
+\textit{Propor algo não basta: demonstre como será validado.}
+
+% ---------------------------------------------------------------
+% DESENVOLVIMENTO
+% ---------------------------------------------------------------
+\chapter{Desenvolvimento / Implementação / Experimentos}
+
+\section{Modelagem e arquitetura}
+Apresente diagramas (UML, blocos ou fluxogramas) que mostram como os módulos se relacionam, identificando componentes críticos e como eles atendem ao problema e à metodologia.
+
+\section{Detalhes de implementação}
+Explique escolhas tecnológicas, estruturas de dados e integrações. Inclua trechos de código relevantes ou pseudoexemplos se esclarecerem decisões de pesquisa.
+
+\section{Experimentos e cenários de teste}
+Descreva os cenários planejados, parâmetros testados e por que cada experimento está alinhado aos objetivos. Liste os conjuntos de dados, variações e número de repetições.
+
+\section{Coleta e tratamento de dados}
+Explique como os dados foram coletados (logs, sensores, APIs), armazenados e preparados (limpeza, normalização, anonimização). Registre ferramentas usadas no pré-processamento.
+
+\textit{O desenvolvimento só é pesquisa se estiver claramente ligado ao problema e à metodologia definida.}
+
+% ---------------------------------------------------------------
+% RESULTADOS
+% ---------------------------------------------------------------
+\chapter{Resultados e Análise}
+
+\section{Apresentação dos resultados}
+Mostre resultados com tabelas, gráficos e figuras. Diferencie:
+\begin{itemize}
+  \item \textbf{Figura:} imagens, diagramas conceituais ou arquiteturais que ilustram estrutura ou fluxo.
+  \item \textbf{Gráfico:} plot de dados (linhas, barras, boxplots) que compara métricas obtidas.
+\end{itemize}
+
+Exemplo de tabela:
+\begin{table}[htb]
+  \centering
+  \caption{Comparação de métricas reportadas}
+  \begin{tabular}{lcc}
+    \toprule
+    Método & Acurácia & Tempo médio (ms) \\
+    \midrule
+    Proposta & 92\% & 180 \\
+    Baseline & 88\% & 220 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Tabela exemplificando como comparar métricas.}
+\end{table}
+
+Ao inserir um gráfico (por exemplo `assets/figures/desempenho.png`), use:
+\begin{verbatim}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{assets/figures/desempenho.png}
+  \caption{Gráfico de comparação das métricas de acurácia.}
+  \label{fig:grafico-desempenho}
+\end{figure}
+\end{verbatim}
+
+\section{Análise crítica e comparação}
+Discuta as descobertas com base na revisão bibliográfica e na hipótese. Evidencie ganhos e perdas.
+
+\section{Discussão}
+Relacione os resultados aos objetivos e à hipótese, explicitando se o critério de sucesso foi atingido.
+
+\textit{Resultados devem ser analisados, não apenas exibidos.}
+
+% ---------------------------------------------------------------
+% CONCLUSÃO
+% ---------------------------------------------------------------
+\chapter{Conclusão}
+
+\section{Retomada do problema e dos objetivos}
+Retome o problema e destaque o que foi atingido.
+
+\section{Contribuições para a Computação}
+Explique o que a pesquisa trouxe de novo.
+
+\section{Limitações e trabalhos futuros}
+Liste limites e sugira próximos passos coerentes.
+
+% ---------------------------------------------------------------
+% OBSERVAÇÕES DO AUTOR
+% ---------------------------------------------------------------
+\chapter*{Observações importantes}
+\addcontentsline{toc}{chapter}{Observações importantes}
+
+Para graduação, Wazlawick aceita trabalhos aplicados desde que:
+\begin{itemize}
+    \item O problema seja preciso;
+    \item A solução esteja fundamentada;
+    \item Haja análise crítica;
+    \item Não seja apenas entrega funcional.
+\end{itemize}
+
+\postextual
+
+\bibliography{bibliografia_tcc2}
+
+\end{document}
