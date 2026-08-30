@@ -121,7 +121,7 @@ Kayke Ahrens Biscegli -- 1142709883}
 % RESUMO
 % ---------------------------------------------------------------
 \begin{resumo}
-Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (TCC1) desenvolvido no SENAC Santo Amaro. O objetivo deste trabalho é investigar se a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau aumenta a transparência e auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte técnico em português brasileiro. A justificativa para este estudo baseia-se na necessidade de automatizar a triagem manual de \textit{tickets} em sistemas de \textit{help desk} corporativos, processo atualmente lento, inconsistente e sujeito a erros humanos, ao mesmo tempo que se endereça o problema da "caixa-preta" dos modelos de aprendizado profundo, que dificulta a adoção em produção devido à falta de transparência nas decisões algorítmicas. A revisão bibliográfica abrange sistemas de \textit{help desk} e triagem de chamados, processamento de linguagem natural para classificação de texto, arquitetura \textit{Transformer} e o modelo BERT, inteligência artificial explicável com foco em SHAP e LIME, e grafos de co-ocorrência como estrutura de representação e visualização. A solução prevista consiste em um \textit{pipeline} composto por: um módulo de classificação baseado em BERTimbau \textit{fine-tuned} sobre \textit{dataset} de chamados reais em PT-BR; um módulo de explicabilidade que calcula valores SHAP e \textit{scores} LIME para cada predição; um módulo de visualização que constrói grafos de co-ocorrência ponderados pelos \textit{scores} XAI, permitindo aos analistas de TI auditar visualmente as decisões do modelo. Este trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica que fundamenta a pesquisa, o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
+Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (TCC1) desenvolvido no SENAC Santo Amaro. O objetivo deste trabalho é investigar se a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte técnico em português brasileiro. A justificativa para este estudo baseia-se na necessidade de automatizar a triagem manual de \textit{tickets} em sistemas de \textit{help desk} corporativos, processo atualmente lento, inconsistente e sujeito a erros humanos, ao mesmo tempo que se endereça o problema da "caixa-preta" dos modelos de aprendizado profundo, que dificulta a adoção em produção devido à falta de transparência nas decisões algorítmicas. A revisão bibliográfica abrange sistemas de \textit{help desk} e triagem de chamados, processamento de linguagem natural para classificação de texto, arquitetura \textit{Transformer} e o modelo BERT, inteligência artificial explicável com foco em SHAP e LIME, e grafos de co-ocorrência como estrutura de representação e visualização. A solução prevista consiste em um \textit{pipeline} composto por: um módulo de classificação baseado em BERTimbau \textit{fine-tuned} sobre \textit{dataset} de chamados reais em PT-BR; um módulo de explicabilidade que calcula valores SHAP e \textit{scores} LIME para cada predição; um módulo de visualização que constrói grafos de co-ocorrência ponderados pelos \textit{scores} XAI, tornando auditável a contribuição de cada termo para a decisão do modelo. Este trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica que fundamenta a pesquisa, o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
 
 \vspace{\onelineskip}
 
@@ -251,10 +251,12 @@ se repetem em centenas de milhões de parâmetros distribuídos
 em múltiplas camadas, tornando impossível rastrear por que uma 
 palavra específica influenciou determinada classificação. Embora 
 o modelo produza resultados precisos, o caminho percorrido até 
-a decisão permanece completamente não auditável, o que justifica a 
-necessidade de técnicas de explicabilidade como SHAP e LIME para 
-atribuir, de forma matematicamente justificável, a importância 
-de cada termo na predição \cite{lundberg2017, ribeiro2016}.
+a decisão permanece não auditável, ou seja, não é possível rastrear 
+nem reproduzir a explicação de uma predição individual, propriedade 
+definida em detalhe na Seção~\ref{subsec:auditabilidade}. Isso 
+justifica a necessidade de técnicas de explicabilidade como SHAP e 
+LIME para atribuir, de forma matematicamente justificável, a 
+importância de cada termo na predição \cite{lundberg2017, ribeiro2016}.
 
 No contexto brasileiro, onde grande parte da comunicação técnica 
 ocorre em português, modelos tradicionais como o \textit{Naive 
@@ -318,8 +320,7 @@ Dessa forma, investigar se mecanismos de explicabilidade baseados em grafos pode
 Este trabalho estrutura-se a partir de um objetivo central, que define o escopo principal da pesquisa, e de objetivos específicos que representam as metas intermediárias e os subprodutos analíticos necessários para responder à questão central de investigação.
 
 \subsection{Objetivo principal}
-
-Investigar se a inclusão de uma camada de explicabilidade e grafos de co-ocorrência, a um \textit{pipeline} de classificação baseado em \textit{transformers}, aumenta a transparência e auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte de TI em português brasileiro.
+Investigar se a inclusão de uma camada de explicabilidade e grafos de co-ocorrência, a um \textit{pipeline} de classificação baseado em \textit{transformers}, aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte de TI em português brasileiro.
 
 \subsection{Objetivos secundários}
 
@@ -452,7 +453,7 @@ do que abordagens baseadas em \textit{transformers}, que são modelos
 de linguagem baseados em redes neurais profundas e que serão 
 detalhados na Seção~\ref{sec:bert}.
 
-Este argumento é diretamente relevante para o presente trabalho, pois o TCC responde à questão levantada por Wahba: o custo computacional adicional do BERTimbau se justifica quando se adiciona uma camada de XAI e grafo de co-ocorrência que transforma a saída pouco interpretável do modelo em algo auditável pelos analistas. Em outras palavras, a interpretabilidade não é apenas uma funcionalidade adicional, é a justificativa central para a escolha do modelo mais complexo.
+Este argumento é diretamente relevante para o presente trabalho, pois o TCC responde à questão levantada por Wahba: o custo computacional adicional do BERTimbau se justifica quando se adiciona uma camada de XAI e grafo de co-ocorrência que transforma a saída pouco interpretável do modelo em uma representação auditável e verificável. Em outras palavras, a interpretabilidade não é apenas uma funcionalidade adicional, é a justificativa central para a escolha do modelo mais complexo.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{A caixa-preta como barreira à adoção em produção}
@@ -700,7 +701,7 @@ decisão \cite{salih2023}.
 Em contextos como a triagem de chamados de TI, essa opacidade representa um problema prático concreto. Analistas de suporte e gestores precisam auditar as decisões do sistema, identificar erros sistemáticos e eventualmente contestar categorizações incorretas. Um modelo que não fornece justificativa para suas predições é difícil de depurar, difícil de melhorar e difícil de justificar perante \textit{stakeholders} (partes interessadas, como gestores e diretores) organizacionais \cite{zemp2021}.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{Confiança, auditabilidade e adoção em produção}
+\subsubsection{Confiança, explicabilidade e adoção em produção}
 \label{subsubsec:xai_confianca}
 
 A relação entre explicabilidade e confiança em sistemas de IA é documentada empiricamente na literatura. \citeonline{zemp2021} relata que agentes de suporte demonstraram resistência a adotar o sistema de classificação, especificamente porque poderia levar a decisões automáticas sem análise adequada. \citeonline{razma2026} observam que a adição de explanações LIME e SHAP ao sistema aumentou a disposição dos operadores a aceitar as predições, mesmo em casos de incerteza, porque o analista conseguia verificar se os termos destacados como mais influentes faziam sentido para aquela categoria específica.
@@ -1090,12 +1091,14 @@ que combina estrutura relacional do texto com relevância explicativa
 do modelo \cite{talebi2025}.
 
 Essa camada de visualização tem o potencial de transformar a saída 
-opaca do modelo em uma representação auditável, endereçando diretamente 
-o problema identificado por \citeonline{zemp2021} e 
-\citeonline{razma2026}: analistas de suporte precisam compreender por 
-que o modelo tomou determinada decisão para confiar no sistema e 
-adotá-lo em produção. A solução proposta neste trabalho adota essa 
-abordagem, cuja implementação é detalhada no Capítulo~\ref{cap:desenvolvimento}.
+opaca do modelo em uma representação auditável, o que responde à 
+limitação apontada por \citeonline{zemp2021} e \citeonline{razma2026}: 
+sem acesso às razões da decisão, analistas de suporte não conseguem 
+verificar o comportamento do modelo. O presente trabalho avalia a 
+propriedade técnica de auditabilidade da representação proposta, sem 
+medir a adoção efetiva do sistema por usuários. A solução proposta 
+adota essa abordagem, cuja implementação é detalhada no 
+Capítulo~\ref{cap:desenvolvimento}.
 % ===============================================================
 \section{Síntese da Literatura e Posicionamento do Trabalho}
 \label{sec:sintese}
@@ -1120,7 +1123,14 @@ Os trabalhos de \citeonline{yokota2025} e \citeonline{pereira2023} evidenciam qu
 \subsubsection{Custo-benefício do BERT sem camada de explicabilidade}
 \label{subsubsec:lacuna_wahba}
 
-\citeonline{wahba2023} questiona o uso de BERT para classificação de texto em domínios especializados, argumentando que o custo computacional adicional não se justifica diante da pequena vantagem sobre o SVM em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério de avaliação for a acurácia. O presente trabalho responde a esse argumento demonstrando que o custo do BERTimbau se justifica quando a camada de XAI e grafo de co-ocorrência é adicionada, transformando a saída opaca do modelo em algo auditável e confiável para os analistas, critério que modelos lineares não conseguem satisfazer com a mesma qualidade de explanação.
+\citeonline{wahba2023} questiona o uso de BERT para classificação de texto em domínios especializados, 
+argumentando que o custo computacional adicional não se justifica diante da pequena vantagem sobre 
+o SVM em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério 
+de avaliação for a acurácia. O presente trabalho responde a esse argumento demonstrando que o custo 
+do BERTimbau se justifica quando a camada de XAI e grafo de 
+co-ocorrência é adicionada, transformando a saída opaca do modelo em 
+uma representação auditável e verificável, critério que modelos 
+lineares não conseguem satisfazer com a mesma qualidade de explanação.
 
 % ---------------------------------------------------------------
 \subsection{Direcionamento para a proposta}
@@ -1166,6 +1176,44 @@ Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e t
  
 Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$ na qual os nós $V$ representam os termos únicos de um texto e as arestas $E$ conectam pares de termos que aparecem juntos dentro de uma janela deslizante de tamanho fixo \cite{yao2019}. Neste trabalho, essa estrutura será utilizada como camada de visualização das explicações XAI: os pesos dos nós serão determinados pelos valores SHAP e LIME de cada \textit{token}, e os pesos das arestas pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
  
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Auditabilidade}
+\label{subsec:auditabilidade}
+
+A literatura de XAI não apresenta uma definição única e consolidada de
+auditabilidade. Por essa razão, adota-se aqui uma definição operacional,
+construída a partir de propriedades já estabelecidas na literatura: um
+sistema de classificação é auditável quando permite rastrear, verificar
+e reproduzir a explicação de cada decisão do modelo. Trata-se, portanto,
+de uma propriedade técnica do sistema, e não da confiança percebida por
+quem o utiliza. Essa distinção é relevante porque os estudos de
+\citeonline{zemp2021} e \citeonline{razma2026}, ao relatarem a reação de
+analistas de suporte a sistemas de classificação em produção, tratam da
+confiança percebida, e não da propriedade técnica definida aqui.
+
+A definição se desdobra em três dimensões:
+
+\begin{itemize}
+    \item \textbf{Rastreabilidade}: a capacidade de atribuir a decisão
+    do modelo a termos específicos da entrada, obtida por meio dos
+    valores SHAP \cite{lundberg2017} e LIME \cite{ribeiro2016};
+
+    \item \textbf{Estabilidade}: a reprodutibilidade da explicação
+    gerada para uma mesma instância ao longo de execuções repetidas,
+    questão especialmente relevante para o LIME, que depende de
+    amostragem aleatória de perturbações \cite{salih2023};
+
+    \item \textbf{Fidelidade}: o grau em que a explicação reflete o
+    processo de decisão efetivamente utilizado pelo modelo
+    \cite{jacovi2020}, verificável pela variação da confiança preditiva
+    ao remover da entrada os termos apontados como mais relevantes.
+\end{itemize}
+
+A validação da percepção de confiança por parte de gestores ou analistas
+de TI não é objeto deste trabalho, sendo reconhecida como extensão
+natural da pesquisa.
+
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Sistema de \textit{Help Desk} e Triagem de Chamados}
  
@@ -1222,7 +1270,7 @@ Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a 
 \section{Hipótese de Pesquisa}
 \label{sec:hipotese_pesquisa}
 
-A utilização de modelagem em grafos como camada de explicabilidade visual para o modelo BERT aumenta a auditabilidade e a confiança dos gestores de TI no processo de classificação automatizada, mitigando a percepção de 'caixa-preta' sem a necessidade de intervenção manual na triagem.
+A utilização de modelagem em grafos como camada de explicabilidade visual para o modelo BERT aumenta a auditabilidade do processo de classificação automatizada, permitindo identificar quais termos do chamado contribuíram para a categoria atribuída pelo modelo.
 
 % ---------------------------------------------------------------
 \section{Métricas de Avaliação}
@@ -1395,10 +1443,12 @@ uma visualização gráfica que combina a estrutura relacional do
 texto com a relevância explicativa de cada termo segundo ambos 
 os métodos.
 
-O sistema será desenvolvido para atender principalmente gestores 
-e analistas de TI, que poderão utilizá-lo durante o processo de 
-triagem para acompanhar de forma transparente e auditável o 
-resultado da classificação automática.
+O sistema será desenvolvido para atender principalmente gestores e 
+analistas de TI, que poderão utilizá-lo durante o processo de triagem 
+para acompanhar de forma transparente e auditável o resultado da 
+classificação automática. A interface funciona como prova de conceito 
+do \textit{pipeline}, não sendo avaliada junto a esse público neste 
+trabalho.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Protocolo experimental}
@@ -1664,9 +1714,11 @@ O sucesso da solução será avaliado sob duas perspectivas complementares.
 A primeira perspectiva, \textbf{quantitativa}, avalia o desempenho do modelo de classificação por meio das seguintes métricas: acurácia, precisão, revocação, F1-score macro para lidar com possível desbalanceamento entre categorias, ROC-AUC macro para avaliar a capacidade do modelo de distinguir entre as categorias ao longo de 
 diferentes limiares de decisão e matriz de confusão para análise de erros sistemáticos. O BERTimbau será considerado satisfatório se superar o \textit{baseline} SVM em pelo menos 5 pontos percentuais de F1-macro.
 
-A segunda perspectiva, \textbf{qualitativa}, avalia a utilidade das explicações geradas. Serão analisadas: a concordância entre as explicações SHAP e LIME para os mesmos chamados, e a coerência semântica dos \textit{tokens} destacados no grafo em relação à categoria predita, verificando se os termos com maior importância SHAP e LIME 
-correspondem intuitivamente ao tipo de problema descrito 
-no chamado.
+A segunda perspectiva, \textbf{qualitativa}, avalia a utilidade das explicações geradas. 
+Serão analisadas: a concordância entre as explicações SHAP e LIME para os mesmos chamados, e 
+a coerência semântica dos \textit{tokens} destacados no grafo em relação à categoria predita, 
+verificando se os termos com maior importância SHAP e LIME 
+correspondem ao vocabulário técnico esperado para cada categoria.
 
 \section{Cronograma de trabalho}
 \label{sec:cronograma}
