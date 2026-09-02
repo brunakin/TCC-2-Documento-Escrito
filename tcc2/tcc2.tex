@@ -1473,7 +1473,7 @@ D & BERTimbau & SHAP + LIME + grafo & Auditabilidade visual \\
 \legend{Fonte: Elaborado pelos autores (2026)}
 \end{table}
 
-A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico — respondendo ao argumento de \citeonline{wahba2023} sobre o custo-benefício dos \textit{transformers} em domínios especializados. A comparação entre os cenários C e D avalia se a camada de grafo de co-ocorrência oferece auditabilidade superior à exibição isolada de \textit{scores} de importância — hipótese central deste trabalho.
+A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico — respondendo ao argumento de \citeonline{wahba2023} sobre o custo-benefício dos \textit{transformers} em domínios especializados. A comparação entre os cenários C e D constitui o principal teste experimental da hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), avaliando se a camada de grafo de co-ocorrência oferece auditabilidade superior à exibição isolada de scores de importância, nos termos definidos na Seção~\ref{subsec:auditabilidade}.
 
 \subsubsection{Protótipos da interface}
 
@@ -1717,8 +1717,11 @@ diferentes limiares de decisão e matriz de confusão para análise de erros sis
 A segunda perspectiva, \textbf{qualitativa}, avalia a utilidade das explicações geradas. 
 Serão analisadas: a concordância entre as explicações SHAP e LIME para os mesmos chamados, e 
 a coerência semântica dos \textit{tokens} destacados no grafo em relação à categoria predita, 
-verificando se os termos com maior importância SHAP e LIME 
-correspondem ao vocabulário técnico esperado para cada categoria.
+verificando se os termos com maior importância SHAP e LIME correspondem ao 
+vocabulário técnico esperado para cada categoria. Complementarmente, 
+a fidelidade é aferida pela biblioteca \textit{ferret} \cite{attanasio2023}, a estabilidade
+pela repetição de SHAP e LIME sobre a mesma instância, e a rastreabilidade pela modularidade do grafo de co-ocorrência.
+
 
 \section{Cronograma de trabalho}
 \label{sec:cronograma}
