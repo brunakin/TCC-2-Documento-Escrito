@@ -1,10 +1,7 @@
 % ---------------------------------------------------------------
-% TEMPLATE TCC1 - SENAC SANTO AMARO
+% TEMPLATE TCC2 - SENAC SANTO AMARO
 % ---------------------------------------------------------------
-% Trabalho de Conclusão de Curso 1
-% Elaborado para apresentação da proposta inicial do TCC
-% Estrutura: 4 capítulos (Introdução, Revisão Bibliográfica,
-%            Desenvolvimento, Referências Bibliográficas)
+% Trabalho de Conclusão de Curso 2
 % ---------------------------------------------------------------
 
 \documentclass[
@@ -45,7 +42,7 @@
 \hypersetup{
     pdftitle={\@title},
     pdfauthor={\@author},
-    pdfsubject={TCC1 - SENAC Santo Amaro},
+    pdfsubject={TCC2 - Senac Santo Amaro},
     pdfcreator={LaTeX with abnTeX2},
     pdfkeywords={tcc}{senac}{santo amaro}{trabalho de conclusão},
     colorlinks=true,        % false: links em caixas; true: links coloridos
@@ -66,25 +63,25 @@
 % INFORMAÇÕES DO DOCUMENTO
 % ---------------------------------------------------------------
 \titulo{Classificação Automática de Chamados de TI Utilizando Processamento de Linguagem Natural com Explicabilidade Baseada em Grafos}
-\autor{Agatha Barbosa Marinho dos Santos -- 1142708666 \\
-Bruna Kinjo Luiz Pinto -- 1142710312 \\
-Kayke Ahrens Biscegli -- 1142709883}
+\autor{Agatha Barbosa Marinho dos Santos \\
+Bruna Kinjo Luiz Pinto \\
+Kayke Ahrens Biscegli}
 \local{São Paulo}
 \data{2026}
 \orientador{Prof. Douglas José Baquião Ribeiro}
 % \coorientador{Prof. Nome do Coorientador} % Descomente se houver coorientador
 
 \instituicao{%
-  SENAC -- Serviço Nacional de Aprendizagem Comercial
+  Senac -- Serviço Nacional de Aprendizagem Comercial
   \par
   Unidade Santo Amaro
   \par
-  Curso de Ciência da Computação
+  Curso de Bacharelado em Ciência da Computação
 }
 
-\tipotrabalho{Trabalho de Conclusão de Curso I}
+\tipotrabalho{Trabalho de Conclusão de Curso II}
 
-\preambulo{Proposta de Trabalho de Conclusão de Curso apresentado ao SENAC Santo Amaro como requisito parcial para aprovação na disciplina de TCC1 do curso de Ciência da Computação.}
+\preambulo{Trabalho de Conclusão de Curso II apresentado ao Senac Santo Amaro como requisito para conclusão do curso de Bacharelado em Ciência da Computação.}
 
 % ---------------------------------------------------------------
 % COMPILA O ÍNDICE
@@ -121,7 +118,7 @@ Kayke Ahrens Biscegli -- 1142709883}
 % RESUMO
 % ---------------------------------------------------------------
 \begin{resumo}
-Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (TCC1) desenvolvido no SENAC Santo Amaro. O objetivo deste trabalho é investigar se a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte técnico em português brasileiro. A justificativa para este estudo baseia-se na necessidade de automatizar a triagem manual de \textit{tickets} em sistemas de \textit{help desk} corporativos, processo atualmente lento, inconsistente e sujeito a erros humanos, ao mesmo tempo que se endereça o problema da "caixa-preta" dos modelos de aprendizado profundo, que dificulta a adoção em produção devido à falta de transparência nas decisões algorítmicas. A revisão bibliográfica abrange sistemas de \textit{help desk} e triagem de chamados, processamento de linguagem natural para classificação de texto, arquitetura \textit{Transformer} e o modelo BERT, inteligência artificial explicável com foco em SHAP e LIME, e grafos de co-ocorrência como estrutura de representação e visualização. A solução prevista consiste em um \textit{pipeline} composto por: um módulo de classificação baseado em BERTimbau \textit{fine-tuned} sobre \textit{dataset} de chamados reais em PT-BR; um módulo de explicabilidade que calcula valores SHAP e \textit{scores} LIME para cada predição; um módulo de visualização que constrói grafos de co-ocorrência ponderados pelos \textit{scores} XAI, tornando auditável a contribuição de cada termo para a decisão do modelo. Este trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica que fundamenta a pesquisa, o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
+Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (TCC1) desenvolvido no Senac Santo Amaro. O objetivo deste trabalho é investigar se a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte técnico em português brasileiro. A justificativa para este estudo baseia-se na necessidade de automatizar a triagem manual de \textit{tickets} em sistemas de \textit{help desk} corporativos, processo atualmente lento, inconsistente e sujeito a erros humanos, ao mesmo tempo que se endereça o problema da "caixa-preta" dos modelos de aprendizado profundo, que dificulta a adoção em produção devido à falta de transparência nas decisões algorítmicas. A revisão bibliográfica abrange sistemas de \textit{help desk} e triagem de chamados, processamento de linguagem natural para classificação de texto, arquitetura \textit{Transformer} e o modelo BERT, inteligência artificial explicável com foco em SHAP e LIME, e grafos de co-ocorrência como estrutura de representação e visualização. A solução prevista consiste em um \textit{pipeline} composto por: um módulo de classificação baseado em BERTimbau \textit{fine-tuned} sobre \textit{dataset} de chamados reais em PT-BR; um módulo de explicabilidade que calcula valores SHAP e \textit{scores} LIME para cada predição; um módulo de visualização que constrói grafos de co-ocorrência ponderados pelos \textit{scores} XAI, tornando auditável a contribuição de cada termo para a decisão do modelo. Este trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica que fundamenta a pesquisa, o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
 
 \vspace{\onelineskip}
 
@@ -219,7 +216,7 @@ termos do texto) para tornar transparente o processo
 decisório.
 
 % ---------------------------------------------------------------
-\section{Contexto}
+\section{Contextualização do problema}
 \label{sec:contexto}
 
 Os \textit{helpdesks} corporativos processam diariamente milhares 
@@ -228,13 +225,16 @@ técnico, erros ortográficos e expressões coloquiais \cite{zemp2021}.
 Isso sobrecarrega os analistas, tornando a triagem manual lenta, 
 inconsistente e propensa a erros.
 
-Estudos recentes demonstram que sistemas automatizados com 
-\textit{Transformers} alcançam até 92\% de acurácia em classificação 
-multi-categoria \cite{zemp2021}, mas sua natureza de ``caixa-preta'', 
-modelos que produzem predições sem revelar os critérios utilizados 
-para tomá-las, gera resistência entre equipes operacionais que 
-precisam confiar nas decisões algorítmicas para roteamento 
-\cite{razma2026}.
+Estudos recentes demonstram que sistemas automatizados com redes neurais 
+profundas alcançam até 92\% de acurácia em classificação multi-categoria
+ \cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
+ predições sem revelar os critérios utilizados para tomá-las, dificulta que equipes 
+ operacionais, que precisam confiar nas decisões algorítmicas para roteamento, 
+ consigam verificá-las \cite{salih2023}. Um exemplo disso aparece no estudo de 
+ \citeonline{zemp2021}: embora a previsão do serviço afetado tenha sido bem recebida, 
+ a equipe de suporte achou arriscado deixar o sistema decidir sozinho se um chamado 
+ era uma requisição (um pedido) ou um incidente (um problema), pois isso poderia levar a uma avaliação superficial dos chamados. Além disso, a equipe não demonstrou 
+ interesse em ter essa função no sistema em produção.
 
 A raiz matemática dessa instransparência está no mecanismo central 
 desses modelos. A cada camada de processamento, o modelo realiza 
@@ -302,6 +302,19 @@ vocabulário técnico específico do domínio de TI \cite{yokota2025}.
 % }}
 
 % ---------------------------------------------------------------
+% ---------------------------------------------------------------
+\section{Formulação do problema}
+\label{sec:problema}
+
+Classificadores baseados em \textit{transformers} alcançam bom desempenho na triagem de chamados de TI, mas não revelam por que atribuíram uma categoria a um chamado. Existem métodos que explicam essas decisões, como SHAP e LIME, mas ainda é preciso verificar se, para chamados em português brasileiro, essas explicações, apresentadas em forma de grafo, permitem a um analista acompanhar o caminho até a decisão.
+
+Diante disso, este trabalho busca responder à seguinte pergunta: 
+\textbf{em chamados de suporte de TI em português brasileiro, como se comparam o 
+SHAP e o LIME quanto à fidelidade e à estabilidade das explicações de um 
+classificador BERTimbau, e de que forma um grafo de co-ocorrência contribui para 
+tornar o processo de classificação auditável?}
+% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
+
 \section{Justificativa}
 \label{sec:justificativa}
 
@@ -320,7 +333,13 @@ Dessa forma, investigar se mecanismos de explicabilidade baseados em grafos pode
 Este trabalho estrutura-se a partir de um objetivo central, que define o escopo principal da pesquisa, e de objetivos específicos que representam as metas intermediárias e os subprodutos analíticos necessários para responder à questão central de investigação.
 
 \subsection{Objetivo principal}
-Investigar se a inclusão de uma camada de explicabilidade e grafos de co-ocorrência, a um \textit{pipeline} de classificação baseado em \textit{transformers}, aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte de TI em português brasileiro.
+Investigar como uma camada de explicabilidade (SHAP e LIME) 
+e grafos de co-ocorrência, acrescentada a um \textit{pipeline} 
+de classificação baseado em \textit{transformers}, contribui 
+para a auditabilidade do processo decisório, comparando a 
+qualidade das explicações dos dois métodos, utilizando chamados 
+de suporte de TI em português brasileiro.
+% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
 
 \subsection{Objetivos secundários}
 
@@ -330,15 +349,17 @@ Investigar se a inclusão de uma camada de explicabilidade e grafos de co-ocorr�
     \textit{fine-tuning} em relação ao \textit{baseline} SVM com 
     TF-IDF, utilizando a métrica F1-macro.
 
-    \item Comparar a explicabilidade gerada por SHAP e LIME em 
-    termos de consistência, estabilidade e relevância semântica 
-    das explicações produzidas para chamados de suporte técnico 
-    em português brasileiro.
+    \item Comparar a explicabilidade gerada por SHAP e LIME em
+    termos de fidelidade, estabilidade, concordância entre os
+    métodos e relevância semântica das explicações produzidas
+    para chamados de suporte técnico em português brasileiro.
 
-    \item Analisar se a visualização em grafos de co-ocorrência 
-    ponderados por valores SHAP e LIME fornece auditabilidade 
-    adicional ao processo de classificação em relação à exibição 
-    isolada de \textit{scores} de importância.
+    \item Analisar se a visualização em grafos de co-ocorrência
+    ponderados por valores SHAP e LIME fornece auditabilidade
+    adicional ao processo de classificação, no sentido de
+    rastrear cada decisão até os termos, a janela de palavras e
+    as notas que a originaram, em relação à exibição isolada de
+    \textit{scores} de importância.
 
     \item Validar a consistência semântica das explicações 
     geradas pelo \textit{pipeline} no contexto de chamados de 
@@ -453,10 +474,11 @@ do que abordagens baseadas em \textit{transformers}, que são modelos
 de linguagem baseados em redes neurais profundas e que serão 
 detalhados na Seção~\ref{sec:bert}.
 
-Este argumento é diretamente relevante para o presente trabalho, pois o TCC responde à questão levantada por Wahba: o custo computacional adicional do BERTimbau se justifica quando se adiciona uma camada de XAI e grafo de co-ocorrência que transforma a saída pouco interpretável do modelo em uma representação auditável e verificável. Em outras palavras, a interpretabilidade não é apenas uma funcionalidade adicional, é a justificativa central para a escolha do modelo mais complexo.
+Este argumento é diretamente relevante para o presente trabalho, pois os cenários A (SVM com TF-IDF) e B (BERTimbau) permitem medir, nos chamados analisados, o ganho do modelo mais complexo (Seção~\ref{subsec:experimentos}). Além do desempenho, investiga-se se a camada de explicabilidade traz um benefício de auditabilidade ao classificador.
+
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{A caixa-preta como barreira à adoção em produção}
+\subsubsection{A caixa-preta e a verificação das decisões em produção}
 \label{subsubsec:helpdesk_caixapreta}
 
 \citeonline{zemp2021}, em estudo desenvolvido na ZHAW com dados reais 
@@ -464,19 +486,27 @@ de um banco suíço de médio porte, treinou três tipos de modelos: CNN,
 BiLSTM, que é uma rede neural recorrente bidirecional capaz de 
 processar sequências de texto nos dois sentidos, e RoBERTa, uma 
 variante aprimorada do BERT com treinamento mais robusto. O estudo 
-utilizou mais de um milhão de \textit{tickets} históricos, atingindo 
+utilizou mais de um milhão de \textit{tickets} históricos, atingindo, com a CNN, 
 92\% de acurácia de validação e F1-macro de 0,75 em mais de 300 
-classes. O sistema foi parcialmente implantado em produção, e os agentes de suporte foram 
-convidados a utilizá-lo em seu trabalho diário. O estudo revelou que, 
-apesar dos resultados técnicos expressivos, os analistas resistiram 
-à adoção do sistema na prática. A principal razão relatada foi a 
-ausência de justificativas para as predições: os agentes não 
-conseguiam confiar em um sistema que não explicava por que havia 
-escolhido determinada categoria.
+classes. O sistema foi parcialmente implantado em produção, e os agentes 
+de suporte foram convidados a utilizá-lo em seu trabalho diário. O estudo revelou que, 
+apesar dos resultados técnicos expressivos, a adoção não foi igual em todas as funcionalidades: 
+a previsão do serviço afetado foi bem recebida, mas a equipe de suporte achou arriscado 
+deixar o sistema decidir sozinho se um chamado era uma requisição (um pedido) ou um 
+incidente (um problema), pois isso poderia levar a uma avaliação superficial dos chamados. 
+Além disso, a equipe não demonstrou interesse em ter essa função no sistema em produção.
 
-\citeonline{razma2026} corroboram essa observação no contexto de um ambiente ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}. Os autores aplicaram LIME e SHAP para gerar explicações das predições do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente em mais de 100 idiomas, e do modelo de regressão logística, e concluíram que a camada de interpretabilidade aumentou a confiança dos operadores no sistema, mesmo nos casos em que a predição estava incorreta pois o analista conseguia identificar por que o modelo havia errado.
+\citeonline{razma2026} trataram da explicabilidade no contexto de um ambiente 
+ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}. 
+Os autores aplicaram o LIME às predições do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
+em mais de 100 idiomas, e do modelo de regressão logística, e o SHAP apenas à regressão logística. 
+Eles afirmam que as explicações favorecem a interpretabilidade e a confiança em sistemas desse tipo, 
+embora não tenham medido a reação dos operadores.
 
-Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de classificação de chamados de TI em produção real funcionam, mas a ausência de mecanismos de explicabilidade limita sua adoção e auditabilidade. A proposta deste TCC busca lidar com essa limitação.
+Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de 
+classificação de chamados de TI em produção real funcionam, mas a ausência 
+de mecanismos de explicabilidade limita sua auditabilidade. 
+A proposta deste TCC busca lidar com essa limitação.
 
 % ===============================================================
 \section{Processamento de Linguagem Natural para Classificação de Texto}
@@ -646,13 +676,7 @@ A principal diferença em relação ao mBERT está no foco linguístico: o mBERT
 
 Para o presente trabalho, a escolha do BERTimbau em detrimento do mBERT é motivada por dois fatores. Primeiro, os chamados de suporte analisados estão em português brasileiro, idioma para o qual o BERTimbau possui representações mais ricas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente de sua versão em inglês. E o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
 
-Vale destacar que o BERTimbau permanece como escolha principal 
-deste trabalho, dado que os chamados de suporte a serem analisados 
-estão predominantemente em português brasileiro. No entanto, caso a 
-análise exploratória do \textit{dataset} a ser utilizado revele 
-uma proporção significativa de termos técnicos em inglês, a escolha 
-do modelo será reavaliada empiricamente durante o TCC2, podendo 
-considerar modelos multilíngues como o mBERT ou o XLM-RoBERTa.
+O BERTimbau foi mantido como modelo deste trabalho, dado que os chamados analisados estão predominantemente em português brasileiro. A avaliação de modelos multilíngues ou mais recentes fica indicada como trabalho futuro.
 
 % ---------------------------------------------------------------
 \subsection{\textit{Fine-tuning} de BERT para classificação de chamados de TI}
@@ -703,10 +727,19 @@ Em contextos como a triagem de chamados de TI, essa opacidade representa um prob
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Confiança, explicabilidade e adoção em produção}
 \label{subsubsec:xai_confianca}
+A relação entre explicabilidade e confiança em sistemas de IA é discutida na literatura. 
+\citeonline{zemp2021} relata que a equipe de suporte demonstrou resistência a adotar 
+parte do sistema de classificação (a que separa requisições de incidentes), porque ela 
+poderia levar a uma avaliação superficial dos chamados. \citeonline{razma2026} afirmam 
+que as explicações LIME favorecem a interpretabilidade e a confiança no sistema, 
+pois permitem verificar se os termos destacados como mais influentes fazem sentido 
+para aquela categoria específica, embora não tenham medido a reação dos operadores.
 
-A relação entre explicabilidade e confiança em sistemas de IA é documentada empiricamente na literatura. \citeonline{zemp2021} relata que agentes de suporte demonstraram resistência a adotar o sistema de classificação, especificamente porque poderia levar a decisões automáticas sem análise adequada. \citeonline{razma2026} observam que a adição de explanações LIME e SHAP ao sistema aumentou a disposição dos operadores a aceitar as predições, mesmo em casos de incerteza, porque o analista conseguia verificar se os termos destacados como mais influentes faziam sentido para aquela categoria específica.
+Essa ideia é consistente com a literatura de XAI mais ampla: a explicabilidade 
+não melhora necessariamente a acurácia do modelo, mas aumenta a confiança dos 
+usuários no sistema e facilita a identificação de falhas sistemáticas, o que é 
+essencial para a adoção sustentada em ambientes de produção.
 
-Esse fenômeno é consistente com a literatura de XAI mais ampla: a explicabilidade não melhora necessariamente a acurácia do modelo, mas aumenta a confiança dos usuários no sistema e facilita a identificação de falhas sistemáticas, o que é essencial para a adoção sustentada em ambientes de produção.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Taxonomia de métodos XAI — intrínsecos versus \textit{post-hoc}, locais versus globais}
@@ -1126,11 +1159,7 @@ Os trabalhos de \citeonline{yokota2025} e \citeonline{pereira2023} evidenciam qu
 \citeonline{wahba2023} questiona o uso de BERT para classificação de texto em domínios especializados, 
 argumentando que o custo computacional adicional não se justifica diante da pequena vantagem sobre 
 o SVM em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério 
-de avaliação for a acurácia. O presente trabalho responde a esse argumento demonstrando que o custo 
-do BERTimbau se justifica quando a camada de XAI e grafo de 
-co-ocorrência é adicionada, transformando a saída opaca do modelo em 
-uma representação auditável e verificável, critério que modelos 
-lineares não conseguem satisfazer com a mesma qualidade de explanação.
+de avaliação for a acurácia. O presente trabalho examina esse argumento medindo o ganho do BERTimbau sobre o SVM e investigando se a camada de XAI e grafo de co-ocorrência acrescenta auditabilidade ao processo de classificação.
 
 % ---------------------------------------------------------------
 \subsection{Direcionamento para a proposta}
@@ -1225,11 +1254,17 @@ Um sistema de \textit{help desk} é uma plataforma que centraliza e gerencia sol
 
 Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
 
-\subsection{Trabalho 1: Ticket Automation: An Insight into Current Research}
+\subsection{Trabalho 1: Text Classification of Service Desk Tickets}
 
-\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala num \textit{dataset} real de um banco suíço. Os resultados mostraram uma acurácia de 92\%. No entanto, a solução apresentou limitações na aceitação pelos utilizadores finais devido à natureza de "caixa-preta" do modelo. O presente trabalho diferencia-se por focar na explicabilidade via SHAP e Grafos, permitindo que os analistas de TI entendam o "porquê" da classificação.
+\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala num \textit{dataset} real de um banco suíço. Os resultados mostraram uma acurácia de 92\%. 
+No entanto, a equipe de suporte achou arriscado deixar o sistema decidir sozinho se um chamado 
+era uma requisição (um pedido) ou um incidente (um problema), pois isso poderia levar a uma avaliação 
+superficial dos chamados. O estudo não trata da explicabilidade das predições. O presente trabalho 
+diferencia-se por focar na explicabilidade via SHAP e Grafos, permitindo que os analistas de TI 
+entendam o "porquê" da classificação.
 
-\subsection{Trabalho 2: Machine Learning for Classification of IT Support Tickets}
+
+\subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
 
 \citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, mas propôs uma abordagem focada em eficiência para domínios especializados. A solução utilizou um modelo híbrido (HOOM) que combina SVM linear com classificadores \textit{online}. A metodologia demonstrou que em textos técnicos, modelos mais simples podem ser competitivos. Os resultados mostraram boa performance com baixo custo computacional. A limitação identificada é que essa abordagem perde as nuances contextuais que modelos baseados em \textit{Transformers} capturam. O presente trabalho pretende adotar o BERTimbau, específico para PT-BR, combinado com visualização de grafos para suprir a falta de contexto de modelos lineares.
 
@@ -1266,53 +1301,146 @@ Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a 
     \legend{Fonte: Elaborado pelos autores (2026)}
 \end{table}
 
-% ---------------------------------------------------------------
-\section{Hipótese de Pesquisa}
+% ===============================================================
+% CAPÍTULO 3 - METODOLOGIA
+% ===============================================================
+\chapter{Metodologia}
+\label{cap:metodologia}
+Este capítulo descreve o plano da pesquisa: o tipo de estudo e a hipótese, as etapas da abordagem proposta, as ferramentas e os procedimentos experimentais com suas métricas. Os dados utilizados, os cenários executados e a implementação do sistema são detalhados no Capítulo~\ref{cap:desenvolvimento}.
+
+\section{Tipo de pesquisa e hipótese}
+\label{sec:tipo_pesquisa}
+Trata-se de uma pesquisa aplicada, de caráter empírico e comparativo: o estudo mede o desempenho de modelos de classificação e a qualidade das explicações produzidas sobre chamados reais de suporte de TI, comparando quatro cenários que acrescentam um componente por vez ao \textit{pipeline} (Tabela~\ref{tab:cenarios}).
+
+\subsection{Hipótese de pesquisa}
 \label{sec:hipotese_pesquisa}
 
-A utilização de modelagem em grafos como camada de explicabilidade visual para o modelo BERT aumenta a auditabilidade do processo de classificação automatizada, permitindo identificar quais termos do chamado contribuíram para a categoria atribuída pelo modelo.
+A utilização de modelagem em grafos, ponderados pelos valores SHAP e LIME, 
+como camada de explicabilidade visual para o modelo BERT contribui para a 
+auditabilidade do processo de classificação automatizada, permitindo rastrear 
+quais termos do chamado contribuíram para a categoria atribuída pelo modelo.
+% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
 
-% ---------------------------------------------------------------
-\section{Métricas de Avaliação}
+\section{Procedimentos da abordagem proposta}
+\label{sec:procedimentos}
+
+A abordagem proposta segue as etapas abaixo, em ordem cronológica:
+
+\begin{enumerate}
+    \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados em português 
+    e harmonização das categorias;
+
+    \item \textbf{Divisão dos dados}: divisão estratificada em treino, validação e teste, com semente fixa e índices salvos, 
+    de modo que os cenários comparados usem os mesmos conjuntos;
+
+    \item \textbf{Cenário A}: treinamento do \textit{baseline} SVM com TF-IDF;
+
+    \item \textbf{Cenário B}: \textit{fine-tuning} do BERTimbau;
+
+    \item \textbf{Cenário C}: cálculo das explicações SHAP e LIME sobre uma amostra de chamados do conjunto de teste;
+
+    \item \textbf{Cenário D}: construção do grafo de co-ocorrência com os \textit{scores} dessas explicações;
+
+    \item \textbf{Avaliação}: cálculo das métricas de classificação e das medidas de 
+    qualidade das explicações (Seção~\ref{sec:metricas_avaliacao}).
+\end{enumerate}
+
+Os dados e a implementação de cada etapa são detalhados no Capítulo~\ref{cap:desenvolvimento}.
+
+\subsection{Cenários experimentais}
+\label{subsec:experimentos}
+
+O experimento será estruturado em quatro cenários comparativos, conforme descrito na Tabela~\ref{tab:cenarios}, com o objetivo de isolar a contribuição de cada componente do \textit{pipeline}:
+
+\begin{table}[H]
+\centering
+\caption{Cenários experimentais para avaliação do sistema}
+\label{tab:cenarios}
+\begin{tabular}{p{1.5cm} p{3.5cm} p{3.5cm} p{4.5cm}}
+\toprule
+\textbf{Cenário} & \textbf{Modelo} & \textbf{XAI} & \textbf{Objetivo} \\
+\midrule
+A & SVM + TF-IDF & Nenhum & Baseline clássico \\
+B & BERTimbau & Nenhum & Ganho do transformer \\
+C & BERTimbau & SHAP + LIME & Qualidade das explicações \\
+D & BERTimbau & SHAP + LIME + grafo & Auditabilidade visual \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: Elaborado pelos autores}
+\end{table}
+
+A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico, respondendo ao argumento de \citeonline{wahba2023}
+ sobre o custo-benefício dos \textit{transformers} em domínios especializados. A comparação entre os cenários C e D 
+ examina a hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), verificando se a camada de grafo de co-ocorrência oferece auditabilidade superior à exibição isolada de \textit{scores} de importância, nos termos definidos na Seção~\ref{subsec:auditabilidade}.
+
+\section{Ferramentas, tecnologias e ambientes}
+\label{sec:ferramentas}
+
+O projeto foi desenvolvido em Python. A Tabela~\ref{tab:ferramentas} resume as bibliotecas utilizadas em cada etapa e o motivo da escolha.
+
+\begin{table}[htb]
+  \centering
+  \caption{Bibliotecas utilizadas em cada etapa do projeto}
+  \label{tab:ferramentas}
+  \begin{tabular}{p{3.4cm}p{3.6cm}p{6.6cm}}
+    \toprule
+    Etapa & Biblioteca & Finalidade \\
+    \midrule
+    Preparação dos dados & \textit{pandas}, \textit{openpyxl}, \textit{pyarrow}, \textit{spaCy}, \textit{PyYAML} & Leitura das planilhas, limpeza, anonimização e armazenamento dos chamados \\
+    Classificador clássico (cenário A) & \textit{scikit-learn} & TF-IDF e SVM linear, usados como \textit{baseline} \\
+    Classificador neural (cenário B) & \textit{PyTorch}, \textit{Transformers} & \textit{Fine-tuning} e inferência do BERTimbau \\
+    Explicabilidade (cenários C e D) & \textit{SHAP}, \textit{LIME} & Importância das palavras para a classe prevista \\
+    Métricas e análise & \textit{NumPy}, \textit{SciPy}, \textit{scikit-learn} & Métricas de classificação, Jaccard e Spearman \\
+    Grafo e interface & \textit{[preencher]} & Construção e exibição do grafo de co-ocorrência \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores}
+\end{table}
+
+A versão do SHAP utilizada foi a 0.54.1, e a do LIME, a 0.2.0.1. % [Kayke: informar versões de Python, PyTorch, Transformers e scikit-learn do treino]
+
+O BERTimbau \cite{souza2020} foi escolhido por ser um modelo BERT pré-treinado em português brasileiro. O \textit{baseline} SVM com TF-IDF foi escolhido por ser a referência clássica em classificação de texto e permitir medir o ganho do modelo neural.
+
+Os treinos foram executados em placa de vídeo (GPU) NVIDIA GTX. % [Kayke: confirmar modelo e se foi local ou remoto]
+Já a execução do SHAP e do LIME foi feita em CPU, em um computador Apple. % [Bruna: confirmar modelo e tempo de execução]
+
+\section{Procedimentos experimentais e métricas}
+\subsection{Métricas de desempenho do classificador}
 \label{sec:metricas_avaliacao}
 
-A avaliação do desempenho do modelo será realizada por meio de métricas 
-amplamente utilizadas em tarefas de classificação textual:
+O desempenho dos classificadores (cenários A e B) é medido no conjunto de teste, separado do treino e da validação, por meio das métricas abaixo, amplamente utilizadas em classificação de texto.
 
 \begin{itemize}
-\item \textbf{Acurácia (Accuracy)} – proporção de classificações corretas 
-realizadas pelo modelo sobre o total de instâncias avaliadas.
+\item \textbf{Acurácia (\textit{Accuracy})} -- proporção de classificações corretas sobre o total de instâncias avaliadas.
 
-\item \textbf{Precisão (Precision)} – proporção de classificações corretas 
-entre os casos previstos para uma determinada categoria, medindo a 
-capacidade do modelo de evitar falsos positivos.
+\item \textbf{Precisão (\textit{Precision})} -- proporção de classificações corretas entre os casos previstos para uma determinada categoria, medindo a capacidade do modelo de evitar falsos positivos.
 
-\item \textbf{Revocação (Recall)} – capacidade do modelo de identificar 
-corretamente os chamados pertencentes a cada categoria, medindo a 
-capacidade de evitar falsos negativos.
+\item \textbf{Revocação (\textit{Recall})} -- capacidade do modelo de identificar corretamente os chamados pertencentes a cada categoria, medindo a capacidade de evitar falsos negativos.
 
-\item \textbf{F1-score} – média harmônica entre precisão e revocação, 
-expressa pela fórmula $F1 = 2 \cdot \frac{Precisão \times Revocação}{Precisão 
-+ Revocação}$. Será utilizada a variante \textbf{F1-macro}, que calcula o 
-F1-score para cada categoria individualmente e tira a média, tratando todas 
-as categorias com peso igual independentemente de seu tamanho, métrica 
-especialmente importante em datasets desbalanceados.
+\item \textbf{F1-score} -- média harmônica entre precisão e revocação, expressa pela fórmula $F1 = 2 \cdot \frac{\text{Precisão} \times \text{Revocação}}{\text{Precisão} + \text{Revocação}}$. Utiliza-se a variante \textbf{F1-macro}, que calcula o F1-score de cada categoria e tira a média, tratando todas as categorias com o mesmo peso, independentemente do tamanho. Isso é especialmente importante em conjuntos de dados desbalanceados.
 
-\item \textbf{ROC-AUC} (\textit{Receiver Operating Characteristic - Area 
-Under the Curve}) – mede a capacidade do modelo de distinguir entre classes 
-ao longo de diferentes limiares de decisão. O valor varia entre 0 e 1, sendo 
-que 1 representa um classificador perfeito e 0,5 representa um classificador 
-aleatório. Em cenários multiclasse, será utilizada a variante 
-\textbf{ROC-AUC macro}, que agrega as curvas ROC de cada categoria. Essa 
-métrica permite análises complementares, como a avaliação do impacto de 
-diferentes combinações de hiperparâmetros sobre a capacidade discriminativa 
-do modelo.
+\item \textbf{ROC-AUC} (\textit{Receiver Operating Characteristic -- Area Under the Curve}) -- mede a capacidade do modelo de distinguir entre classes ao longo de diferentes limiares de decisão. O valor varia entre 0 e 1: 1 representa um classificador perfeito e 0,5, um classificador aleatório. Em cenários multiclasse, utiliza-se a variante \textbf{ROC-AUC macro}, que agrega as curvas ROC de cada categoria.
 
-\item \textbf{Matriz de confusão} – representação tabular que detalha os 
-tipos de erros cometidos pelo modelo durante a classificação, permitindo 
-identificar padrões sistemáticos de confusão entre categorias semanticamente 
-próximas.
+\item \textbf{Matriz de confusão} -- representação tabular que detalha os tipos de erros cometidos pelo modelo, permitindo identificar padrões sistemáticos de confusão entre categorias semanticamente próximas.
 \end{itemize}
+
+\subsection{Critérios de validação}
+\label{subsec:criterios_validacao}
+
+O sucesso da solução é avaliado sob duas perspectivas complementares.
+
+\textbf{Desempenho da classificação.} O critério definido no TCC1 é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\%, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
+
+\textbf{Qualidade das explicações.} SHAP e LIME são comparados sobre uma amostra de cerca de 98 chamados do conjunto de teste, entre acertos e erros do modelo, sem textos repetidos. Cada campo (descrição curta e descrição completa) é explicado separadamente, com o outro fixo, e a perturbação é a remoção de palavras. As propriedades avaliadas são:
+\begin{itemize}
+  \item \textbf{Fidelidade:} mede se as palavras apontadas como importantes realmente influenciam a decisão do modelo. Usam-se a \textit{comprehensiveness}, a \textit{sufficiency} (AOPC) e o Tau-LOO, comparados a uma linha de base aleatória. As medidas seguem a definição de \citeonline{attanasio2023}, mas foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado.
+  \item \textbf{Estabilidade:} mede se a explicação se mantém ao repetir o método sobre o mesmo chamado. Repete-se cada explicação cinco vezes e calculam-se a similaridade de Jaccard das cinco palavras mais relevantes, a correlação de Spearman e a fração de repetições com a mesma palavra no topo, em chamados com ao menos oito palavras distintas.
+  \item \textbf{Concordância entre SHAP e LIME:} mede se os dois métodos apontam as mesmas palavras para o mesmo chamado.
+  \item \textbf{Coerência semântica:} análise qualitativa, nos estudos de caso, de se os termos destacados pelo SHAP e pelo LIME correspondem ao vocabulário técnico esperado para a categoria predita.
+\end{itemize}
+
+% ATENÇÃO: parte do grafo depende da decisão sobre a métrica (issue 3).
+\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e às notas do SHAP e do LIME. % [A ou B definirá se há métrica numérica adicional.]
 
 % ===============================================================
 % CAPÍTULO 3 - DESENVOLVIMENTO
@@ -1418,10 +1546,10 @@ próximas.
 
 Neste capítulo, apresenta-se a solução proposta para o problema identificado, bem como o cronograma de trabalho previsto para a implementação completa do projeto no TCC2.
 
-\section{Solução proposta}
+\section{Modelagem e arquitetura}
 \label{sec:solucao}
 
-\subsubsection{Visão geral da solução}
+\subsection{Visão geral da solução}
 
 A solução proposta tem como objetivo central classificar 
 automaticamente chamados de suporte técnico de forma transparente 
@@ -1450,32 +1578,7 @@ classificação automática. A interface funciona como prova de conceito
 do \textit{pipeline}, não sendo avaliada junto a esse público neste 
 trabalho.
 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Protocolo experimental}
-\label{subsec:experimentos}
-
-O experimento será estruturado em quatro cenários comparativos, conforme descrito na Tabela~\ref{tab:cenarios}, com o objetivo de isolar a contribuição de cada componente do \textit{pipeline}:
-
-\begin{table}[H]
-\centering
-\caption{Cenários experimentais para avaliação do sistema}
-\label{tab:cenarios}
-\begin{tabular}{p{1.5cm} p{3.5cm} p{3.5cm} p{4.5cm}}
-\toprule
-\textbf{Cenário} & \textbf{Modelo} & \textbf{XAI} & \textbf{Objetivo} \\
-\midrule
-A & SVM + TF-IDF & Nenhum & Baseline clássico \\
-B & BERTimbau & Nenhum & Ganho do transformer \\
-C & BERTimbau & SHAP + LIME & Qualidade das explicações \\
-D & BERTimbau & SHAP + LIME + grafo & Auditabilidade visual \\
-\bottomrule
-\end{tabular}
-\legend{Fonte: Elaborado pelos autores (2026)}
-\end{table}
-
-A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico — respondendo ao argumento de \citeonline{wahba2023} sobre o custo-benefício dos \textit{transformers} em domínios especializados. A comparação entre os cenários C e D constitui o principal teste experimental da hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), avaliando se a camada de grafo de co-ocorrência oferece auditabilidade superior à exibição isolada de scores de importância, nos termos definidos na Seção~\ref{subsec:auditabilidade}.
-
-\subsubsection{Protótipos da interface}
+\subsection{Protótipos da interface}
 
 Durante a etapa inicial do projeto foram elaborados protótipos de baixa e média fidelidade com o objetivo de validar a organização visual da interface, o fluxo de navegação e a disposição das funcionalidades relacionadas à explicabilidade do modelo.
 
@@ -1567,7 +1670,7 @@ intuitiva, clara e acessível aos analistas de TI.
     \label{fig:prototipo_media_estatisticas}
 \end{figure}
 
-\subsubsection{Arquitetura da solução}
+\subsection{Arquitetura da solução}
 
 A arquitetura da solução será organizada em três camadas principais:
 
@@ -1586,7 +1689,8 @@ Já a camada de dados será responsável pelo armazenamento das informações re
 O fluxo geral de funcionamento da aplicação seguirá as seguintes etapas:
 
 \begin{enumerate}
-    \item \textbf{Pré-processamento} — o texto do chamado é submetido para tokenização, remoção de \textit{stopwords} e normalização. O texto limpo é passado ao tokenizador do BERTimbau, que o converte em \textit{tokens} com seus respectivos IDs e máscaras de atenção.
+    \item \textbf{Entrada do modelo} — a descrição curta e a descrição completa do chamado, sem remoção de \textit{stopwords}, são passadas como um par de textos ao tokenizador do BERTimbau, que as converte em \textit{tokens} com seus respectivos IDs e máscaras de atenção. A remoção de \textit{stopwords} é usada apenas na construção do grafo.
+    % [Kayke: confirmar que o treino não remove stopwords]
 
     \item \textbf{Classificação com BERTimbau} — o modelo BERTimbau com \textit{fine-tuning} processa a sequência de \textit{tokens} e produz, a partir da representação do \textit{token} [CLS], as probabilidades de pertencimento a cada categoria. A categoria com maior probabilidade é selecionada como predição, e o índice de confiança corresponde a essa probabilidade máxima.
 
@@ -1597,7 +1701,8 @@ O fluxo geral de funcionamento da aplicação seguirá as seguintes etapas:
     \item \textbf{Apresentação ao analista} — a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, os \textit{tokens} mais relevantes destacados por cor e os valores SHAP e LIME comparativos.
 \end{enumerate}
 
-\subsubsection{Tecnologias e ferramentas}
+\section{Detalhes de implementação}
+\subsection{Tecnologias e ferramentas}
 
 As tecnologias listadas a seguir representam as opções inicialmente 
 consideradas para o desenvolvimento do sistema, podendo ser ajustadas 
@@ -1628,7 +1733,7 @@ conforme as decisões técnicas tomadas ao longo da implementação.
     \item Jupyter Notebook.
 \end{itemize}
 
-\subsubsection{Funcionalidades principais}
+\subsection{Funcionalidades principais}
 
 Entre as principais funcionalidades previstas para o sistema estão:
 %
@@ -1657,7 +1762,7 @@ Entre as principais funcionalidades previstas para o sistema estão:
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Metodologia de implementação}
+\subsection{Metodologia de implementação}
 
 A implementação do projeto seguirá uma abordagem iterativa baseada em prototipação e validações incrementais.
 
@@ -1673,7 +1778,11 @@ Posteriormente serão realizados testes de integração entre os componentes e a
 % já salvos em imagens/. Antes disso, manter a versão que
 % menciona apenas a Aché.
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{Origem e autorização de uso dos dados}
+\section{Experimentos e cenários de teste}
+% PASSO n: configuração real dos experimentos (parâmetros, repetições, execução)
+
+\section{Coleta e tratamento de dados}
+\subsection{Origem e autorização de uso dos dados}
 \label{subsubsec:autorizacao_dados}
 
 Os dados utilizados neste trabalho são chamados reais de suporte
@@ -1699,29 +1808,12 @@ portanto, apenas uma escolha metodológica.
 
 
 
-\subsubsection{\textit{Dataset} e \textit{fine-tuning}}
+\subsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
+
 O modelo BERTimbau será ajustado utilizando um conjunto de chamados de dados reais obtidos junto à Aché e Bayer Brasil, mediante autorização concedida por e-mail e anonimização dos registros.
 
-O processo de \textit{fine-tuning} seguirá uma abordagem supervisionada de classificação textual, utilizando divisão entre conjuntos de treino, validação e teste. Também serão aplicadas técnicas de balanceamento de classes e validação de desempenho para reduzir problemas relacionados a \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, e ao desbalanceamento do \textit{dataset}.
-
-
-
-\subsubsection{Critérios de validação}
-
-O sucesso da solução será avaliado sob duas perspectivas complementares.
-
-A primeira perspectiva, \textbf{quantitativa}, avalia o desempenho do modelo de classificação por meio das seguintes métricas: acurácia, precisão, revocação, F1-score macro para lidar com possível desbalanceamento entre categorias, ROC-AUC macro para avaliar a capacidade do modelo de distinguir entre as categorias ao longo de 
-diferentes limiares de decisão e matriz de confusão para análise de erros sistemáticos. O BERTimbau será considerado satisfatório se superar o \textit{baseline} SVM em pelo menos 5 pontos percentuais de F1-macro.
-
-A segunda perspectiva, \textbf{qualitativa}, avalia a utilidade das explicações geradas. 
-Serão analisadas: a concordância entre as explicações SHAP e LIME para os mesmos chamados, e 
-a coerência semântica dos \textit{tokens} destacados no grafo em relação à categoria predita, 
-verificando se os termos com maior importância SHAP e LIME correspondem ao 
-vocabulário técnico esperado para cada categoria. Complementarmente, 
-a fidelidade é aferida pela biblioteca \textit{ferret} \cite{attanasio2023}, a estabilidade
-pela repetição de SHAP e LIME sobre a mesma instância, e a rastreabilidade pela modularidade do grafo de co-ocorrência.
-
+O processo de \textit{fine-tuning} seguirá uma abordagem supervisionada de classificação textual, utilizando divisão entre conjuntos de treino, validação e teste. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro.
 
 \section{Cronograma de trabalho}
 \label{sec:cronograma}
@@ -1756,7 +1848,7 @@ O cronograma apresentado a seguir organiza as atividades previstas para o TCC2 d
      
             \ganttgroup{Fase 1: Dados e modelo}{1}{5} \\
             \ganttbar{Obtenção e limpeza do dataset}{1}{2} \\
-            \ganttbar{Pré-processamento e balanceamento}{2}{3} \\
+            \ganttbar{Pré-processamento}{2}{3} \\
             \ganttbar{Fine-tuning do BERTimbau}{3}{5} \\
             \ganttmilestone{Modelo treinado e avaliado}{5} \\
      
@@ -1792,6 +1884,38 @@ O cronograma apresentado a seguir organiza as atividades previstas para o TCC2 d
 \end{figure}
 
  As atividades poderão sofrer ajustes conforme a evolução do projeto e os resultados obtidos durante a implementação e validação da solução.
+
+% ===============================================================
+% CAPÍTULO 5 - RESULTADOS E ANÁLISE
+% ===============================================================
+\chapter{Resultados e Análise}
+\label{cap:resultados}
+
+\section{Apresentação dos resultados}
+
+\subsection{Desempenho da classificação (cenários A e B)}
+% Tabela BERTimbau x SVM, com intervalos de confiança.
+
+\subsection{Explicabilidade: SHAP e LIME (cenário C)}
+% Fidelidade e estabilidade. Preencher depois da rodada oficial.
+
+\subsection{Grafo de co-ocorrência (cenário D)}
+
+\section{Análise crítica e comparação}
+
+\section{Discussão}
+
+% ===============================================================
+% CAPÍTULO 6 - CONCLUSÃO
+% ===============================================================
+\chapter{Conclusão}
+\label{cap:conclusao}
+
+\section{Retomada do problema e dos objetivos}
+
+\section{Contribuições para a Computação}
+
+\section{Limitações e trabalhos futuros}
 
 % ---------------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
