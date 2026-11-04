@@ -225,16 +225,16 @@ técnico, erros ortográficos e expressões coloquiais \cite{zemp2021}.
 Isso sobrecarrega os analistas, tornando a triagem manual lenta, 
 inconsistente e propensa a erros.
 
-Estudos recentes demonstram que sistemas automatizados com redes neurais 
-profundas alcançam até 92\% de acurácia em classificação multi-categoria
- \cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
- predições sem revelar os critérios utilizados para tomá-las, dificulta que equipes 
- operacionais, que precisam confiar nas decisões algorítmicas para roteamento, 
- consigam verificá-las \cite{salih2023}. Um exemplo disso aparece no estudo de 
- \citeonline{zemp2021}: embora a previsão do serviço afetado tenha sido bem recebida, 
- a equipe de suporte achou arriscado deixar o sistema decidir sozinho se um chamado 
- era uma requisição (um pedido) ou um incidente (um problema), pois isso poderia levar a uma avaliação superficial dos chamados. Além disso, a equipe não demonstrou 
- interesse em ter essa função no sistema em produção.
+ Estudos recentes demonstram que sistemas automatizados com redes neurais 
+profundas alcançam até 92\% de acurácia em classificação multi-categoria 
+\cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
+predições sem revelar os critérios utilizados para tomá-las, pode gerar 
+resistência entre equipes operacionais que precisam confiar nas decisões 
+algorítmicas para roteamento, o que torna a explicabilidade relevante 
+nesses sistemas \cite{razma2026}. Um exemplo aparece no estudo de 
+\citeonline{zemp2021}: a classificação automática entre incidentes e 
+requisições foi considerada potencialmente perigosa, devido ao risco de 
+avaliações superficiais dos chamados.
 
 A raiz matemática dessa instransparência está no mecanismo central 
 desses modelos. A cada camada de processamento, o modelo realiza 
@@ -489,19 +489,21 @@ variante aprimorada do BERT com treinamento mais robusto. O estudo
 utilizou mais de um milhão de \textit{tickets} históricos, atingindo, com a CNN, 
 92\% de acurácia de validação e F1-macro de 0,75 em mais de 300 
 classes. O sistema foi parcialmente implantado em produção, e os agentes 
-de suporte foram convidados a utilizá-lo em seu trabalho diário. O estudo revelou que, 
-apesar dos resultados técnicos expressivos, a adoção não foi igual em todas as funcionalidades: 
-a previsão do serviço afetado foi bem recebida, mas a equipe de suporte achou arriscado 
-deixar o sistema decidir sozinho se um chamado era uma requisição (um pedido) ou um 
-incidente (um problema), pois isso poderia levar a uma avaliação superficial dos chamados. 
-Além disso, a equipe não demonstrou interesse em ter essa função no sistema em produção.
+de suporte foram convidados a utilizá-lo em seu trabalho diário. 
 
-\citeonline{razma2026} trataram da explicabilidade no contexto de um ambiente 
-ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}. 
-Os autores aplicaram o LIME às predições do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
-em mais de 100 idiomas, e do modelo de regressão logística, e o SHAP apenas à regressão logística. 
-Eles afirmam que as explicações favorecem a interpretabilidade e a confiança em sistemas desse tipo, 
-embora não tenham medido a reação dos operadores.
+O estudo revelou que, 
+apesar dos resultados técnicos expressivos, os analistas resistiram 
+à adoção de parte do sistema na prática. A principal razão relatada 
+foi o risco de avaliações superficiais dos chamados: a classificação 
+automática entre incidentes e requisições foi considerada 
+potencialmente perigosa.
+
+\citeonline{razma2026} complementam essa observação no contexto de um ambiente 
+ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}. Os autores aplicaram LIME e 
+SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
+também do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
+em mais de 100 idiomas, e concluíram que essas explicações contribuem para a 
+interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
 
 Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de 
 classificação de chamados de TI em produção real funcionam, mas a ausência 
@@ -1144,7 +1146,13 @@ Capítulo~\ref{cap:desenvolvimento}.
 \subsubsection{Ausência de XAI em sistemas de classificação de tickets em produção}
 \label{subsubsec:lacuna_xai}
 
-O trabalho de \citeonline{zemp2021} demonstra que sistemas de classificação de chamados de TI com alta acurácia são tecnicamente viáveis e já foram implantados em produção. No entanto, a ausência de mecanismos de explicabilidade limita a adoção e a auditabilidade desses sistemas. Os agentes de suporte recebem predições sem justificativa, o que dificulta a identificação de erros sistemáticos e a construção de confiança no sistema. Nenhum dos trabalhos de classificação de chamados de TI identificados no \textit{screening} incorpora uma camada de visualização gráfica para explanações XAI.
+O trabalho de \citeonline{zemp2021} demonstra que sistemas de classificação de chamados de TI 
+com alta acurácia são tecnicamente viáveis e já foram implantados em produção. No entanto, a 
+ausência de mecanismos de explicabilidade limita a auditabilidade desses sistemas. 
+Os agentes de suporte recebem predições sem justificativa, o que dificulta a identificação de 
+erros sistemáticos. Nenhum dos trabalhos de classificação 
+de chamados de TI identificados no \textit{screening} incorpora uma camada de visualização gráfica 
+para explanações XAI.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Carência de soluções robustas para PT-BR em \textit{helpdesk}}
@@ -1256,13 +1264,13 @@ Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a 
 
 \subsection{Trabalho 1: Text Classification of Service Desk Tickets}
 
-\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala num \textit{dataset} real de um banco suíço. Os resultados mostraram uma acurácia de 92\%. 
-No entanto, a equipe de suporte achou arriscado deixar o sistema decidir sozinho se um chamado 
-era uma requisição (um pedido) ou um incidente (um problema), pois isso poderia levar a uma avaliação 
-superficial dos chamados. O estudo não trata da explicabilidade das predições. O presente trabalho 
+\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. 
+Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala 
+num \textit{dataset} real de um banco suíço. Os resultados mostraram uma acurácia de 92\%. 
+No entanto, a classificação automática entre incidentes e requisições foi considerada potencialmente 
+perigosa pelos utilizadores finais, devido ao risco de avaliações superficiais dos chamados. O presente trabalho 
 diferencia-se por focar na explicabilidade via SHAP e Grafos, permitindo que os analistas de TI 
-entendam o "porquê" da classificação.
-
+entendam o ``porquê'' da classificação.
 
 \subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
 
