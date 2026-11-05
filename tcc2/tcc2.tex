@@ -236,7 +236,7 @@ nesses sistemas \cite{razma2026}. Um exemplo aparece no estudo de
 requisições foi considerada potencialmente perigosa, devido ao risco de 
 avaliações superficiais dos chamados.
 
-A raiz matemática dessa instransparência está no mecanismo central 
+A raiz matemática dessa intransparência está no mecanismo central 
 desses modelos. A cada camada de processamento, o modelo realiza 
 operações do tipo:
 
@@ -686,13 +686,15 @@ O BERTimbau foi mantido como modelo deste trabalho, dado que os chamados analisa
 
 A aplicação de BERT e modelos derivados à classificação de chamados de TI tem demonstrado resultados expressivos na literatura recente. \citeonline{borges2024} realizou uma comparação sistemática entre BERT e algoritmos clássicos, SVM e \textit{Naive Bayes}, em tarefas de classificação de texto em português e inglês, utilizando quatro \textit{datasets} públicos. Os resultados confirmaram que o BERT supera consistentemente os modelos tradicionais em acurácia e F1, especialmente em tarefas multiclasse com nuances semânticas mais complexas, embora com custo computacional consideravelmente maior.
 
-\citeonline{zemp2021} realizou o \textit{fine-tuning} de RoBERTa, 
-uma variante do BERT com treinamento aprimorado, sobre mais de um 
-milhão de \textit{tickets} reais de um banco suíço, atingindo 
-F1-macro de 0,75 em mais de 300 classes. O autor demonstra que 
-\textit{transformers} superam CNN e BiLSTM nesse domínio, mas aponta 
-que a incapacidade do modelo de explicar suas decisões representa 
-uma barreira à adoção em produção.
+\citeonline{zemp2021} comparou CNN, BiLSTM e RoBERTa sobre mais de um 
+milhão de \textit{tickets} reais de um banco privado de médio porte, em 
+mais de 300 classes. A melhor CNN atingiu F1-macro de 0,75. Com o 
+\textit{fine-tuning} simples, o RoBERTa ficou abaixo desse valor; somente 
+após um pré-treinamento adicional do modelo de linguagem com os próprios 
+\textit{tickets} ele superou a CNN, por uma margem de 0,018. O autor 
+relata ainda que a equipe de suporte considerou potencialmente perigosa 
+a classificação entre requisições e incidentes, por poder levar a 
+avaliações superficiais dos chamados.
 
 \citeonline{razma2026} compararam regressão logística com TF-IDF 
 frente a mBERT e XLM-RoBERTa, uma variante do RoBERTa desenvolvida 
@@ -729,10 +731,9 @@ Em contextos como a triagem de chamados de TI, essa opacidade representa um prob
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Confiança, explicabilidade e adoção em produção}
 \label{subsubsec:xai_confianca}
-A relação entre explicabilidade e confiança em sistemas de IA é discutida na literatura. 
-\citeonline{zemp2021} relata que a equipe de suporte demonstrou resistência a adotar 
-parte do sistema de classificação (a que separa requisições de incidentes), porque ela 
-poderia levar a uma avaliação superficial dos chamados. \citeonline{razma2026} afirmam 
+
+No estudo de \citeonline{zemp2021}, a equipe de suporte recusou parte do sistema de 
+classificação, como discutido na Seção~\ref{subsubsec:helpdesk_caixapreta}. \citeonline{razma2026} afirmam 
 que as explicações LIME favorecem a interpretabilidade e a confiança no sistema, 
 pois permitem verificar se os termos destacados como mais influentes fazem sentido 
 para aquela categoria específica, embora não tenham medido a reação dos operadores.
@@ -1045,7 +1046,7 @@ importância explicativa calculada por SHAP e LIME.
 
 O peso das arestas em um grafo de co-ocorrência pode ser determinado por diferentes métricas. A abordagem mais simples utiliza a frequência bruta de co-ocorrência, ou seja, a contagem de quantas vezes o par de \textit{tokens} co-ocorreu dentro da janela deslizante. Métricas mais sofisticadas, como a Informação Mútua Pontual (PMI, do inglês \textit{Pointwise Mutual Information}), normalizam a frequência de co-ocorrência pelas frequências individuais de cada \textit{token}, favorecendo pares que co-ocorrem mais do que seria esperado pelo acaso \cite{yao2019}.
 
-No presente trabalho, os pesos das arestas serão determinados pela frequência de co-ocorrência normalizada, enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, serão determinados pelos valores SHAP e LIME calculados para cada \textit{token} pelo modelo BERTimbau, permitindo comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é a inovação central da camada de visualização proposta.
+No presente trabalho, os pesos das arestas serão determinados pelo número de co-ocorrências do par dentro da janela deslizante (frequência bruta, sem normalização), enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, serão determinados pelos valores SHAP e LIME calculados para cada \textit{token} pelo modelo BERTimbau, permitindo comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é a inovação central da camada de visualização proposta.
 
 % ---------------------------------------------------------------
 \subsection{\textit{TextGCN} — formalização do grafo de co-ocorrência}
@@ -1338,7 +1339,7 @@ A abordagem proposta segue as etapas abaixo, em ordem cronológica:
     \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados em português 
     e harmonização das categorias;
 
-    \item \textbf{Divisão dos dados}: divisão estratificada em treino, validação e teste, com semente fixa e índices salvos, 
+    \item \textbf{Divisão dos dados}: divisão estratificada pela categoria e agrupada pelo texto do chamado em treino, validação e teste, com semente fixa e índices salvos, 
     de modo que os cenários comparados usem os mesmos conjuntos;
 
     \item \textbf{Cenário A}: treinamento do \textit{baseline} SVM com TF-IDF;
@@ -1399,7 +1400,7 @@ O projeto foi desenvolvido em Python. A Tabela~\ref{tab:ferramentas} resume as b
     Classificador neural (cenário B) & \textit{PyTorch}, \textit{Transformers} & \textit{Fine-tuning} e inferência do BERTimbau \\
     Explicabilidade (cenários C e D) & \textit{SHAP}, \textit{LIME} & Importância das palavras para a classe prevista \\
     Métricas e análise & \textit{NumPy}, \textit{SciPy}, \textit{scikit-learn} & Métricas de classificação, Jaccard e Spearman \\
-    Grafo e interface & \textit{[preencher]} & Construção e exibição do grafo de co-ocorrência \\
+    Grafo e interface & \textit{React}, \textit{Vite}, \textit{vis-network}, \textit{Flask} & Exibição do grafo de co-ocorrência e comunicação da interface com o modelo \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores}
@@ -1453,146 +1454,58 @@ O sucesso da solução é avaliado sob duas perspectivas complementares.
 % ===============================================================
 % CAPÍTULO 3 - DESENVOLVIMENTO
 % ===============================================================
-%\chapter{Desenvolvimento}
-%\label{cap:desenvolvimento}
-
-% Neste capítulo, apresenta-se a solução proposta para o problema identificado, bem como o cronograma de trabalho previsto para o desenvolvimento completo do projeto no TCC2.
-
-% ---------------------------------------------------------------
-%\section{Solução proposta}
-%\label{sec:solucao}
-
-% Descreva detalhadamente a solução que será desenvolvida para resolver o problema apresentado na introdução. A descrição deve incluir:
-
-% \begin{itemize}
-%     \item \textbf{Visão geral da solução}: o que será desenvolvido (sistema, aplicativo, modelo, ferramenta, etc.);
-%     \item \textbf{Arquitetura}: como os componentes da solução se organizam e interagem;
-%     \item \textbf{Tecnologias e ferramentas}: quais linguagens, frameworks, bibliotecas, bancos de dados e ambientes serão utilizados, e por que foram escolhidos;
-%     \item \textbf{Funcionalidades principais}: o que a solução fará para atender aos objetivos;
-%     \item \textbf{Metodologia de desenvolvimento}: qual abordagem será utilizada (ágil, cascata, prototipação, etc.);
-%     \item \textbf{Critérios de validação}: como será medido o sucesso da solução (métricas, testes, avaliação com usuários, etc.).
-% \end{itemize}
-
-% Utilize diagramas, fluxogramas ou mockups para ilustrar a solução. Exemplo de descrição de arquitetura:
-
-% \textit{A solução proposta consiste em uma aplicação web composta por três camadas: front-end desenvolvido em React.js, back-end em Node.js com Express, e banco de dados PostgreSQL. A comunicação entre front-end e back-end será feita por meio de uma API REST.}
-
-% ---------------------------------------------------------------
-%\section{Cronograma de trabalho}
-%\label{sec:cronograma}
-
-% O cronograma a seguir apresenta, no formato de diagrama de Gantt, as atividades previstas para o desenvolvimento do TCC2, distribuídas ao longo das semanas do semestre.
-
-% \begin{figure}[htb]
-%     \centering
-%     \caption{Cronograma de atividades -- Diagrama de Gantt}
-%     \label{fig:gantt}
-%     \begin{ganttchart}[
-%         hgrid,
-%         vgrid,
-%         x unit=0.72cm,
-%         y unit title=0.6cm,
-%         y unit chart=0.7cm,
-%         title height=1,
-%         bar height=0.5,
-%         bar label font=\scriptsize,
-%         title label font=\small,
-%         milestone label font=\scriptsize\itshape,
-%         group label font=\scriptsize\bfseries,
-%         bar/.append style={fill=blue!40},
-%         group/.append style={draw=black, fill=blue!70},
-%         milestone/.append style={fill=red!70},
-%     ]{1}{16}
-%         % Título: semanas de 1 a 16
-%         \gantttitle{Semanas}{16} \\
-%         \gantttitlelist{1,...,16}{1} \\
-
-%         % Grupo 1: Revisão e Planejamento
-%         \ganttgroup{Fase 1: Planejamento}{1}{4} \\
-%         \ganttbar{Revisão bibliográfica}{1}{3} \\
-%         \ganttbar{Definição de requisitos}{2}{4} \\
-%         \ganttbar{Projeto da arquitetura}{3}{4} \\
-%         \ganttmilestone{Entrega do projeto}{4} \\
-
-%         % Grupo 2: Desenvolvimento
-%         \ganttgroup{Fase 2: Desenvolvimento}{5}{11} \\
-%         \ganttbar{Implementação do módulo 1}{5}{7} \\
-%         \ganttbar{Implementação do módulo 2}{7}{9} \\
-%         \ganttbar{Integração dos módulos}{9}{11} \\
-%         \ganttmilestone{Protótipo funcional}{11} \\
-
-%         % Grupo 3: Testes e Finalização
-%         \ganttgroup{Fase 3: Validação}{12}{16} \\
-%         \ganttbar{Testes e validação}{12}{14} \\
-%         \ganttbar{Ajustes e correções}{14}{15} \\
-%         \ganttbar{Redação final do TCC2}{13}{16} \\
-%         \ganttmilestone{Entrega final}{16}
-
-%         % Ligações entre atividades
-%         \ganttlink{elem2}{elem3}
-%         \ganttlink{elem3}{elem4}
-%         \ganttlink{elem4}{elem5}
-%         \ganttlink{elem7}{elem8}
-%         \ganttlink{elem8}{elem9}
-%         \ganttlink{elem9}{elem10}
-%         \ganttlink{elem12}{elem13}
-%     \end{ganttchart}
-%     \legend{Fonte: Elaborado pelo autor (2025)}
-% \end{figure}
-
-% \textbf{Instruções para personalização do cronograma}:
-% \begin{itemize}
-%     \item Ajuste o número de semanas conforme o calendário acadêmico do semestre;
-%     \item Modifique as atividades de acordo com as etapas do seu projeto;
-%     \item Os marcos (\textit{milestones}) indicam entregas importantes --- adapte-os às datas de avaliação;
-%     \item As setas entre atividades indicam dependências --- uma atividade só inicia após a conclusão da anterior;
-%     \item Utilize o diagrama como ferramenta de acompanhamento: atualize-o a cada reunião com o orientador.
-% \end{itemize}
-
 \chapter{Desenvolvimento}
 \label{cap:desenvolvimento}
 
-Neste capítulo, apresenta-se a solução proposta para o problema identificado, bem como o cronograma de trabalho previsto para a implementação completa do projeto no TCC2.
+Neste capítulo, apresentam-se a modelagem e a arquitetura da solução, os detalhes 
+de implementação, os experimentos realizados e o tratamento dos dados utilizados.
 
 \section{Modelagem e arquitetura}
 \label{sec:solucao}
 
 \subsection{Visão geral da solução}
 
-A solução proposta tem como objetivo central classificar 
-automaticamente chamados de suporte técnico de forma transparente 
-e auditável, utilizando técnicas de Processamento de Linguagem 
-Natural (PLN) e Inteligência Artificial Explicável (XAI). O 
-diferencial da proposta não é apenas a classificação automática, 
-mas a capacidade de explicar cada decisão: o analista poderá 
-identificar quais termos do chamado influenciaram a classificação 
-e por quê.
+A solução consiste em um \textit{pipeline} que classifica chamados de 
+suporte técnico e explica cada decisão, utilizando técnicas de 
+Processamento de Linguagem Natural (PLN) e Inteligência Artificial 
+Explicável (XAI). O \textit{pipeline} é o meio para investigar a 
+auditabilidade do processo decisório: por meio dele, compara-se a 
+qualidade das explicações geradas por SHAP e LIME e avalia-se como o 
+grafo de co-ocorrência permite rastrear quais termos do chamado 
+influenciaram a classificação.
 
-Para isso, serão utilizadas duas técnicas complementares de 
+Para isso, o \textit{pipeline} utiliza duas técnicas complementares de 
 explicabilidade: o SHAP, que atribui a cada termo do chamado um 
 valor numérico indicando o quanto ele contribuiu para a 
 classificação, e o LIME, que gera explicações locais testando 
-versões modificadas do texto. Os valores SHAP e LIME serão 
-utilizados como pesos dos nós em um grafo de co-ocorrência 
-$G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$, produzindo 
-uma visualização gráfica que combina a estrutura relacional do 
+versões modificadas do texto. Os valores SHAP e LIME são utilizados como pesos dos nós 
+em um grafo de co-ocorrência $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$, 
+produzindo uma visualização gráfica que combina a estrutura relacional do 
 texto com a relevância explicativa de cada termo segundo ambos 
 os métodos.
 
-O sistema será desenvolvido para atender principalmente gestores e 
-analistas de TI, que poderão utilizá-lo durante o processo de triagem 
-para acompanhar de forma transparente e auditável o resultado da 
-classificação automática. A interface funciona como prova de conceito 
-do \textit{pipeline}, não sendo avaliada junto a esse público neste 
-trabalho.
+A interface é uma prova de conceito do \textit{pipeline}, voltada a 
+gestores e analistas de TI, e não foi avaliada junto a esse público 
+neste trabalho.
 
 \subsection{Protótipos da interface}
 
-Durante a etapa inicial do projeto foram elaborados protótipos de baixa e média fidelidade com o objetivo de validar a organização visual da interface, o fluxo de navegação e a disposição das funcionalidades relacionadas à explicabilidade do modelo.
+Durante a etapa inicial do projeto foram elaborados protótipos de baixa e 
+média fidelidade com o objetivo de validar a organização visual da interface, 
+o fluxo de navegação e a disposição das funcionalidades relacionadas à 
+explicabilidade do modelo.
 
-A etapa de prototipação de baixa fidelidade teve início com a elaboração individual de diferentes propostas de interface por cada integrante do grupo, permitindo que distintas ideias e abordagens fossem exploradas inicialmente. Posteriormente, as principais características de cada proposta foram analisadas e consolidadas em uma versão única do protótipo que passou a servir como base para a continuidade do projeto.
+A etapa de prototipação de baixa fidelidade teve início com a elaboração 
+individual de diferentes propostas de interface por cada integrante do grupo, 
+permitindo que distintas ideias e abordagens fossem exploradas inicialmente. 
+Posteriormente, as principais características de cada proposta foram analisadas 
+e consolidadas em uma versão única do protótipo que passou a servir como base 
+para a continuidade do projeto.
 
-Os protótipos de baixa fidelidade foram utilizados para estruturar os principais componentes da aplicação, definindo a posição dos menus, área de inserção de chamados, painel de resultados e espaço destinado às visualizações explicativas.
+Os protótipos de baixa fidelidade foram utilizados para estruturar os 
+principais componentes da aplicação, definindo a posição dos menus, área de 
+inserção de chamados, painel de resultados e espaço destinado às visualizações 
+explicativas.
 
 \begin{figure}[H]
     \centering
@@ -1631,18 +1544,19 @@ Os protótipos de baixa fidelidade foram utilizados para estruturar os principai
 
 Posteriormente, foram elaborados protótipos de média fidelidade com maior nível de detalhamento visual, com foco em validar como as explicações geradas pelo modelo seriam apresentadas de forma compreensível para os analistas de TI. 
 
-A área central do sistema será dedicada às explicações da 
+A área central do sistema é dedicada às explicações da 
 classificação, organizada em duas abas principais, ambas voltadas 
 para tornar o processo decisório do modelo auditável:
 
 \begin{itemize}
     \item \textbf{Grafo de Co-Ocorrência}: representação visual das 
     relações entre os \textit{tokens} do chamado, onde o tamanho de 
-    cada nó será proporcional ao valor SHAP e LIME do termo, indicando sua 
-    importância para a classificação, e a espessura das conexões 
-    indicará a frequência de co-ocorrência entre os \textit{tokens};
+cada nó é proporcional à importância do termo (módulo do valor SHAP ou 
+LIME, conforme o método escolhido em um seletor da interface), e a 
+espessura das conexões indica a frequência de co-ocorrência entre os 
+\textit{tokens};
     
-    \item \textbf{Estatísticas}: painel que apresentará numericamente 
+    \item \textbf{Estatísticas}: painel que apresenta numericamente 
     a importância individual de cada \textit{token} calculada pelos 
     métodos SHAP e LIME, permitindo ao analista comparar e validar 
     as contribuições de cada termo na decisão do modelo.
@@ -1657,8 +1571,8 @@ valores de importância dos \textit{tokens}.
 Na lateral esquerda do sistema encontra-se a seção ``Tickets 
 recentes'', responsável por apresentar classificações realizadas 
 anteriormente juntamente com seus respectivos níveis de confiança. 
-Esse recurso permitirá consultar rapidamente chamados processados 
-anteriormente e auxiliará na análise das classificações realizadas.
+Esse recurso permite consultar rapidamente chamados processados 
+anteriormente e auxilia na análise das classificações realizadas.
 
 Os protótipos desenvolvidos tiveram como principal objetivo verificar 
 se os recursos de explicabilidade seriam apresentados de forma 
@@ -1680,7 +1594,7 @@ intuitiva, clara e acessível aos analistas de TI.
 
 \subsection{Arquitetura da solução}
 
-A arquitetura da solução será organizada em três camadas principais:
+A arquitetura da solução é organizada em três camadas principais:
 
 \begin{itemize}
     \item Camada de apresentação (\textit{front-end});
@@ -1688,13 +1602,13 @@ A arquitetura da solução será organizada em três camadas principais:
     \item Camada de dados.
 \end{itemize}
 
-A camada de apresentação será responsável pela interação com o usuário final, disponibilizando os formulários de inserção de chamados, exibição das classificações, visualização dos grafos e acesso ao histórico de \textit{tickets} processados.
+A camada de apresentação é responsável pela interação com o usuário final, disponibilizando os formulários de inserção de chamados, exibição das classificações, visualização dos grafos e acesso ao histórico de \textit{tickets} processados.
 
-A camada de processamento será responsável pela execução das etapas de pré-processamento textual, inferência do modelo BERTimbau, cálculo das explicações utilizando SHAP e LIME, além da construção dos grafos de co-ocorrência.
+A camada de processamento é responsável pela execução das etapas de pré-processamento textual, inferência do modelo BERTimbau, cálculo das explicações utilizando SHAP e LIME, além da construção dos grafos de co-ocorrência.
 
-Já a camada de dados será responsável pelo armazenamento das informações relacionadas aos chamados classificados e aos resultados gerados pelo sistema.
+Já a camada de dados é responsável pelo armazenamento das informações relacionadas aos chamados classificados e aos resultados gerados pelo sistema.
 
-O fluxo geral de funcionamento da aplicação seguirá as seguintes etapas:
+O fluxo geral de funcionamento da aplicação segue as seguintes etapas:
 
 \begin{enumerate}
     \item \textbf{Entrada do modelo} — a descrição curta e a descrição completa do chamado, sem remoção de \textit{stopwords}, são passadas como um par de textos ao tokenizador do BERTimbau, que as converte em \textit{tokens} com seus respectivos IDs e máscaras de atenção. A remoção de \textit{stopwords} é usada apenas na construção do grafo.
@@ -1704,7 +1618,7 @@ O fluxo geral de funcionamento da aplicação seguirá as seguintes etapas:
 
     \item \textbf{Cálculo de explicabilidade} — sobre o mesmo texto de entrada, são calculados os valores SHAP e as importâncias LIME. Cada \textit{token} recebe um valor numérico que representa sua contribuição para a predição: valores positivos indicam contribuição para a classe predita, e valores negativos indicam contribuição contrária.
 
-    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho fixo, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância SHAP geram nós visualmente maiores na interface. O grafo é serializado em JSON com a estrutura \texttt{\{nodes, edges\}} e enviado ao \textit{frontend}.
+    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho fixo, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON, com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
 
     \item \textbf{Apresentação ao analista} — a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, os \textit{tokens} mais relevantes destacados por cor e os valores SHAP e LIME comparativos.
 \end{enumerate}
@@ -1712,57 +1626,49 @@ O fluxo geral de funcionamento da aplicação seguirá as seguintes etapas:
 \section{Detalhes de implementação}
 \subsection{Tecnologias e ferramentas}
 
-As tecnologias listadas a seguir representam as opções inicialmente 
-consideradas para o desenvolvimento do sistema, podendo ser ajustadas 
-conforme as decisões técnicas tomadas ao longo da implementação.
+As tecnologias e bibliotecas listadas a seguir representam as ferramentas 
+utilizadas para o desenvolvimento do projeto. O detalhamento por etapa 
+está na Tabela~\ref{tab:ferramentas}.
 
 \textbf{Interface e visualização:}
 
 \begin{itemize}
-    \item React.js; 
-    \item CSS;
-    \item Biblioteca para visualização de grafos.
+    \item \textit{React} e \textit{Vite};
+    \item \textit{vis-network}, para a exibição do grafo;
+    \item CSS.
 \end{itemize}
 
 \textbf{Processamento e Inteligência Artificial:}
 
 \begin{itemize}
     \item Python;
-    \item BERTimbau;
-    \item SHAP;
-    \item LIME;
-    \item Bibliotecas de PLN e manipulação de grafos.
+    \item \textit{PyTorch} e \textit{Transformers}, para o BERTimbau;
+    \item \textit{scikit-learn}, para o TF-IDF e o SVM;
+    \item \textit{SHAP} e \textit{LIME};
+    \item \textit{Flask}, para a comunicação entre a interface e o modelo.
 \end{itemize}
 
 \textbf{Ambiente de desenvolvimento:}
 
 \begin{itemize}
     \item Git e GitHub;
-    \item Jupyter Notebook.
+    \item Máquinas locais dos integrantes do grupo.
 \end{itemize}
 
 \subsection{Funcionalidades principais}
 
-Entre as principais funcionalidades previstas para o sistema estão:
-%
-%\begin{itemize}
-%    \item Classificação automática de chamados de TI;
-%    \item Exibição da categoria prevista;
-%    \item Apresentação do nível de confiança da classificação;
-%    \item Visualização da importância dos \textit{tokens} via SHAP e LIME;
-%    \item Construção de grafos de co-ocorrência;
-%    \item Histórico simplificado de \textit{tickets} classificados;
-%    \item Visualização interativa das explicações do modelo.
-%\end{itemize}
+Entre as principais funcionalidades implementadas no sistema estão:
 
 \begin{itemize}
     \item \textbf{Funcionalidades de explicabilidade:}
     \begin{itemize}
         \item Construção de grafos de co-ocorrência;
-        \item Visualização das explicações do modelo.
+        \item Visualização das explicações do modelo;
+        \item Seleção do método de explicação (SHAP ou LIME) exibido no grafo.
     \end{itemize}
     \item \textbf{Funcionalidades de classificação e suporte:}
     \begin{itemize}
+        \item Entrada do chamado em um único campo de descrição;
         \item Classificação automática de chamados de TI;
         \item Exibição da categoria prevista;
         \item Apresentação do nível de confiança da classificação;
@@ -1772,22 +1678,37 @@ Entre as principais funcionalidades previstas para o sistema estão:
 
 \subsection{Metodologia de implementação}
 
-A implementação do projeto seguirá uma abordagem iterativa baseada em prototipação e validações incrementais.
+A implementação do projeto seguiu uma abordagem iterativa, baseada em 
+prototipação e validações incrementais.
 
-Inicialmente foram realizados levantamento bibliográfico, definição dos requisitos e elaboração dos protótipos da interface, etapas já concluídas nesta fase do projeto. Em seguida serão implementados os módulos de classificação automática, explicabilidade e visualização gráfica.
+Inicialmente foram realizados o levantamento bibliográfico, a 
+definição dos requisitos e a elaboração dos protótipos da interface. 
+Em seguida, foram preparados os dados, treinados os classificadores 
+dos cenários A e B e implementados os módulos de explicabilidade 
+(SHAP e LIME) e de construção do grafo de co-ocorrência. Por fim, 
+esses módulos foram integrados à interface, que passou a gerar a 
+explicação de um chamado digitado pelo \textit{pipeline} completo.
 
-Posteriormente serão realizados testes de integração entre os componentes e ajustes relacionados à usabilidade e apresentação das explicações geradas pelo sistema.
 
-
-
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-% VERSÃO FINAL: usar somente com os dois prints (Aché e Bayer)
-% já salvos em imagens/. Antes disso, manter a versão que
-% menciona apenas a Aché.
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \section{Experimentos e cenários de teste}
-% PASSO n: configuração real dos experimentos (parâmetros, repetições, execução)
+
+Os experimentos seguiram os quatro cenários da Tabela~\ref{tab:cenarios}, todos sobre os mesmos conjuntos de treino, validação e teste descritos na Seção~\ref{subsubsec:dataset_finetuning}.
+
+\subsection{Cenários A e B: classificação}
+
+No cenário A, o \textit{baseline} SVM com TF-IDF foi treinado no conjunto de treino e avaliado no conjunto de teste. % [Kayke: informar parâmetros do TF-IDF e do SVM]
+No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{subsubsec:dataset_finetuning}. Os dois classificadores foram comparados pelas métricas da Seção~\ref{sec:metricas_avaliacao}, com destaque para o F1-macro.
+
+\subsection{Cenário C: explicações SHAP e LIME}
+
+As explicações foram geradas em 01/11/2026, para o modelo final, sobre uma amostra de 98 chamados do conjunto de teste: 8 acertos de cada uma das 10 classes que tiveram acertos (80 chamados) e 18 erros do modelo. A classe OUTROS não teve acertos, e por isso a amostra não tem 11 $\times$ 8 acertos. Foi necessário usar uma amostra porque SHAP e LIME explicam uma predição por vez, e explicar os 5.293 chamados do teste levaria cerca de 24 horas.
+
+O LIME usou 500 amostras por explicação e semente 42. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 500 consultas ao modelo (79 campos). A fidelidade e a estabilidade seguiram o protocolo da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. A execução completa levou cerca de 39 minutos, em CPU, em um computador Apple.
+
+\subsection{Cenário D: grafo de co-ocorrência}
+
+Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela deslizante de tamanho $w = 4$. As \textit{stopwords} foram removidas apenas nessa etapa, e não da entrada do modelo. O peso de cada aresta é o número de co-ocorrências do par de palavras na janela, e o peso de cada nó é o módulo da soma dos pesos que o SHAP ou o LIME atribuiu à palavra. O grafo foi avaliado por rastreabilidade, em estudos de caso (Seção~\ref{subsec:criterios_validacao}).
+
 
 \section{Coleta e tratamento de dados}
 \subsection{Origem e autorização de uso dos dados}
@@ -1819,9 +1740,11 @@ portanto, apenas uma escolha metodológica.
 \subsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
-O modelo BERTimbau será ajustado utilizando um conjunto de chamados de dados reais obtidos junto à Aché e Bayer Brasil, mediante autorização concedida por e-mail e anonimização dos registros.
+O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais obtidos junto à Aché (6.949 chamados) e à Bayer Brasil (46.330 chamados), totalizando 53.279, mediante autorização concedida por e-mail e anonimização dos registros. Os dados passaram por limpeza e anonimização. A base da Bayer foi filtrada para manter apenas chamados em português, e as categorias das duas empresas foram harmonizadas em uma taxonomia única de 11 classes, entre elas a classe OUTROS. A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
 
-O processo de \textit{fine-tuning} seguirá uma abordagem supervisionada de classificação textual, utilizando divisão entre conjuntos de treino, validação e teste. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro.
+O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
+
+O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classificação textual. A entrada do modelo é o par formado pela descrição curta e pela descrição completa, limitado a 256 \textit{tokens}; cerca de 10,2\% dos pares ultrapassam esse limite. O treino usou 3 épocas, \textit{batch} de 16, taxa de aprendizado de $2 \times 10^{-5}$ e semente 42. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro.
 
 \section{Cronograma de trabalho}
 \label{sec:cronograma}
