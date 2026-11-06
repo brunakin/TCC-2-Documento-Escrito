@@ -32,7 +32,6 @@
 \usepackage{pgfgantt}               % Diagramas de Gantt
 \usepackage[brazilian,hyperpageref]{backref}  % Páginas com citações
 \usepackage[alf]{abntex2cite}       % Citações ABNT
-\usepackage{booktabs}               % Tabelas
 \usepackage{tabularx}               % Tabelas
 
 % ---------------------------------------------------------------
@@ -118,7 +117,23 @@ Kayke Ahrens Biscegli}
 % RESUMO
 % ---------------------------------------------------------------
 \begin{resumo}
-Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (TCC1) desenvolvido no Senac Santo Amaro. O objetivo deste trabalho é investigar se a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau aumenta a auditabilidade do processo decisório, em relação a abordagens sem explicabilidade, utilizando chamados de suporte técnico em português brasileiro. A justificativa para este estudo baseia-se na necessidade de automatizar a triagem manual de \textit{tickets} em sistemas de \textit{help desk} corporativos, processo atualmente lento, inconsistente e sujeito a erros humanos, ao mesmo tempo que se endereça o problema da "caixa-preta" dos modelos de aprendizado profundo, que dificulta a adoção em produção devido à falta de transparência nas decisões algorítmicas. A revisão bibliográfica abrange sistemas de \textit{help desk} e triagem de chamados, processamento de linguagem natural para classificação de texto, arquitetura \textit{Transformer} e o modelo BERT, inteligência artificial explicável com foco em SHAP e LIME, e grafos de co-ocorrência como estrutura de representação e visualização. A solução prevista consiste em um \textit{pipeline} composto por: um módulo de classificação baseado em BERTimbau \textit{fine-tuned} sobre \textit{dataset} de chamados reais em PT-BR; um módulo de explicabilidade que calcula valores SHAP e \textit{scores} LIME para cada predição; um módulo de visualização que constrói grafos de co-ocorrência ponderados pelos \textit{scores} XAI, tornando auditável a contribuição de cada termo para a decisão do modelo. Este trabalho está organizado em três capítulos que apresentam a introdução ao tema, a revisão bibliográfica que fundamenta a pesquisa, o desenvolvimento com a solução proposta e o cronograma de trabalho, seguidos das referências bibliográficas.
+Este trabalho investiga como se comparam o SHAP e o LIME quanto à fidelidade 
+e à estabilidade das explicações de um classificador BERTimbau, e de que 
+forma um grafo de co-ocorrência contribui para tornar a classificação auditável, 
+em chamados de suporte de TI em português brasileiro. A motivação é que 
+classificadores baseados em \textit{transformers} não revelam por que 
+atribuíram uma categoria a um chamado, o que dificulta a auditoria de 
+suas decisões. Os dados reúnem chamados anonimizados cedidos pela Bayer 
+e pela Aché, num total de 53.279 chamados em 11 categorias, divididos em treino, 
+validação e teste de modo que textos repetidos fiquem no mesmo conjunto. 
+Foram comparados quatro cenários, que acrescentam um componente por vez: 
+um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, 
+as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. 
+O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste.
+% [preencher ao fim: diferença em relação ao SVM, com intervalo de confiança]
+% [preencher ao fim: resultado de fidelidade e estabilidade, SHAP e LIME]
+% [preencher ao fim: resultado do grafo nos estudos de caso]
+% [Bruna: acrescentar a frase da interface web só quando ela estiver pronta]
 
 \vspace{\onelineskip}
 
@@ -144,18 +159,26 @@ Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (
 % LISTA DE ABREVIATURAS E SIGLAS
 % ---------------------------------------------------------------
 \begin{siglas}
+  \item[AOPC] \textit{Area Over the Perturbation Curve} (Área sobre a Curva de Perturbação)
+  \item[API] \textit{Application Programming Interface} (Interface de Programação de Aplicações)
+  \item[BEGNN] \textit{BERT-Enhanced Graph Neural Network}
   \item[BERT] \textit{Bidirectional Encoder Representations from Transformers}
   \item[BERTimbau] Variante do BERT pré-treinada para o português brasileiro
   \item[BiLSTM] \textit{Bidirectional Long Short-Term Memory}
   \item[CNN] \textit{Convolutional Neural Network} (Rede Neural Convolucional)
+  \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
+  \item[CSS] \textit{Cascading Style Sheets} (Folhas de Estilo em Cascata)
   \item[GCN] \textit{Graph Convolutional Network} (Rede Neural Convolucional em Grafos)
   \item[GloVe] \textit{Global Vectors for Word Representation}
   \item[GNN] \textit{Graph Neural Network} (Rede Neural de Grafos)
+  \item[GPT] \textit{Generative Pre-trained Transformer}
+  \item[GPU] \textit{Graphics Processing Unit} (Unidade de Processamento Gráfico)
   \item[HOOM] \textit{Hybrid Online Offline Model}
   \item[ITSM] \textit{IT Service Management} (Gerenciamento de Serviços de TI)
   \item[JSON] \textit{JavaScript Object Notation}
   \item[LGPD] Lei Geral de Proteção de Dados Pessoais
   \item[LIME] \textit{Local Interpretable Model-Agnostic Explanations}
+  \item[LOO] \textit{Leave-One-Out} (Deixar Um de Fora)
   \item[LSTM] \textit{Long Short-Term Memory}
   \item[mBERT] \textit{Multilingual BERT}
   \item[MLM] \textit{Masked Language Modeling}
@@ -167,7 +190,6 @@ Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (
   \item[PMI] \textit{Pointwise Mutual Information} (Informação Mútua Pontual)
   \item[PT-BR] Português Brasileiro
   \item[RNN] \textit{Recurrent Neural Network} (Rede Neural Recorrente)
-  \item[ROC-AUC] \textit{Receiver Operating Characteristic — Area Under the Curve}
   \item[RoBERTa] \textit{Robustly Optimized BERT Pretraining Approach}
   \item[SHAP] \textit{SHapley Additive exPlanations}
   \item[SLA] \textit{Service Level Agreement} (Acordo de Nível de Serviço)
@@ -177,6 +199,7 @@ Este documento apresenta a proposta inicial do Trabalho de Conclusão de Curso (
   \item[TI] Tecnologia da Informação
   \item[XAI] \textit{Explainable Artificial Intelligence} (Inteligência Artificial Explicável)
   \item[XLM-RoBERTa] \textit{Cross-lingual Language Model RoBERTa}
+  \item[ZHAW] \textit{Zürcher Hochschule für Angewandte Wissenschaften} (Universidade de Ciências Aplicadas de Zurique)
 \end{siglas}
 
 % ---------------------------------------------------------------
@@ -231,10 +254,7 @@ profundas alcançam até 92\% de acurácia em classificação multi-categoria
 predições sem revelar os critérios utilizados para tomá-las, pode gerar 
 resistência entre equipes operacionais que precisam confiar nas decisões 
 algorítmicas para roteamento, o que torna a explicabilidade relevante 
-nesses sistemas \cite{razma2026}. Um exemplo aparece no estudo de 
-\citeonline{zemp2021}: a classificação automática entre incidentes e 
-requisições foi considerada potencialmente perigosa, devido ao risco de 
-avaliações superficiais dos chamados.
+nesses sistemas \cite{razma2026}. Em sistemas reais, o bom desempenho não garante a adoção: no estudo de \citeonline{zemp2021}, a equipe de suporte recusou a função que separava requisições de incidentes, mesmo com 93\% de acurácia de validação (Seção~\ref{subsubsec:helpdesk_caixapreta}).
 
 A raiz matemática dessa intransparência está no mecanismo central 
 desses modelos. A cada camada de processamento, o modelo realiza 
@@ -255,8 +275,7 @@ a decisão permanece não auditável, ou seja, não é possível rastrear
 nem reproduzir a explicação de uma predição individual, propriedade 
 definida em detalhe na Seção~\ref{subsec:auditabilidade}. Isso 
 justifica a necessidade de técnicas de explicabilidade como SHAP e 
-LIME para atribuir, de forma matematicamente justificável, a 
-importância de cada termo na predição \cite{lundberg2017, ribeiro2016}.
+LIME para atribuir a importância de cada termo na predição \cite{lundberg2017, ribeiro2016}.
 
 No contexto brasileiro, onde grande parte da comunicação técnica 
 ocorre em português, modelos tradicionais como o \textit{Naive 
@@ -358,7 +377,7 @@ de suporte de TI em português brasileiro.
     ponderados por valores SHAP e LIME fornece auditabilidade
     adicional ao processo de classificação, no sentido de
     rastrear cada decisão até os termos, a janela de palavras e
-    as notas que a originaram, em relação à exibição isolada de
+    os valores SHAP e LIME que a originaram, em relação à exibição isolada de
     \textit{scores} de importância.
 
     \item Validar a consistência semântica das explicações 
@@ -482,7 +501,7 @@ Este argumento é diretamente relevante para o presente trabalho, pois os cenár
 \label{subsubsec:helpdesk_caixapreta}
 
 \citeonline{zemp2021}, em estudo desenvolvido na ZHAW com dados reais 
-de um banco suíço de médio porte, treinou três tipos de modelos: CNN, 
+de um banco privado de médio porte com atuação internacional, treinou três tipos de modelos: CNN, 
 BiLSTM, que é uma rede neural recorrente bidirecional capaz de 
 processar sequências de texto nos dois sentidos, e RoBERTa, uma 
 variante aprimorada do BERT com treinamento mais robusto. O estudo 
@@ -491,18 +510,12 @@ utilizou mais de um milhão de \textit{tickets} históricos, atingindo, com a CN
 classes. O sistema foi parcialmente implantado em produção, e os agentes 
 de suporte foram convidados a utilizá-lo em seu trabalho diário. 
 
-O estudo revelou que, 
-apesar dos resultados técnicos expressivos, os analistas resistiram 
-à adoção de parte do sistema na prática. A principal razão relatada 
-foi o risco de avaliações superficiais dos chamados: a classificação 
-automática entre incidentes e requisições foi considerada 
-potencialmente perigosa.
+Na avaliação com a equipe de suporte, a previsão do serviço afetado foi considerada útil por unanimidade e mantida no sistema. Já a classificação entre requisições e incidentes, embora tenha atingido 93\% de acurácia de validação, foi recusada: a equipe a considerou potencialmente perigosa, por poder levar a avaliações superficiais dos chamados, e entendeu que essa distinção deve ser aprendida pelos próprios analistas no trabalho.
 
-\citeonline{razma2026} complementam essa observação no contexto de um ambiente 
-ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}. Os autores aplicaram LIME e 
+Em um ambiente ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}, \citeonline{razma2026} aplicaram LIME e 
 SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
 também do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
-em mais de 100 idiomas, e concluíram que essas explicações contribuem para a 
+em mais de 100 idiomas, e afirmam que essas explicações contribuem para a 
 interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
 
 Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de 
@@ -591,7 +604,7 @@ projetadas para processar dados sequenciais, nos quais o contexto e a ordem
 temporal importam, processando os \textit{tokens} um por vez, da esquerda para 
 a direita. As LSTM (\textit{Long Short-Term Memory}) são um tipo especializado 
 de RNN projetado para aprender dependências de longo prazo em sequências, 
-mitigando o problema de degradação do gradiente presente nas RNN simples. 
+mitigando o problema de desvanecimento do gradiente presente nas RNN simples. 
 Apesar dessas melhorias, ambas as arquiteturas ainda processam a sequência de 
 forma estritamente sequencial, o que limita o paralelismo computacional e 
 dificulta a captura de relações entre termos distantes.
@@ -655,7 +668,8 @@ tarefas de PLN.
 \subsubsection{\textit{Token} [CLS] e classificação de sequências}
 \label{subsubsec:bert_cls}
 
-Para tarefas de classificação de sequências, o BERT utiliza um \textit{token} especial [CLS] (abreviação de \textit{Classification}, marcador inserido pelo modelo para agregar a representação global da sequência) inserido no início de cada sequência de entrada. Após o processamento pelas camadas de \textit{encoder}, a representação vetorial correspondente ao [CLS] agrega informação contextual de toda a sequência e é usada como entrada para a camada de classificação \cite{devlin2019}. Durante o \textit{fine-tuning}, essa camada de classificação, tipicamente uma camada \textit{linear} seguida de \textit{softmax}, aprende a mapear a representação do [CLS] para as probabilidades de cada categoria. O presente trabalho pretende usar essa representação para classificar o chamado de TI em uma das categorias predefinidas, e os valores SHAP e LIME serão calculados sobre os tokens de entrada para identificar quais contribuíram mais para a predição.
+Para tarefas de classificação de sequências, o BERT utiliza um \textit{token} especial [CLS] (abreviação de \textit{Classification}, marcador inserido pelo modelo para agregar a representação global da sequência) inserido no início de cada sequência de entrada. Após o processamento pelas camadas de \textit{encoder}, a representação vetorial correspondente ao [CLS] agrega informação contextual de toda a sequência e é usada como entrada para a camada de classificação \cite{devlin2019}. Durante o \textit{fine-tuning}, essa camada de classificação, tipicamente uma camada \textit{linear} seguida de \textit{softmax}, aprende a mapear a representação do [CLS] para as probabilidades de cada categoria. 
+Neste trabalho, essa representação é usada para classificar o chamado de TI em uma das categorias predefinidas, e os valores SHAP e LIME são calculados sobre os tokens de entrada para identificar quais contribuíram mais para a predição.
 
 
 % ---------------------------------------------------------------
@@ -666,7 +680,7 @@ Para tarefas de classificação de sequências, o BERT utiliza um \textit{token}
 \subsubsection{Corpus de pré-treinamento e diferenças em relação ao mBERT}
 \label{subsubsec:bertimbau_corpus}
 
-\citeonline{souza2020} desenvolveram o BERTimbau, modelo BERT pré-treinado especificamente para o português brasileiro, a partir de um corpus de 2,68 bilhões de \textit{tokens} composto por textos da Wikipedia em português, do BrWaC (\textit{Brazilian Web as Corpus}) e de outros corpora nacionais. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 330M parâmetros).
+\citeonline{souza2020} desenvolveram o BERTimbau, modelo BERT pré-treinado especificamente para o português brasileiro, a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 335M parâmetros).
 
 A principal diferença em relação ao mBERT está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente, o que dilui a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
 
@@ -674,7 +688,7 @@ A principal diferença em relação ao mBERT está no foco linguístico: o mBERT
 \subsubsection{Desempenho em tarefas de PLN em PT-BR}
 \label{subsubsec:bertimbau_desempenho}
 
-\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER), análise de sentimento e similaridade textual. Em todas as tarefas, o BERTimbau superou o mBERT por margem significativa, consolidando-se como o modelo de referência para aplicações de PLN em PT-BR.
+\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER), similaridade textual entre sentenças e inferência textual (\textit{Recognizing Textual Entailment}). O modelo obteve desempenho de estado da arte nas três tarefas, consolidando-se como referência para aplicações de PLN em PT-BR.
 
 Para o presente trabalho, a escolha do BERTimbau em detrimento do mBERT é motivada por dois fatores. Primeiro, os chamados de suporte analisados estão em português brasileiro, idioma para o qual o BERTimbau possui representações mais ricas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente de sua versão em inglês. E o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
 
@@ -691,10 +705,7 @@ milhão de \textit{tickets} reais de um banco privado de médio porte, em
 mais de 300 classes. A melhor CNN atingiu F1-macro de 0,75. Com o 
 \textit{fine-tuning} simples, o RoBERTa ficou abaixo desse valor; somente 
 após um pré-treinamento adicional do modelo de linguagem com os próprios 
-\textit{tickets} ele superou a CNN, por uma margem de 0,018. O autor 
-relata ainda que a equipe de suporte considerou potencialmente perigosa 
-a classificação entre requisições e incidentes, por poder levar a 
-avaliações superficiais dos chamados.
+\textit{tickets} ele superou a CNN, por uma margem de 0,018.
 
 \citeonline{razma2026} compararam regressão logística com TF-IDF 
 frente a mBERT e XLM-RoBERTa, uma variante do RoBERTa desenvolvida 
@@ -702,10 +713,7 @@ especificamente para lidar com múltiplos idiomas simultaneamente,
 em um corpus de 87 mil \textit{tickets} multilíngues de uma empresa 
 de manufatura. Os resultados confirmaram que \textit{transformers} 
 superam modelos clássicos em macro-F1, especialmente para classes 
-de baixa frequência e semanticamente complexas. A combinação de 
-\textit{fine-tuning} com LIME e SHAP produziu explicações 
-qualitativamente mais ricas do que o modelo linear, validando o 
-uso conjunto de BERT e XAI em ambiente ITSM de produção.
+de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao mBERT e à regressão logística, e o SHAP à regressão logística, o que mostra ser viável explicar um BERT \textit{fine-tuned} com LIME sobre chamados reais de ITSM; eles afirmam que as explicações contribuem para a interpretabilidade e a confiança.
 
 % ===============================================================
 \section{Inteligência Artificial Explicável (XAI)}
@@ -1267,10 +1275,10 @@ Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a 
 
 \citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. 
 Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala 
-num \textit{dataset} real de um banco suíço. Os resultados mostraram uma acurácia de 92\%. 
+num \textit{dataset} real de um banco privado de médio porte. Os resultados mostraram uma acurácia de 92\%. 
 No entanto, a classificação automática entre incidentes e requisições foi considerada potencialmente 
-perigosa pelos utilizadores finais, devido ao risco de avaliações superficiais dos chamados. O presente trabalho 
-diferencia-se por focar na explicabilidade via SHAP e Grafos, permitindo que os analistas de TI 
+perigosa pela equipe de suporte, devido ao risco de avaliações superficiais dos chamados. O presente trabalho 
+diferencia-se por focar na explicabilidade via SHAP, LIME e grafos, permitindo que os analistas de TI 
 entendam o ``porquê'' da classificação.
 
 \subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
@@ -1428,8 +1436,6 @@ O desempenho dos classificadores (cenários A e B) é medido no conjunto de test
 
 \item \textbf{F1-score} -- média harmônica entre precisão e revocação, expressa pela fórmula $F1 = 2 \cdot \frac{\text{Precisão} \times \text{Revocação}}{\text{Precisão} + \text{Revocação}}$. Utiliza-se a variante \textbf{F1-macro}, que calcula o F1-score de cada categoria e tira a média, tratando todas as categorias com o mesmo peso, independentemente do tamanho. Isso é especialmente importante em conjuntos de dados desbalanceados.
 
-\item \textbf{ROC-AUC} (\textit{Receiver Operating Characteristic -- Area Under the Curve}) -- mede a capacidade do modelo de distinguir entre classes ao longo de diferentes limiares de decisão. O valor varia entre 0 e 1: 1 representa um classificador perfeito e 0,5, um classificador aleatório. Em cenários multiclasse, utiliza-se a variante \textbf{ROC-AUC macro}, que agrega as curvas ROC de cada categoria.
-
 \item \textbf{Matriz de confusão} -- representação tabular que detalha os tipos de erros cometidos pelo modelo, permitindo identificar padrões sistemáticos de confusão entre categorias semanticamente próximas.
 \end{itemize}
 
@@ -1458,7 +1464,8 @@ O sucesso da solução é avaliado sob duas perspectivas complementares.
 \label{cap:desenvolvimento}
 
 Neste capítulo, apresentam-se a modelagem e a arquitetura da solução, os detalhes 
-de implementação, os experimentos realizados e o tratamento dos dados utilizados.
+de implementação, os experimentos realizados e o tratamento dos dados utilizados. 
+O cronograma das atividades está no Apêndice~\ref{ap:cronograma}.
 
 \section{Modelagem e arquitetura}
 \label{sec:solucao}
@@ -1696,7 +1703,7 @@ Os experimentos seguiram os quatro cenários da Tabela~\ref{tab:cenarios}, todos
 
 \subsection{Cenários A e B: classificação}
 
-No cenário A, o \textit{baseline} SVM com TF-IDF foi treinado no conjunto de treino e avaliado no conjunto de teste. % [Kayke: informar parâmetros do TF-IDF e do SVM]
+No cenário A, o \textit{baseline} SVM com TF-IDF foi treinado no conjunto de treino e avaliado no conjunto de teste, com a descrição curta e a descrição completa concatenadas como entrada. O TF-IDF usou unigramas e bigramas, frequência mínima de documento igual a 2 e escala sublinear; o classificador foi um \textit{LinearSVC} com $C = 1$, sem pesos de classe e semente 42. Assim como no BERTimbau, não foram removidas \textit{stopwords}. % [Kayke: confirmar C e class_weight no metrics.json do SVM]
 No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{subsubsec:dataset_finetuning}. Os dois classificadores foram comparados pelas métricas da Seção~\ref{sec:metricas_avaliacao}, com destaque para o F1-macro.
 
 \subsection{Cenário C: explicações SHAP e LIME}
@@ -1740,81 +1747,11 @@ portanto, apenas uma escolha metodológica.
 \subsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
-O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais obtidos junto à Aché (6.949 chamados) e à Bayer Brasil (46.330 chamados), totalizando 53.279, mediante autorização concedida por e-mail e anonimização dos registros. Os dados passaram por limpeza e anonimização. A base da Bayer foi filtrada para manter apenas chamados em português, e as categorias das duas empresas foram harmonizadas em uma taxonomia única de 11 classes, entre elas a classe OUTROS. A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
+O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Bayer Brasil e da Aché, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Bayer tinha 191.350 chamados; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Aché tinha 9.317 chamados; após o descarte das categorias com menos de 100 chamados e dos chamados sem descrição, restaram 8.043. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.627 chamados, passou ainda pelo descarte de classes com menos de 100 chamados e pelo tratamento de textos idênticos com categorias divergentes. O resultado foram 53.279 chamados (Aché: 6.949; Bayer: 46.330), em 11 classes, entre elas a classe OUTROS. A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
 
 O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
 
 O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classificação textual. A entrada do modelo é o par formado pela descrição curta e pela descrição completa, limitado a 256 \textit{tokens}; cerca de 10,2\% dos pares ultrapassam esse limite. O treino usou 3 épocas, \textit{batch} de 16, taxa de aprendizado de $2 \times 10^{-5}$ e semente 42. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro.
-
-\section{Cronograma de trabalho}
-\label{sec:cronograma}
-
-O cronograma apresentado a seguir organiza as atividades previstas para o TCC2 de forma simplificada.
-
-\begin{figure}[H]
-    \centering
-    \caption{Cronograma de atividades -- Diagrama de Gantt}
-    \label{fig:gantt}
-    
-    \resizebox{\textwidth}{!}{
-        \begin{ganttchart}[
-            hgrid,
-            vgrid,
-            x unit=0.7cm,
-            y unit title=0.6cm,
-            y unit chart=0.7cm,
-            title height=1,
-            bar height=0.5,
-            bar label font=\scriptsize,
-            title label font=\small,
-            milestone label font=\scriptsize\itshape,
-            group label font=\scriptsize\bfseries,
-            bar/.append style={fill=blue!40},
-            group/.append style={draw=black, fill=blue!70},
-            milestone/.append style={fill=red!70},
-            link/.style={->, thick, black}
-        ]{1}{16}
-            \gantttitle{Semanas}{16} \\
-            \gantttitlelist{1,...,16}{1} \\
-     
-            \ganttgroup{Fase 1: Dados e modelo}{1}{5} \\
-            \ganttbar{Obtenção e limpeza do dataset}{1}{2} \\
-            \ganttbar{Pré-processamento}{2}{3} \\
-            \ganttbar{Fine-tuning do BERTimbau}{3}{5} \\
-            \ganttmilestone{Modelo treinado e avaliado}{5} \\
-     
-            \ganttgroup{Fase 2: XAI e grafo}{5}{9} \\
-            \ganttbar{Implementação do SHAP e LIME}{5}{7} \\
-            \ganttbar{Construção do grafo de co-ocorrência}{7}{9} \\
-            \ganttmilestone{Pipeline XAI funcional}{9} \\
-     
-            \ganttgroup{Fase 3: Sistema e interface}{9}{13} \\
-            \ganttbar{Desenvolvimento da API FastAPI}{9}{11} \\
-            \ganttbar{Desenvolvimento do frontend React}{10}{13} \\
-            \ganttbar{Integração backend + frontend}{12}{13} \\
-            \ganttmilestone{Protótipo funcional completo}{13} \\
-     
-            \ganttgroup{Fase 4: Validação e escrita}{13}{16} \\
-            \ganttbar{Experimentos e análise de resultados}{13}{15} \\
-            \ganttbar{Redação do TCC2}{5}{16} \\
-            \ganttmilestone{Entrega final}{16}
-     
-            \ganttlink{elem2}{elem3}
-            \ganttlink{elem3}{elem4}
-            \ganttlink{elem4}{elem5}
-            \ganttlink{elem7}{elem8}
-            \ganttlink{elem8}{elem9}
-            \ganttlink{elem11}{elem12}
-            \ganttlink{elem12}{elem13}
-            \ganttlink{elem14}{elem15}
-        \end{ganttchart}
-    }
-    
-    \vspace{0.2cm}
-    \centering{\small Fonte: Elaborado pelos autores (2026)}
-\end{figure}
-
- As atividades poderão sofrer ajustes conforme a evolução do projeto e os resultados obtidos durante a implementação e validação da solução.
 
 % ===============================================================
 % CAPÍTULO 5 - RESULTADOS E ANÁLISE
@@ -1879,15 +1816,77 @@ O cronograma apresentado a seguir organiza as atividades previstas para o TCC2 d
 % ---------------------------------------------------------------
 % APÊNDICES (se necessário)
 % ---------------------------------------------------------------
-% \begin{apendicesenv}
-% \partapendices
-%
-% \chapter{Nome do Apêndice}
-% \label{ap:apendice1}
-%
-% Conteúdo do apêndice (material elaborado pelo próprio autor).
-%
-% \end{apendicesenv}
+\begin{apendicesenv}
+\partapendices
+
+\chapter{Cronograma de atividades}
+\label{ap:cronograma}
+
+O cronograma a seguir apresenta as atividades do TCC2, organizadas em quatro fases ao longo de 16 semanas. Em relação ao plano inicial, a interface passou a ser servida com \textit{Flask}, em vez de \textit{FastAPI}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Cronograma de atividades -- Diagrama de Gantt}
+    \label{fig:gantt}
+    
+    \resizebox{\textwidth}{!}{
+        \begin{ganttchart}[
+            hgrid,
+            vgrid,
+            x unit=0.7cm,
+            y unit title=0.6cm,
+            y unit chart=0.7cm,
+            title height=1,
+            bar height=0.5,
+            bar label font=\scriptsize,
+            title label font=\small,
+            milestone label font=\scriptsize\itshape,
+            group label font=\scriptsize\bfseries,
+            bar/.append style={fill=blue!40},
+            group/.append style={draw=black, fill=blue!70},
+            milestone/.append style={fill=red!70},
+            link/.style={->, thick, black}
+        ]{1}{16}
+            \gantttitle{Semanas}{16} \\
+            \gantttitlelist{1,...,16}{1} \\
+     
+            \ganttgroup{Fase 1: Dados e modelo}{1}{5} \\
+            \ganttbar{Obtenção e limpeza do dataset}{1}{2} \\
+            \ganttbar{Pré-processamento}{2}{3} \\
+            \ganttbar{Fine-tuning do BERTimbau}{3}{5} \\
+            \ganttmilestone{Modelo treinado e avaliado}{5} \\
+     
+            \ganttgroup{Fase 2: XAI e grafo}{5}{9} \\
+            \ganttbar{Implementação do SHAP e LIME}{5}{7} \\
+            \ganttbar{Construção do grafo de co-ocorrência}{7}{9} \\
+            \ganttmilestone{Pipeline XAI funcional}{9} \\
+     
+            \ganttgroup{Fase 3: Sistema e interface}{9}{13} \\
+            \ganttbar{Desenvolvimento da API Flask}{9}{11} \\
+            \ganttbar{Desenvolvimento do frontend React}{10}{13} \\
+            \ganttbar{Integração backend + frontend}{12}{13} \\
+            \ganttmilestone{Protótipo funcional completo}{13} \\
+     
+            \ganttgroup{Fase 4: Validação e escrita}{13}{16} \\
+            \ganttbar{Experimentos e análise de resultados}{13}{15} \\
+            \ganttbar{Redação do TCC2}{5}{16} \\
+            \ganttmilestone{Entrega final}{16}
+     
+            \ganttlink{elem2}{elem3}
+            \ganttlink{elem3}{elem4}
+            \ganttlink{elem4}{elem5}
+            \ganttlink{elem7}{elem8}
+            \ganttlink{elem8}{elem9}
+            \ganttlink{elem11}{elem12}
+            \ganttlink{elem12}{elem13}
+            \ganttlink{elem14}{elem15}
+        \end{ganttchart}
+    }
+    
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
+
+\end{apendicesenv}
 
 % ---------------------------------------------------------------
 % ANEXOS (se necessário)
