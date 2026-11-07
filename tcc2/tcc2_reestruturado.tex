@@ -117,28 +117,29 @@ Kayke Ahrens Biscegli}
 % RESUMO
 % ---------------------------------------------------------------
 \begin{resumo}
-Este trabalho investiga como se comparam o SHAP e o LIME quanto à fidelidade 
-e à estabilidade das explicações de um classificador BERTimbau, e de que 
-forma um grafo de co-ocorrência contribui para tornar a classificação auditável, 
-em chamados de suporte de TI em português brasileiro. A motivação é que 
-classificadores baseados em \textit{transformers} não revelam por que 
-atribuíram uma categoria a um chamado, o que dificulta a auditoria de 
-suas decisões. Os dados reúnem chamados anonimizados cedidos pela Bayer 
-e pela Aché, num total de 53.279 chamados em 11 categorias, divididos em treino, 
-validação e teste de modo que textos repetidos fiquem no mesmo conjunto. 
-Foram comparados quatro cenários, que acrescentam um componente por vez: 
-um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, 
-as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. 
-O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste.
-% [preencher ao fim: diferença em relação ao SVM, com intervalo de confiança]
-% [preencher ao fim: resultado de fidelidade e estabilidade, SHAP e LIME]
-% [preencher ao fim: resultado do grafo nos estudos de caso]
-% [Bruna: acrescentar a frase da interface web só quando ela estiver pronta]
+O objetivo deste trabalho é investigar como a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau contribui para a auditabilidade do processo decisório, comparando a qualidade das explicações dos dois métodos, utilizando chamados de suporte técnico em português brasileiro. A motivação é que classificadores baseados em \textit{transformers} não revelam por que atribuíram uma categoria a um chamado, o que dificulta a auditoria de suas decisões. Os dados reúnem chamados anonimizados cedidos pela Bayer e pela Aché, num total de 53.279 chamados em 11 categorias, divididos em treino, validação e teste de modo que textos repetidos fiquem no mesmo conjunto. Foram comparados quatro cenários, que acrescentam um componente por vez: um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. Em uma amostra de 98 chamados do conjunto de teste, o SHAP e o LIME foram avaliados quanto à fidelidade, à estabilidade e à concordância entre si, e a rastreabilidade do grafo, tomada como critério de auditabilidade, foi examinada em estudos de caso. O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste. O \textit{baseline} SVM com TF-IDF obteve F1-macro de 0,591; a diferença do BERTimbau foi de 3,7 pontos percentuais (intervalo de confiança de 95\%: 1,0 a 6,7), abaixo do critério de 5 pontos definido no TCC1.
+Nos 98 chamados, SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 71\% dos chamados; só o Tau-LOO distinguiu os métodos, a favor do LIME, e o SHAP estimado por amostragem foi menos estável que o LIME (mesma palavra no topo em 68\% das repetições, contra 93\%).
+Nos três estudos de caso, cada nó e cada aresta do grafo pôde ser levado ao chamado e aos pesos do SHAP e do LIME, e o grafo expôs, por exemplo, que um erro do modelo se apoiou em muito pouca evidência.
+Os resultados foram integrados a uma interface \textit{web} que classifica um chamado digitado, exibe o grafo de co-ocorrência e permite alternar entre os pesos do SHAP e do LIME; a interface é uma prova de conceito e não foi avaliada junto a analistas de TI.
 
 \vspace{\onelineskip}
 
 \noindent
 \textbf{Palavras-chave}: Processamento de Linguagem Natural. BERT. Inteligência Artificial Explicável. Grafos de Co-ocorrência. Classificação de Tickets de TI.
+\end{resumo}
+
+\begin{resumo}[Abstract]
+\begin{otherlanguage*}{english}
+The objective of this work is to investigate how adding an explainability layer based on SHAP, LIME and co-occurrence graphs to a BERTimbau classification \textit{pipeline} contributes to the auditability of the decision process, comparing the quality of the explanations produced by the two methods, using technical support tickets in Brazilian Portuguese. The motivation is that \textit{transformer}-based classifiers do not reveal why they assigned a category to a ticket, which makes it hard to audit their decisions. The data comprise anonymized tickets provided by Bayer and Aché, totaling 53,279 tickets in 11 categories, split into training, validation and test sets so that repeated texts remain in the same set. Four scenarios were compared, each adding one component: a \textit{baseline} SVM with TF-IDF, the fine-tuning of BERTimbau, the SHAP and LIME explanations, and the co-occurrence graph weighted by those explanations. On a sample of 98 tickets from the test set, SHAP and LIME were evaluated for fidelity, stability and agreement with each other, and the traceability of the graph, taken as the criterion of auditability, was examined in case studies. BERTimbau achieved a macro F1 of 0.628 and an accuracy of 0.724 on the test set. The TF-IDF SVM \textit{baseline} achieved a macro F1 of 0.591; the difference in favor of BERTimbau was 3.7 percentage points (95\% confidence interval: 1.0 to 6.7), below the 5-point criterion set in the first phase of this work (TCC1).
+On the 98 tickets, SHAP and LIME showed fidelity well above chance and pointed to the same top word in 71\% of tickets; only Tau-LOO separated the methods, favoring LIME, and sampled SHAP was less stable than LIME (same top word in 68\% of repetitions versus 93\%).
+In the three case studies, every node and edge of the graph could be traced back to the ticket and to the SHAP and LIME weights, and the graph showed, for example, that a model error relied on very little evidence.
+The results were integrated into a web interface that classifies a typed ticket, displays the co-occurrence graph and allows switching between SHAP and LIME weights; the interface is a proof of concept and was not evaluated with IT analysts.
+
+\vspace{\onelineskip}
+
+\noindent
+\textbf{Keywords}: Natural Language Processing. BERT. Explainable Artificial Intelligence. Co-occurrence Graphs. IT Ticket Classification.
+\end{otherlanguage*}
 \end{resumo}
 
 % ---------------------------------------------------------------
@@ -248,9 +249,8 @@ técnico, erros ortográficos e expressões coloquiais \cite{zemp2021}.
 Isso sobrecarrega os analistas, tornando a triagem manual lenta, 
 inconsistente e propensa a erros.
 
- Estudos recentes demonstram que sistemas automatizados com redes neurais 
-profundas alcançam até 92\% de acurácia em classificação multi-categoria 
-\cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
+ Um estudo com mais de um milhão de chamados reporta que redes neurais profundas alcançam até 
+ 92\% de acurácia em classificação multi-categoria \cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
 predições sem revelar os critérios utilizados para tomá-las, pode gerar 
 resistência entre equipes operacionais que precisam confiar nas decisões 
 algorítmicas para roteamento, o que torna a explicabilidade relevante 
@@ -287,38 +287,7 @@ pois não conseguem capturar a variabilidade semântica nem o
 vocabulário técnico específico do domínio de TI \cite{yokota2025}.
 
 \vspace{0.3cm}
-% \noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{%
-% \textbf{Orientação sobre citações (ABNT NBR 10520:2023)}
 
-% \vspace{0.2cm}
-% O aluno deve \textbf{priorizar citações indiretas} (paráfrases), nas quais a ideia do autor é reescrita com as próprias palavras. Citações diretas (transcrições literais) \textbf{não são recomendadas}, exceto quando o texto original for insubstituível --- por exemplo, definições consagradas, leis, normas técnicas ou trechos cuja reformulação alteraria o sentido.
-
-% \vspace{0.2cm}
-% \textbf{Citação indireta} (recomendada) --- o autor interpreta e reescreve a ideia:
-
-% \vspace{0.1cm}
-% \textit{Exemplo 1 --- sistema autor-data entre parênteses:}\\
-% A definição clara do problema é considerada um fator determinante para o sucesso de qualquer pesquisa na área de Computação \cite{Wazlawick2020}.
-
-% \vspace{0.1cm}
-% \textit{Exemplo 2 --- autor como parte do texto:}\\
-% Para \citeonline{Pressman2016}, a escolha de uma metodologia adequada impacta diretamente na qualidade dos resultados obtidos em projetos de software.
-
-% \vspace{0.2cm}
-% \textbf{Citação direta curta} (até 3 linhas, apenas quando indispensável) --- entre aspas, com indicação de página:
-
-% \vspace{0.1cm}
-% Segundo \citeonline[p.~42]{Wazlawick2020}, ``a formulação do problema deve ser expressa de forma clara, objetiva e delimitada, evitando ambiguidades que possam comprometer o escopo da pesquisa''.
-
-% \vspace{0.2cm}
-% \textbf{Citação direta longa} (mais de 3 linhas, apenas quando indispensável) --- recuo de 4\,cm, fonte menor, sem aspas:
-
-% \begin{citacao}
-% A revisão bibliográfica não consiste em simplesmente listar os trabalhos encontrados, mas em analisá-los criticamente, identificando convergências, divergências e lacunas que justifiquem a realização de uma nova pesquisa \cite[p.~87]{Wazlawick2020}.
-% \end{citacao}
-
-% \textbf{Resumo}: use citações indiretas como regra. Reserve a citação direta para casos excepcionais em que a transcrição literal seja realmente necessária.
-% }}
 
 % ---------------------------------------------------------------
 % ---------------------------------------------------------------
@@ -332,7 +301,50 @@ Diante disso, este trabalho busca responder à seguinte pergunta:
 SHAP e o LIME quanto à fidelidade e à estabilidade das explicações de um 
 classificador BERTimbau, e de que forma um grafo de co-ocorrência contribui para 
 tornar o processo de classificação auditável?}
-% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
+
+% ---------------------------------------------------------------
+\section{Objetivos e hipótese}
+
+\subsection{Objetivo geral}
+Investigar como uma camada de explicabilidade (SHAP e LIME) 
+e grafos de co-ocorrência, acrescentada a um \textit{pipeline} 
+de classificação baseado em \textit{transformers}, contribui 
+para a auditabilidade do processo decisório, comparando a 
+qualidade das explicações dos dois métodos, utilizando chamados 
+de suporte de TI em português brasileiro.
+
+\subsection{Objetivos específicos}
+\begin{enumerate}
+    \item Analisar o ganho de desempenho do modelo BERTimbau com 
+    \textit{fine-tuning} em relação ao \textit{baseline} SVM com 
+    TF-IDF, utilizando a métrica F1-macro.
+
+    \item Comparar a explicabilidade gerada por SHAP e LIME em
+    termos de fidelidade, estabilidade, concordância entre os
+    métodos e relevância semântica das explicações produzidas
+    para chamados de suporte técnico em português brasileiro.
+    
+    \item Analisar se a visualização em grafos de co-ocorrência
+    ponderados por valores SHAP e LIME fornece auditabilidade
+    ao processo de classificação, no sentido de
+    rastrear cada decisão até os termos, a janela de palavras e
+    os valores SHAP e LIME que a originaram.
+
+    \item Validar a consistência semântica das explicações 
+    geradas pelo \textit{pipeline} no contexto de chamados de 
+    suporte técnico em português brasileiro, verificando se os 
+    termos destacados correspondem ao vocabulário técnico 
+    esperado para cada categoria classificada.
+\end{enumerate}
+
+\subsection{Hipótese de pesquisa}
+\label{sec:hipotese_pesquisa}
+
+A utilização de modelagem em grafos, ponderados pelos valores SHAP e LIME, 
+como camada de explicabilidade visual para o modelo BERT contribui para a 
+auditabilidade do processo de classificação automatizada, permitindo rastrear 
+quais termos do chamado contribuíram para a categoria atribuída pelo modelo. 
+Os métodos SHAP e LIME, por sua vez, produzem explicações com fidelidade e estabilidade distintas.
 
 \section{Justificativa}
 \label{sec:justificativa}
@@ -344,50 +356,6 @@ Técnicas de Processamento de Linguagem Natural (PLN) e aprendizado de máquina 
 A área de \textit{Explainable Artificial Intelligence} (XAI) busca justamente aumentar a transparência desses sistemas, permitindo compreender quais fatores influenciam as decisões dos modelos. Nesse contexto, a utilização de modelagem em grafos pode oferecer uma forma visual e estrutural de representar relações entre termos e evidenciar como essas relações contribuem para a classificação.
 
 Dessa forma, investigar se mecanismos de explicabilidade baseados em grafos podem tornar o processo decisório mais compreensível representa uma contribuição relevante tanto para aplicações práticas de suporte técnico quanto para o estudo de transparência em sistemas de inteligência artificial.
-
-% ---------------------------------------------------------------
-\section{Objetivo}
-\label{sec:objetivo}
-
-Este trabalho estrutura-se a partir de um objetivo central, que define o escopo principal da pesquisa, e de objetivos específicos que representam as metas intermediárias e os subprodutos analíticos necessários para responder à questão central de investigação.
-
-\subsection{Objetivo principal}
-Investigar como uma camada de explicabilidade (SHAP e LIME) 
-e grafos de co-ocorrência, acrescentada a um \textit{pipeline} 
-de classificação baseado em \textit{transformers}, contribui 
-para a auditabilidade do processo decisório, comparando a 
-qualidade das explicações dos dois métodos, utilizando chamados 
-de suporte de TI em português brasileiro.
-% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
-
-\subsection{Objetivos secundários}
-
-\begin{enumerate}
-
-    \item Analisar o ganho de desempenho do modelo BERTimbau com 
-    \textit{fine-tuning} em relação ao \textit{baseline} SVM com 
-    TF-IDF, utilizando a métrica F1-macro.
-
-    \item Comparar a explicabilidade gerada por SHAP e LIME em
-    termos de fidelidade, estabilidade, concordância entre os
-    métodos e relevância semântica das explicações produzidas
-    para chamados de suporte técnico em português brasileiro.
-
-    \item Analisar se a visualização em grafos de co-ocorrência
-    ponderados por valores SHAP e LIME fornece auditabilidade
-    adicional ao processo de classificação, no sentido de
-    rastrear cada decisão até os termos, a janela de palavras e
-    os valores SHAP e LIME que a originaram, em relação à exibição isolada de
-    \textit{scores} de importância.
-
-    \item Validar a consistência semântica das explicações 
-    geradas pelo \textit{pipeline} no contexto de chamados de 
-    suporte técnico em português brasileiro, verificando se os 
-    termos destacados correspondem ao vocabulário técnico 
-    esperado para cada categoria classificada.
-
-\end{enumerate}
-
 
 % ===============================================================
 % CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
@@ -654,7 +622,7 @@ Essa abordagem de pré-treinamento seguido de \textit{fine-tuning} é particular
 \subsubsection{Arquitetura e configurações \textit{BERT-base} e \textit{BERT-large}}
 \label{subsubsec:bert_arquitetura}
 
-\citeonline{devlin2019} propuseram o BERT em duas configurações. O \textit{BERT-base} possui 12 camadas de \textit{encoder} \textit{Transformer}, 12 cabeças de atenção e 110 milhões de parâmetros. O \textit{BERT-large} possui 24 camadas, 16 cabeças de atenção e 340 milhões de parâmetros. Ambas as versões foram pré-treinadas sobre o corpus da Wikipedia em inglês e o BookCorpus, totalizando aproximadamente 3,3 bilhões de \textit{tokens}.
+\citeonline{devlin2019} propuseram o BERT em duas configurações. O \textit{BERT-base} possui 12 camadas de \textit{encoder} \textit{Transformer}, 12 cabeças de atenção e 110 milhões de parâmetros. O \textit{BERT-large} possui 24 camadas, 16 cabeças de atenção e 340 milhões de parâmetros. Ambas as versões foram pré-treinadas sobre o corpus da Wikipedia em inglês e o BookCorpus, totalizando aproximadamente 3,3 bilhões de palavras.
 
 O BERT estabeleceu o estado da arte em onze tarefas de PLN no momento 
 de sua publicação, incluindo classificação de texto, reconhecimento 
@@ -734,7 +702,7 @@ Essa estrutura torna impossível para um ser humano acompanhar ou
 explicar, passo a passo, como o modelo chegou a uma determinada 
 decisão \cite{salih2023}.
 
-Em contextos como a triagem de chamados de TI, essa opacidade representa um problema prático concreto. Analistas de suporte e gestores precisam auditar as decisões do sistema, identificar erros sistemáticos e eventualmente contestar categorizações incorretas. Um modelo que não fornece justificativa para suas predições é difícil de depurar, difícil de melhorar e difícil de justificar perante \textit{stakeholders} (partes interessadas, como gestores e diretores) organizacionais \cite{zemp2021}.
+Em contextos como a triagem de chamados de TI, essa opacidade representa um problema prático concreto. Analistas de suporte e gestores precisam auditar as decisões do sistema, identificar erros sistemáticos e eventualmente contestar categorizações incorretas. Um modelo que não fornece justificativa para suas predições é difícil de depurar, difícil de melhorar e difícil de justificar perante \textit{stakeholders} (partes interessadas, como gestores e diretores) organizacionais.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Confiança, explicabilidade e adoção em produção}
@@ -746,10 +714,9 @@ que as explicações LIME favorecem a interpretabilidade e a confiança no siste
 pois permitem verificar se os termos destacados como mais influentes fazem sentido 
 para aquela categoria específica, embora não tenham medido a reação dos operadores.
 
-Essa ideia é consistente com a literatura de XAI mais ampla: a explicabilidade 
-não melhora necessariamente a acurácia do modelo, mas aumenta a confiança dos 
-usuários no sistema e facilita a identificação de falhas sistemáticas, o que é 
-essencial para a adoção sustentada em ambientes de produção.
+Essa ideia é consistente com a literatura de XAI mais ampla: as explicações
+ ajudam os usuários a decidir se confiam em uma predição e a identificar modelos 
+ que erram por razões inadequadas \cite{ribeiro2016}.
 
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -906,12 +873,12 @@ valor final do modelo.
 \subsubsection{Propriedades matemáticas — eficiência, simetria e ausência}
 \label{subsubsec:shap_propriedades}
 
-A formulação baseada em valores de Shapley garante ao SHAP três propriedades matemáticas desejáveis que o distinguem de métodos \textit{ad hoc} de atribuição de importância \cite{lundberg2017}. A propriedade de eficiência estabelece que a soma dos valores SHAP de todas as \textit{features} iguala a diferença entre a predição do modelo para a instância em questão e o valor base (predição média do modelo sobre o conjunto de dados). A propriedade de simetria estabelece que \textit{features} com contribuições iguais ao modelo recebem valores SHAP iguais, independentemente de sua posição na entrada. A propriedade de ausência estabelece que \textit{features} que não afetam a predição recebem valor SHAP zero.
+A formulação baseada em valores de Shapley garante ao SHAP propriedades matemáticas desejáveis, que o distinguem de métodos \textit{ad hoc} de atribuição de importância. \citeonline{lundberg2017} as formulam como acurácia local, ausência (\textit{missingness}) e consistência. Na forma clássica dos axiomas de Shapley, as propriedades de interesse aqui são três. A propriedade de eficiência estabelece que a soma dos valores SHAP de todas as \textit{features} iguala a diferença entre a predição do modelo para a instância em questão e o valor base (predição média do modelo sobre o conjunto de dados). A propriedade de simetria estabelece que \textit{features} com contribuições iguais ao modelo recebem valores SHAP iguais, independentemente de sua posição na entrada. A propriedade de ausência estabelece que \textit{features} que não afetam a predição recebem valor SHAP zero.
 
 Essas propriedades conferem ao SHAP uma fundamentação teórica sólida que o LIME não possui, tornando suas explicações mais consistentes e matematicamente justificáveis.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{\textit{KernelSHAP} e aplicação em modelos de texto}
+\subsubsection{Cálculo do SHAP em modelos de texto}
 \label{subsubsec:shap_kernel}
 
 Calcular o valor exato de Shapley se torna inviável quando o modelo 
@@ -922,7 +889,7 @@ esses valores testando apenas uma amostra dessas combinações, tornando
 o método viável mesmo em modelos de texto, onde cada \textit{token} 
 é tratado como uma \textit{feature}.
 
-Para modelos baseados em \textit{transformers}, o \textit{KernelSHAP} é a variante mais utilizada. O resultado é um vetor de importância por \textit{token} que pode ser visualizado como mapa de calor sobre o texto de entrada, \textit{tokens} com valores SHAP positivos contribuem para a classe predita, e \textit{tokens} com valores negativos contribuem contra ela. O presente trabalho pretende utilizar esses valores SHAP por \textit{token} como pesos dos nós no grafo de co-ocorrência, em conjunto com os valores LIME, permitindo comparação visual entre os dois métodos de explicabilidade.
+Neste trabalho, o SHAP foi calculado com a biblioteca \textit{shap}, tratando cada palavra distinta do campo como uma \textit{feature} e a probabilidade da classe predita como o valor a ser explicado. Nos campos com até 10 palavras distintas, o valor de Shapley foi calculado de forma exata, testando todas as combinações; acima disso, foi estimado por amostragem de permutações, e não pelo \textit{KernelSHAP}. O resultado é um valor por palavra: valores SHAP positivos contribuem para a classe predita e valores negativos contribuem contra ela. Esses valores são utilizados como pesos dos nós no grafo de co-ocorrência, em conjunto com os valores LIME, permitindo comparação visual entre os dois métodos de explicabilidade.
 
 % ---------------------------------------------------------------
 \subsection{Comparação entre SHAP e LIME}
@@ -954,8 +921,7 @@ pronunciada.
 
 A decisão de implementar e comparar SHAP e LIME neste trabalho, em vez de escolher apenas um dos métodos, é fundamentada em duas razões. Primeiro, a comparação entre os dois métodos produz evidência empírica sobre a qualidade e consistência das explicações geradas para chamados de TI em PT-BR, contribuição metodológica relevante para a literatura sobre XAI em domínios especializados. Segundo, a construção do grafo de co-ocorrência proposto utiliza os 
 valores SHAP e LIME como pesos dos nós, permitindo avaliar 
-se a escolha do método de XAI afeta a estrutura e a 
-interpretabilidade do grafo resultante.
+se a escolha do método de XAI afeta a estrutura do grafo resultante.
 
 % ---------------------------------------------------------------
 \subsection{XAI aplicado a classificação de texto e tickets de TI}
@@ -990,13 +956,13 @@ melhorando a qualidade do modelo como um todo.
 \subsubsection{SHAP e LIME em ambiente ITSM corporativo}
 \label{subsubsec:xai_razma}
 
-\citeonline{razma2026} aplicaram LIME e SHAP em um ambiente ITSM corporativo real, comparando as explicações geradas para o modelo de regressão logística com \textit{TF-IDF} e para o mBERT \textit{fine-tuned}. Os resultados qualitativos das explicações foram significativamente distintos: o modelo linear tendia a destacar palavras-chave literais com alta frequência no corpus, enquanto o BERT destacava termos semanticamente coerentes com o significado do chamado.
+\citeonline{razma2026} aplicaram o LIME à regressão logística com \textit{TF-IDF} e ao mBERT \textit{fine-tuned}, e o SHAP à regressão logística, em um ambiente ITSM corporativo real. Os resultados qualitativos das explicações foram significativamente distintos: o modelo linear tendia a destacar palavras-chave literais com alta frequência no corpus, enquanto o BERT destacava termos semanticamente coerentes com o significado do chamado.
 
 Essa diferença qualitativa nas explicações, documentada por 
 \citeonline{razma2026}, sugere que o BERTimbau, combinado com SHAP 
 e LIME, tende a produzir explicações mais acuradas em termos de 
 importância de \textit{features} e potencialmente mais interpretáveis 
-para analistas de TI sem formação em aprendizado de máquina, hipótese que será verificada empiricamente no presente trabalho, 
+para analistas de TI sem formação em aprendizado de máquina, hipótese que este trabalho verifica empiricamente, 
 avaliando se os termos destacados fazem sentido para cada categoria 
 de chamado classificada.
 
@@ -1054,7 +1020,7 @@ importância explicativa calculada por SHAP e LIME.
 
 O peso das arestas em um grafo de co-ocorrência pode ser determinado por diferentes métricas. A abordagem mais simples utiliza a frequência bruta de co-ocorrência, ou seja, a contagem de quantas vezes o par de \textit{tokens} co-ocorreu dentro da janela deslizante. Métricas mais sofisticadas, como a Informação Mútua Pontual (PMI, do inglês \textit{Pointwise Mutual Information}), normalizam a frequência de co-ocorrência pelas frequências individuais de cada \textit{token}, favorecendo pares que co-ocorrem mais do que seria esperado pelo acaso \cite{yao2019}.
 
-No presente trabalho, os pesos das arestas serão determinados pelo número de co-ocorrências do par dentro da janela deslizante (frequência bruta, sem normalização), enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, serão determinados pelos valores SHAP e LIME calculados para cada \textit{token} pelo modelo BERTimbau, permitindo comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é a inovação central da camada de visualização proposta.
+No presente trabalho, os pesos das arestas foram determinados pelo número de co-ocorrências do par dentro da janela deslizante (frequência bruta, sem normalização), enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, foram determinados pelos valores SHAP e LIME de cada \textit{token}, calculados sobre as predições do BERTimbau, o que permite comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é o diferencial da camada de visualização proposta.
 
 % ---------------------------------------------------------------
 \subsection{\textit{TextGCN} — formalização do grafo de co-ocorrência}
@@ -1074,7 +1040,7 @@ Essa estrutura permite que as redes neurais de grafos (GCN) propaguem informaç�
 
 As redes neurais de grafos (GNN, do inglês \textit{Graph Neural Networks}) operam sobre grafos propagando informação entre nós vizinhos por meio de operações de agregação e transformação. Em cada camada da rede, a representação de cada nó é atualizada com base nas representações de seus vizinhos na iteração anterior \cite{yao2019}. Após múltiplas camadas, cada nó possui uma representação que agrega informação de sua vizinhança local de múltiplos saltos.
 
-No contexto deste trabalho, a relevância do \textit{TextGCN} é fundamentalmente teórica: ele formaliza matematicamente a estrutura do grafo de co-ocorrência e demonstra sua utilidade para classificação de texto. O presente trabalho não irá implementar GCN, o grafo de co-ocorrência será utilizado exclusivamente como estrutura de visualização para as explanações XAI, não como componente do modelo de classificação.
+No contexto deste trabalho, a relevância do \textit{TextGCN} é fundamentalmente teórica: ele formaliza matematicamente a estrutura do grafo de co-ocorrência e demonstra sua utilidade para classificação de texto. O presente trabalho não implementou GCN: o grafo de co-ocorrência foi utilizado exclusivamente como estrutura de visualização das explicações XAI, e não como componente do modelo de classificação.
 
 % ---------------------------------------------------------------
 \subsection{Combinação de BERT com grafos de co-ocorrência}
@@ -1112,15 +1078,7 @@ e arestas ponderadas pelos \textit{scores} LIME de cada \textit{token}.
 Os \textit{tokens} com maior importância LIME produzem arestas de 
 maior peso com seus vizinhos na janela de co-ocorrência.
 
-O presente trabalho adotará uma abordagem estruturalmente análoga, 
-mas com diferenças importantes: utilizará BERTimbau em vez de 
-RoBERTa, aplicará os valores SHAP e LIME como pesos dos nós em vez dos 
-\textit{scores} LIME como pesos de arestas, e o domínio de aplicação 
-será a classificação de chamados de suporte de TI em português 
-brasileiro. A escolha de ponderar os nós em vez das arestas reflete 
-a intenção de destacar visualmente os \textit{tokens} individualmente 
-mais relevantes para a predição, enquanto as arestas manterão sua 
-função de representar a estrutura de co-ocorrência do texto.
+O presente trabalho adotou uma abordagem estruturalmente análoga, mas com diferenças importantes: utilizou o BERTimbau em vez do RoBERTa, aplicou os valores SHAP e LIME como pesos dos nós, em vez dos \textit{scores} LIME como pesos de arestas, e o domínio de aplicação foi a classificação de chamados de suporte de TI em português brasileiro. A escolha de ponderar os nós em vez das arestas reflete a intenção de destacar visualmente os \textit{tokens} individualmente mais relevantes para a predição, enquanto as arestas mantêm sua função de representar a estrutura de co-ocorrência do texto.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Visualização interativa como camada de auditabilidade}
@@ -1158,10 +1116,7 @@ Capítulo~\ref{cap:desenvolvimento}.
 O trabalho de \citeonline{zemp2021} demonstra que sistemas de classificação de chamados de TI 
 com alta acurácia são tecnicamente viáveis e já foram implantados em produção. No entanto, a 
 ausência de mecanismos de explicabilidade limita a auditabilidade desses sistemas. 
-Os agentes de suporte recebem predições sem justificativa, o que dificulta a identificação de 
-erros sistemáticos. Nenhum dos trabalhos de classificação 
-de chamados de TI identificados no \textit{screening} incorpora uma camada de visualização gráfica 
-para explanações XAI.
+Nos modelos comparados por \citeonline{zemp2021}, a predição não vem acompanhada de justificativa, o que dificulta a identificação de erros sistemáticos. Entre os trabalhos de classificação de chamados de TI identificados na pesquisa bibliográfica (Seção~\ref{sec:metodologia_pesquisa}), nenhum combina explicações XAI com um grafo de co-ocorrência.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Carência de soluções robustas para PT-BR em \textit{helpdesk}}
@@ -1176,13 +1131,13 @@ Os trabalhos de \citeonline{yokota2025} e \citeonline{pereira2023} evidenciam qu
 \citeonline{wahba2023} questiona o uso de BERT para classificação de texto em domínios especializados, 
 argumentando que o custo computacional adicional não se justifica diante da pequena vantagem sobre 
 o SVM em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério 
-de avaliação for a acurácia. O presente trabalho examina esse argumento medindo o ganho do BERTimbau sobre o SVM e investigando se a camada de XAI e grafo de co-ocorrência acrescenta auditabilidade ao processo de classificação.
+de avaliação for a acurácia. O presente trabalho examina esse argumento medindo o ganho do BERTimbau sobre o SVM e investigando se a camada de XAI e grafo de co-ocorrência contribui para a auditabilidade do processo de classificação.
 
 % ---------------------------------------------------------------
 \subsection{Direcionamento para a proposta}
 \label{subsec:sintese_direcao}
 
-Diante das lacunas identificadas: ausência de XAI em sistemas de classificação de chamados em produção, carência de soluções robustas para PT-BR em \textit{helpdesk} de TI, e a questão do custo-benefício do BERT sem explicabilidade, o presente trabalho investiga um \textit{pipeline} que combina BERTimbau, SHAP, LIME e grafo de co-ocorrência ponderado para classificação de chamados em PT-BR com explicabilidade visual. A descrição detalhada da arquitetura, do \textit{dataset}, dos experimentos e da interface que será desenvolvida é apresentada no Capítulo~\ref{cap:desenvolvimento}.
+Diante das lacunas identificadas: ausência de XAI em sistemas de classificação de chamados em produção, carência de soluções robustas para PT-BR em \textit{helpdesk} de TI, e a questão do custo-benefício do BERT sem explicabilidade, o presente trabalho investiga um \textit{pipeline} que combina BERTimbau, SHAP, LIME e grafo de co-ocorrência ponderado para classificação de chamados em PT-BR com explicabilidade visual. A descrição detalhada da arquitetura, do \textit{dataset}, dos experimentos e da interface desenvolvida é apresentada no Capítulo~\ref{cap:desenvolvimento}.
 
 % ---------------------------------------------------------------
 \section{Metodologia da pesquisa bibliográfica}
@@ -1209,7 +1164,7 @@ Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Inteligência Artificial Explicável}
  
-Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} serão utilizados neste trabalho:
+Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho:
  
 \begin{itemize}
     \item \textbf{LIME} \cite{ribeiro2016}: explica predições individuais ajustando um modelo linear simples em torno de perturbações da entrada original, indicando quais palavras mais contribuíram para a classificação.
@@ -1220,8 +1175,9 @@ Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e t
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Grafo de Co-ocorrência}
  
-Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$ na qual os nós $V$ representam os termos únicos de um texto e as arestas $E$ conectam pares de termos que aparecem juntos dentro de uma janela deslizante de tamanho fixo \cite{yao2019}. Neste trabalho, essa estrutura será utilizada como camada de visualização das explicações XAI: os pesos dos nós serão determinados pelos valores SHAP e LIME de cada \textit{token}, e os pesos das arestas pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
- 
+Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$ na qual os nós $V$ representam os termos únicos de um texto e as arestas $E$ conectam pares de termos que aparecem juntos dentro de uma janela deslizante de tamanho fixo \cite{yao2019}. 
+Neste trabalho, essa estrutura foi utilizada como camada de visualização das explicações XAI: os pesos dos nós foram determinados pelos valores SHAP e LIME de cada \textit{token}, e os pesos das arestas, pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsection{Auditabilidade}
 \label{subsec:auditabilidade}
@@ -1232,10 +1188,9 @@ construída a partir de propriedades já estabelecidas na literatura: um
 sistema de classificação é auditável quando permite rastrear, verificar
 e reproduzir a explicação de cada decisão do modelo. Trata-se, portanto,
 de uma propriedade técnica do sistema, e não da confiança percebida por
-quem o utiliza. Essa distinção é relevante porque os estudos de
-\citeonline{zemp2021} e \citeonline{razma2026}, ao relatarem a reação de
-analistas de suporte a sistemas de classificação em produção, tratam da
-confiança percebida, e não da propriedade técnica definida aqui.
+quem o utiliza. Essa distinção é relevante porque o estudo de \citeonline{zemp2021}, 
+ao relatar a reação de analistas de suporte a um sistema de classificação 
+em produção, trata da confiança percebida, e não da propriedade técnica definida aqui.
 
 A definição se desdobra em três dimensões:
 
@@ -1269,7 +1224,7 @@ Um sistema de \textit{help desk} é uma plataforma que centraliza e gerencia sol
 \section{Trabalhos relacionados}
 \label{sec:trabalhos_relacionados}
 
-Esta seção analisa três trabalhos que enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
+Esta seção analisa quatro trabalhos que enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
 
 \subsection{Trabalho 1: Text Classification of Service Desk Tickets}
 
@@ -1283,11 +1238,15 @@ entendam o ``porquê'' da classificação.
 
 \subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
 
-\citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, mas propôs uma abordagem focada em eficiência para domínios especializados. A solução utilizou um modelo híbrido (HOOM) que combina SVM linear com classificadores \textit{online}. A metodologia demonstrou que em textos técnicos, modelos mais simples podem ser competitivos. Os resultados mostraram boa performance com baixo custo computacional. A limitação identificada é que essa abordagem perde as nuances contextuais que modelos baseados em \textit{Transformers} capturam. O presente trabalho pretende adotar o BERTimbau, específico para PT-BR, combinado com visualização de grafos para suprir a falta de contexto de modelos lineares.
+\citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, mas propôs uma abordagem focada em eficiência para domínios especializados. A solução utilizou um modelo híbrido (HOOM) que combina SVM linear com classificadores \textit{online}. A metodologia demonstrou que em textos técnicos, modelos mais simples podem ser competitivos. Os resultados mostraram boa performance com baixo custo computacional. A limitação identificada é que essa abordagem perde as nuances contextuais que modelos baseados em \textit{Transformers} capturam. O presente trabalho adotou o BERTimbau, específico para PT-BR, que captura o contexto das palavras, e o combinou com SHAP, LIME e visualização em grafos para explicar as classificações.
 
 \subsection{Trabalho 3: Classificação hierárquica de textos aplicado ao contexto chamados de suporte}
 
-\citeonline{yokota2025} investigou a classificação de chamados especificamente em português brasileiro, utilizando modelos clássicos como \textit{Naive Bayes} e MLP. A metodologia focou na estrutura hierárquica das categorias de TI. Os resultados apresentaram F1-macro insatisfatório para uso em produção. A lacuna principal foi a incapacidade de modelos simples lidarem com o jargão técnico do suporte em português. O presente trabalho diferencia-se pelo uso de uma arquitetura de estado da arte (BERTimbau) treinada especificamente no nosso idioma, superando as limitações semânticas dos modelos testados por Yokota.
+\citeonline{yokota2025} investigou a classificação de chamados especificamente em português brasileiro, utilizando modelos clássicos como \textit{Naive Bayes} e MLP. A metodologia focou na estrutura hierárquica das categorias de TI. Os resultados apresentaram F1-macro insatisfatório para uso em produção. A lacuna principal foi a incapacidade de modelos simples lidarem com o jargão técnico do suporte em português. O presente trabalho diferencia-se pelo uso de uma arquitetura de estado da arte (BERTimbau) pré-treinada em português, buscando lidar com as limitações semânticas dos modelos testados por \citeonline{yokota2025}.
+
+\subsection{Trabalho 4: AI-Based Classification of IT Support Requests in Enterprise Service Management Systems}
+
+\citeonline{razma2026} compararam regressão logística com TF-IDF, mBERT e XLM-RoBERTa na classificação de mais de 87 mil chamados multilíngues de uma empresa de manufatura, e aplicaram o LIME (à regressão logística e ao mBERT) e o SHAP (à regressão logística) a exemplos de chamados. Os \textit{transformers} tiveram F1-macro maior, e as explicações do BERT destacaram termos mais contextuais que as do modelo linear. Pelo que o artigo apresenta, as explicações são mostradas em exemplos, sem medidas de fidelidade, estabilidade ou concordância entre os métodos, e sem estruturá-las em grafo. O presente trabalho mede essas propriedades para SHAP e LIME sobre o BERTimbau, em chamados em português, e as representa em um grafo de co-ocorrência.
 
 \vspace{0.5cm}
 
@@ -1296,26 +1255,26 @@ entendam o ``porquê'' da classificação.
     \caption{Comparação entre trabalhos relacionados}
     \label{tab:trabalhos_relacionados}
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{l|c|c|c|c}
+    \begin{tabular}{l|c|c|c|c|c}
         \toprule
         \textbf{Critério} & \textbf{Zemp (2021)} & \textbf{Wahba (2023)} & 
-        \textbf{Yokota (2025)} & \textbf{Este trabalho} \\
+        \textbf{Yokota (2025)} & \textbf{Razma e Jurkus (2026)} & \textbf{Este trabalho} \\
         \midrule
         Objetivo & Classificação & Eficiência & Classificação PT-BR & 
-        Classificação + XAI \\
+        Classificação + XAI & Classificação + XAI \\
         \midrule
         Tecnologia & RoBERTa / CNN & SVM / HOOM & \textit{Naive Bayes} / MLP & 
-        BERTimbau + Grafos \\
+        mBERT / XLM-R / Reg. logística & BERTimbau + Grafos \\
         \midrule
-        Explicabilidade & Não & Intrínseca & Limitada & SHAP / LIME / Grafos \\
+        Explicabilidade & Não & Intrínseca & Limitada & LIME / SHAP (em exemplos) & SHAP / LIME / Grafos \\
         \midrule
         Limitação & Caixa-Preta & Baixo Contexto & Baixa Performance & 
-        Custo Computacional \\
+        Sem medidas de qualidade das explicações & Custo Computacional \\
         \bottomrule
     \end{tabular}
     }
     \vspace{0.2cm}
-    \legend{Fonte: Elaborado pelos autores (2026)}
+    \legend{Fonte: Elaborado pelos autores}
 \end{table}
 
 % ===============================================================
@@ -1327,16 +1286,10 @@ Este capítulo descreve o plano da pesquisa: o tipo de estudo e a hipótese, as 
 
 \section{Tipo de pesquisa e hipótese}
 \label{sec:tipo_pesquisa}
-Trata-se de uma pesquisa aplicada, de caráter empírico e comparativo: o estudo mede o desempenho de modelos de classificação e a qualidade das explicações produzidas sobre chamados reais de suporte de TI, comparando quatro cenários que acrescentam um componente por vez ao \textit{pipeline} (Tabela~\ref{tab:cenarios}).
-
-\subsection{Hipótese de pesquisa}
-\label{sec:hipotese_pesquisa}
-
-A utilização de modelagem em grafos, ponderados pelos valores SHAP e LIME, 
-como camada de explicabilidade visual para o modelo BERT contribui para a 
-auditabilidade do processo de classificação automatizada, permitindo rastrear 
-quais termos do chamado contribuíram para a categoria atribuída pelo modelo.
-% Redação ajustada em 02/11 (opção C); confirmar com o Prof. Douglas.
+Trata-se de uma pesquisa aplicada, de caráter empírico e comparativo: o estudo mede o desempenho 
+de modelos de classificação e a qualidade das explicações produzidas sobre chamados reais de suporte de TI, 
+comparando quatro cenários que acrescentam um componente por vez ao \textit{pipeline} (Tabela~\ref{tab:cenarios}). 
+A hipótese de pesquisa, formulada na Seção~\ref{sec:hipotese_pesquisa}, é examinada nos cenários C e D.
 
 \section{Procedimentos da abordagem proposta}
 \label{sec:procedimentos}
@@ -1344,8 +1297,7 @@ quais termos do chamado contribuíram para a categoria atribuída pelo modelo.
 A abordagem proposta segue as etapas abaixo, em ordem cronológica:
 
 \begin{enumerate}
-    \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados em português 
-    e harmonização das categorias;
+    \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados da Bayer em português e harmonização das categorias;
 
     \item \textbf{Divisão dos dados}: divisão estratificada pela categoria e agrupada pelo texto do chamado em treino, validação e teste, com semente fixa e índices salvos, 
     de modo que os cenários comparados usem os mesmos conjuntos;
@@ -1367,7 +1319,7 @@ Os dados e a implementação de cada etapa são detalhados no Capítulo~\ref{cap
 \subsection{Cenários experimentais}
 \label{subsec:experimentos}
 
-O experimento será estruturado em quatro cenários comparativos, conforme descrito na Tabela~\ref{tab:cenarios}, com o objetivo de isolar a contribuição de cada componente do \textit{pipeline}:
+O experimento foi estruturado em quatro cenários comparativos, conforme descrito na Tabela~\ref{tab:cenarios}, com o objetivo de isolar a contribuição de cada componente do \textit{pipeline}:
 
 \begin{table}[H]
 \centering
@@ -1387,8 +1339,7 @@ D & BERTimbau & SHAP + LIME + grafo & Auditabilidade visual \\
 \end{table}
 
 A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico, respondendo ao argumento de \citeonline{wahba2023}
- sobre o custo-benefício dos \textit{transformers} em domínios especializados. A comparação entre os cenários C e D 
- examina a hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), verificando se a camada de grafo de co-ocorrência oferece auditabilidade superior à exibição isolada de \textit{scores} de importância, nos termos definidos na Seção~\ref{subsec:auditabilidade}.
+ sobre o custo-benefício dos \textit{transformers} em domínios especializados. Os cenários C e D examinam a hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), verificando se a camada de grafo de co-ocorrência contribui para a auditabilidade, nos termos definidos na Seção~\ref{subsec:auditabilidade}, e se o SHAP e o LIME diferem quanto à fidelidade e à estabilidade de suas explicações.
 
 \section{Ferramentas, tecnologias e ambientes}
 \label{sec:ferramentas}
@@ -1414,12 +1365,13 @@ O projeto foi desenvolvido em Python. A Tabela~\ref{tab:ferramentas} resume as b
   \legend{Fonte: Elaborado pelos autores}
 \end{table}
 
-A versão do SHAP utilizada foi a 0.54.1, e a do LIME, a 0.2.0.1. % [Kayke: informar versões de Python, PyTorch, Transformers e scikit-learn do treino]
+O treinamento dos modelos usou Python 3.13.2, PyTorch 2.6.0 (CUDA 12.4), Transformers 5.17.0 e \textit{scikit-learn} 1.9.1. A versão do SHAP utilizada foi a 0.54.1, e a do LIME, a 0.2.0.1.
 
 O BERTimbau \cite{souza2020} foi escolhido por ser um modelo BERT pré-treinado em português brasileiro. O \textit{baseline} SVM com TF-IDF foi escolhido por ser a referência clássica em classificação de texto e permitir medir o ganho do modelo neural.
 
-Os treinos foram executados em placa de vídeo (GPU) NVIDIA GTX. % [Kayke: confirmar modelo e se foi local ou remoto]
-Já a execução do SHAP e do LIME foi feita em CPU, em um computador Apple. % [Bruna: confirmar modelo e tempo de execução]
+O \textit{fine-tuning} do BERTimbau foi executado em uma placa de vídeo (GPU) NVIDIA GTX 1650.
+
+Já a execução do SHAP e do LIME foi feita em CPU, em um MacBook Pro com chip Apple M4.
 
 \section{Procedimentos experimentais e métricas}
 \subsection{Métricas de desempenho do classificador}
@@ -1444,18 +1396,17 @@ O desempenho dos classificadores (cenários A e B) é medido no conjunto de test
 
 O sucesso da solução é avaliado sob duas perspectivas complementares.
 
-\textbf{Desempenho da classificação.} O critério definido no TCC1 é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\%, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
+\textbf{Desempenho da classificação.} O critério definido no TCC1 é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\% obtido por \textit{bootstrap} pareado (2.000 reamostragens, semente 42), em que os chamados com texto idêntico são reamostrados juntos, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
 
-\textbf{Qualidade das explicações.} SHAP e LIME são comparados sobre uma amostra de cerca de 98 chamados do conjunto de teste, entre acertos e erros do modelo, sem textos repetidos. Cada campo (descrição curta e descrição completa) é explicado separadamente, com o outro fixo, e a perturbação é a remoção de palavras. As propriedades avaliadas são:
+\textbf{Qualidade das explicações.} SHAP e LIME são comparados sobre uma amostra de 98 chamados do conjunto de teste, entre acertos e erros do modelo, sem textos repetidos. Cada campo (descrição curta e descrição completa) é explicado separadamente, com o outro fixo, e a perturbação é a remoção de palavras. As propriedades avaliadas são:
 \begin{itemize}
   \item \textbf{Fidelidade:} mede se as palavras apontadas como importantes realmente influenciam a decisão do modelo. Usam-se a \textit{comprehensiveness}, a \textit{sufficiency} (AOPC) e o Tau-LOO, comparados a uma linha de base aleatória. As medidas seguem a definição de \citeonline{attanasio2023}, mas foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado.
   \item \textbf{Estabilidade:} mede se a explicação se mantém ao repetir o método sobre o mesmo chamado. Repete-se cada explicação cinco vezes e calculam-se a similaridade de Jaccard das cinco palavras mais relevantes, a correlação de Spearman e a fração de repetições com a mesma palavra no topo, em chamados com ao menos oito palavras distintas.
-  \item \textbf{Concordância entre SHAP e LIME:} mede se os dois métodos apontam as mesmas palavras para o mesmo chamado.
+  \item \textbf{Concordância entre SHAP e LIME:} mede se os dois métodos apontam as mesmas palavras, e no mesmo sentido, para o mesmo chamado. Calculam-se a correlação de Spearman entre os pesos das palavras, a similaridade de Jaccard das cinco palavras mais relevantes, a fração de chamados com a mesma palavra no topo e a fração de palavras com o mesmo sinal (a favor ou contra a classe prevista), cada medida comparada ao valor esperado ao acaso.
   \item \textbf{Coerência semântica:} análise qualitativa, nos estudos de caso, de se os termos destacados pelo SHAP e pelo LIME correspondem ao vocabulário técnico esperado para a categoria predita.
 \end{itemize}
 
-% ATENÇÃO: parte do grafo depende da decisão sobre a métrica (issue 3).
-\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e às notas do SHAP e do LIME. % [A ou B definirá se há métrica numérica adicional.]
+\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e às notas do SHAP e do LIME. 
 
 % ===============================================================
 % CAPÍTULO 3 - DESENVOLVIMENTO
@@ -1517,21 +1468,24 @@ explicativas.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_agatha.png}
-    \caption{Protótipo de baixa fidelidade da interface por Agatha Barbosa}
+    \caption{Protótipo de baixa fidelidade da interface (proposta 1)}
+    \legend{Fonte: Elaborado pelos autores}
     \label{fig:prototipo_baixa_agatha}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_bru.png}
-    \caption{Protótipo de baixa fidelidade da interface por Bruna Kinjo}
+    \caption{Protótipo de baixa fidelidade da interface (proposta 2)}
+    \legend{Fonte: Elaborado pelos autores}
     \label{fig:prototipo_baixa_bru}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_kayke.png}
-    \caption{Protótipo de baixa fidelidade da interface por Kayke Ahrens}
+    \caption{Protótipo de baixa fidelidade da interface (proposta 3)}
+    \legend{Fonte: Elaborado pelos autores}
     \label{fig:prototipo_baixa_kayke}
 \end{figure}
 
@@ -1539,6 +1493,7 @@ explicativas.
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_grafo.png}
     \caption{Protótipo de baixa fidelidade da interface final - Tela do grafo}
+    \legend{Fonte: Elaborado pelos autores}
     \label{fig:prototipo_baixa_grafo}
 \end{figure}
 
@@ -1546,6 +1501,7 @@ explicativas.
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_estatisticas.png}
     \caption{Protótipo de baixa fidelidade da interface final - Tela das estatísticas}
+    \legend{Fonte: Elaborado pelos autores}
     \label{fig:prototipo_baixa_estatisticas}
 \end{figure}
 
@@ -1599,6 +1555,15 @@ intuitiva, clara e acessível aos analistas de TI.
     \label{fig:prototipo_media_estatisticas}
 \end{figure}
 
+A Figura~\ref{fig:interface_final} mostra a interface final com um chamado inventado, digitado apenas para ilustração: a interface exibe a categoria prevista e a confiança, e o grafo de co-ocorrência, com nós em azul (a favor da classe prevista) e laranja (contra), o seletor entre SHAP e LIME e a lista de chamados recentes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagens/interface_final.jpg}
+    \caption{Interface final: classificação de um chamado digitado e grafo de co-ocorrência}
+    \label{fig:interface_final}
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
+
 \subsection{Arquitetura da solução}
 
 A arquitetura da solução é organizada em três camadas principais:
@@ -1619,15 +1584,14 @@ O fluxo geral de funcionamento da aplicação segue as seguintes etapas:
 
 \begin{enumerate}
     \item \textbf{Entrada do modelo} — a descrição curta e a descrição completa do chamado, sem remoção de \textit{stopwords}, são passadas como um par de textos ao tokenizador do BERTimbau, que as converte em \textit{tokens} com seus respectivos IDs e máscaras de atenção. A remoção de \textit{stopwords} é usada apenas na construção do grafo.
-    % [Kayke: confirmar que o treino não remove stopwords]
 
     \item \textbf{Classificação com BERTimbau} — o modelo BERTimbau com \textit{fine-tuning} processa a sequência de \textit{tokens} e produz, a partir da representação do \textit{token} [CLS], as probabilidades de pertencimento a cada categoria. A categoria com maior probabilidade é selecionada como predição, e o índice de confiança corresponde a essa probabilidade máxima.
 
     \item \textbf{Cálculo de explicabilidade} — sobre o mesmo texto de entrada, são calculados os valores SHAP e as importâncias LIME. Cada \textit{token} recebe um valor numérico que representa sua contribuição para a predição: valores positivos indicam contribuição para a classe predita, e valores negativos indicam contribuição contrária.
 
-    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho fixo, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON, com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
+    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho $w = 4$, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON, com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
 
-    \item \textbf{Apresentação ao analista} — a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, os \textit{tokens} mais relevantes destacados por cor e os valores SHAP e LIME comparativos.
+    \item \textbf{Apresentação ao analista} — a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, os \textit{tokens} destacados por cor (azul, a favor da classe prevista; laranja, contra) e os valores SHAP e LIME comparativos.
 \end{enumerate}
 
 \section{Detalhes de implementação}
@@ -1703,7 +1667,7 @@ Os experimentos seguiram os quatro cenários da Tabela~\ref{tab:cenarios}, todos
 
 \subsection{Cenários A e B: classificação}
 
-No cenário A, o \textit{baseline} SVM com TF-IDF foi treinado no conjunto de treino e avaliado no conjunto de teste, com a descrição curta e a descrição completa concatenadas como entrada. O TF-IDF usou unigramas e bigramas, frequência mínima de documento igual a 2 e escala sublinear; o classificador foi um \textit{LinearSVC} com $C = 1$, sem pesos de classe e semente 42. Assim como no BERTimbau, não foram removidas \textit{stopwords}. % [Kayke: confirmar C e class_weight no metrics.json do SVM]
+No cenário A, o \textit{baseline} SVM com TF-IDF foi treinado no conjunto de treino e avaliado no conjunto de teste, com a descrição curta e a descrição completa concatenadas como entrada. O TF-IDF usou unigramas e bigramas, frequência mínima de documento igual a 2 e escala sublinear; o classificador foi um \textit{LinearSVC} com $C = 1$, sem pesos de classe e semente 42. Assim como no BERTimbau, não foram removidas \textit{stopwords}.
 No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{subsubsec:dataset_finetuning}. Os dois classificadores foram comparados pelas métricas da Seção~\ref{sec:metricas_avaliacao}, com destaque para o F1-macro.
 
 \subsection{Cenário C: explicações SHAP e LIME}
@@ -1747,7 +1711,9 @@ portanto, apenas uma escolha metodológica.
 \subsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
-O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Bayer Brasil e da Aché, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Bayer tinha 191.350 chamados; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Aché tinha 9.317 chamados; após o descarte das categorias com menos de 100 chamados e dos chamados sem descrição, restaram 8.043. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.627 chamados, passou ainda pelo descarte de classes com menos de 100 chamados e pelo tratamento de textos idênticos com categorias divergentes. O resultado foram 53.279 chamados (Aché: 6.949; Bayer: 46.330), em 11 classes, entre elas a classe OUTROS. A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
+O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Bayer Brasil e da Aché, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Bayer tinha 191.350 chamados, abertos de janeiro de 2021 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Aché tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Aché: 6.949; Bayer: 46.330), em 11 classes, entre elas a classe OUTROS.
+
+A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
 
 O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
 
@@ -1762,16 +1728,259 @@ O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classi
 \section{Apresentação dos resultados}
 
 \subsection{Desempenho da classificação (cenários A e B)}
-% Tabela BERTimbau x SVM, com intervalos de confiança.
+\label{subsec:res_classificacao}
+
+A Tabela~\ref{tab:res_teste} apresenta o desempenho dos dois classificadores no conjunto de teste, com 5.293 chamados em 4.824 grupos de texto. O BERTimbau obteve F1-macro de 0,628 e o \textit{baseline} SVM com TF-IDF, de 0,591. A acurácia dos dois é próxima (0,724 e 0,719); a diferença aparece no F1-macro, que dá o mesmo peso a todas as classes, e vem da revocação (0,611 contra 0,550), pois a precisão é parecida (0,655 contra 0,662).
+
+\begin{table}[htb]
+  \centering
+  \caption{Desempenho dos classificadores no conjunto de teste}
+  \label{tab:res_teste}
+  \begin{tabular}{lcccc}
+    \toprule
+    Modelo & Acurácia & Precisão (macro) & Revocação (macro) & F1-macro \\
+    \midrule
+    Cenário A: SVM + TF-IDF & 0,719 & 0,662 & 0,550 & 0,591 \\
+    Cenário B: BERTimbau & 0,724 & 0,655 & 0,611 & 0,628 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores}
+\end{table}
+
+A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença é positiva com alta confiança (probabilidade de 99,8\% nas reamostragens), mas a estimativa pontual fica abaixo do critério de 5 pontos definido no TCC1 (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: a probabilidade de a diferença ser de pelo menos 5 pontos é de cerca de 21\%.
+
+A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por 3,55 dos 3,68 pontos de diferença no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste.
+
+\begin{table}[htb]
+  \centering
+  \caption{F1 por classe no conjunto de teste e diferença entre BERTimbau e SVM}
+  \label{tab:res_classe}
+  \small
+  \begin{tabular}{p{4.9cm}rcccc}
+    \toprule
+    Classe & Chamados & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC de 95\% (p.p.) \\
+    \midrule
+SISTEMAS\_E\_APLICACOES & 2.458 & 0,811 & 0,809 & +0,3 & $-$0,8 a 1,3 \\
+ACESSOS\_E\_IDENTIDADE & 610 & 0,802 & 0,775 & +2,7 & 0,5 a 8,8 \\
+SUPORTE\_E\_EQUIPAMENTOS & 589 & 0,722 & 0,731 & $-$0,8 & $-$3,8 a 1,8 \\
+CONSULTA\_E\_ORIENTACAO & 555 & 0,429 & 0,429 & 0,0 & $-$4,3 a 3,9 \\
+REDES\_E\_COMUNICACOES & 435 & 0,726 & 0,709 & +1,7 & $-$1,3 a 5,1 \\
+SOFTWARE & 297 & 0,568 & 0,483 & +8,5 & 3,2 a 13,7 \\
+SOLICITACAO\_DE\_SERVICO & 260 & 0,440 & 0,360 & +8,0 & 1,8 a 14,1 \\
+SERVIDORES & 40 & 0,667 & 0,613 & +5,4 & $-$4,9 a 17,3 \\
+CIBERSEGURANCA & 21 & 0,900 & 0,923 & $-$2,3 & $-$8,8 a 0,0 \\
+AQUISICAO\_TI & 16 & 0,839 & 0,667 & +17,2 & $-$7,0 a 44,8 \\
+OUTROS & 12 & 0,000 & 0,000 & 0,0 & 0,0 a 0,0 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. IC: intervalo de confiança por \textit{bootstrap} pareado; p.p.: pontos percentuais.}
+\end{table}
+
+A Tabela~\ref{tab:res_empresa} separa o teste por empresa. O F1-macro de cada empresa é calculado sobre as classes presentes em seus chamados (7 na Aché e 9 na Bayer). Os dois modelos têm desempenho muito maior na Aché, e a diferença a favor do BERTimbau é de 1,3 ponto na Aché, com intervalo que inclui o zero, e de 4,0 pontos na Bayer. Como a Bayer reúne 86\% dos chamados de teste, o resultado geral reflete sobretudo essa empresa. Os 716 chamados da Aché formam apenas 337 grupos de texto, e um desses textos, um roteiro de desligamento de colaborador, aparece em 298 chamados da classe ACESSOS\_E\_IDENTIDADE, todos classificados corretamente pelos dois modelos. 
+Sem esse grupo, restam 418 chamados da Aché, ainda nas mesmas 7 classes, e o F1-macro da empresa fica em 0,901 (BERTimbau) e 0,889 (SVM). A diferença continua de 1,3 ponto, o que mostra que esse grupo repetido não explica o resultado da Aché nem a diferença entre os modelos.
+
+\begin{table}[htb]
+  \centering
+  \caption{Desempenho no conjunto de teste, por empresa de origem}
+  \label{tab:res_empresa}
+  \small
+  \begin{tabular}{lrrccccc}
+    \toprule
+    Subconjunto & Chamados & Grupos & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC de 95\% (p.p.) \\
+    \midrule
+    Aché & 716 & 337 & 0,911 & 0,897 & +1,3 & $-$3,1 a 5,9 \\
+    Bayer & 4.577 & 4.487 & 0,515 & 0,474 & +4,0 & 1,6 a 6,5 \\
+    Total & 5.293 & 4.824 & 0,628 & 0,591 & +3,7 & 1,0 a 6,7 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. Grupos: conjuntos de chamados com texto idêntico.}
+\end{table}
+
+No conjunto de validação, a diferença segue a mesma direção. Após retirar um bloco de 491 chamados de SUPORTE\_E\_EQUIPAMENTOS com o mesmo texto (um \textit{checklist} preventivo de salas de reunião, que o SVM classificou como REDES\_E\_COMUNICACOES e o BERTimbau como SUPORTE\_E\_EQUIPAMENTOS), restam 4.803 chamados, nos quais o F1-macro foi de 0,591 para o BERTimbau e 0,555 para o SVM, uma diferença de 3,5 pontos (intervalo de 95\% de 1,3 a 6,1). Na validação inteira, de 5.294 chamados, a diferença seria de 11,9 pontos, inflada por esse único texto.
+
+A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no teste. Os erros mais frequentes ocorrem entre CONSULTA\_E\_ORIENTACAO e SISTEMAS\_E\_APLICACOES (180 chamados previstos como a segunda e 146 no sentido inverso), seguidos de SOLICITACAO\_DE\_SERVICO previstos como SISTEMAS\_E\_APLICACOES (78) e de SISTEMAS\_E\_APLICACOES previstos como SUPORTE\_E\_EQUIPAMENTOS (76). As classes de menor F1 são CONSULTA\_E\_ORIENTACAO (0,429), SOLICITACAO\_DE\_SERVICO (0,440) e OUTROS (0,000). Uma possível explicação, que este trabalho não testou, é que essas classes descrevem o tipo de pedido, e não o sistema ou equipamento envolvido, e por isso se sobrepõem às demais.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/matriz_confusao_teste.png}
+    \caption{Matriz de confusão do BERTimbau no conjunto de teste, normalizada por classe real}
+    \label{fig:matriz_confusao}
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
-% Fidelidade e estabilidade. Preencher depois da rodada oficial.
+As explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 616 segundos (cerca de 10 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local teve mediana de 0,68, com mínimo de 0,11.
+
+\subsubsection{Fidelidade}
+\label{subsubsec:res_fidelidade}
+
+A Tabela~\ref{tab:res_fidelidade} traz a fidelidade dos dois métodos nos 98 chamados. Na \textit{comprehensiveness}, mede-se a queda da probabilidade da classe prevista ao retirar as palavras apontadas pelo método (quanto maior, melhor); na \textit{sufficiency}, a queda ao manter apenas essas palavras (quanto menor, melhor); o Tau-LOO é a correlação de Kendall entre o peso de cada palavra e a queda de probabilidade ao retirá-la sozinha (quanto maior, melhor). As duas primeiras são comparadas à queda obtida com palavras sorteadas.
+
+\begin{table}[htb]
+  \centering
+  \caption{Fidelidade das explicações do SHAP e do LIME nos 98 chamados da amostra}
+  \label{tab:res_fidelidade}
+  \small
+  \begin{tabular}{p{4.6cm}lccc}
+    \toprule
+    Medida & Método & Explicação & Aleatório & Acima do acaso \\
+    \midrule
+    \textit{Comprehensiveness} (maior é melhor) & LIME & 0,542 & 0,192 & 94 de 98 \\
+     & SHAP & 0,526 & 0,182 & 96 de 98 \\
+    \addlinespace
+    \textit{Sufficiency} (menor é melhor) & LIME & 0,019 & 0,309 & 96 de 98 \\
+     & SHAP & 0,010 & 0,317 & 93 de 98 \\
+    \addlinespace
+    Tau-LOO (maior é melhor) & LIME & 0,412 & -- & 95 de 98 \\
+     & SHAP & 0,353 & -- & 95 de 98 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. Valores médios por chamado. Cinco sorteios aleatórios por chamado, semente 42. ``Acima do acaso'': chamados em que a explicação supera o sorteio. No Tau-LOO não há linha de base aleatória, e a última coluna indica os chamados com valor positivo.}
+\end{table}
+
+Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,53 (SHAP), contra 0,19 e 0,18 ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,02 e 0,01), contra 0,31 e 0,32 com palavras sorteadas. As diferenças entre os métodos são pequenas: o LIME tem valores um pouco maiores na \textit{comprehensiveness} e no Tau-LOO (0,54 contra 0,53 e 0,41 contra 0,35), e o SHAP, uma queda menor na \textit{sufficiency} (0,010 contra 0,019). Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de $-0{,}015$ (intervalo de $-0{,}037$ a 0,006), e na \textit{sufficiency}, de $-0{,}008$ (intervalo de $-0{,}033$ a 0,012); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}059$ (intervalo de $-0{,}090$ a $-0{,}027$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra.
+
+\subsubsection{Estabilidade}
+\label{subsubsec:res_estabilidade}
+
+A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, explicados 5 vezes cada, com sementes diferentes (Tabela~\ref{tab:res_estabilidade}). Em 3 desses chamados, todos os campos têm até 10 palavras e o SHAP foi calculado de forma exata, sem sorteio, de modo que a explicação é idêntica nas cinco repetições (estabilidade 1 por construção). Nos outros 9, ao menos um campo foi estimado por amostragem, com orçamento de 500 consultas, e o SHAP variou de uma repetição para outra.
+
+\begin{table}[htb]
+  \centering
+  \caption{Estabilidade das explicações do SHAP e do LIME em 12 chamados, com 5 repetições}
+  \label{tab:res_estabilidade}
+  \small
+  \begin{tabular}{p{3.9cm}rccc}
+    \toprule
+    Método & Chamados & Jaccard (acaso) & Spearman & Topo igual (acaso) \\
+    \midrule
+    LIME & 12 & 0,659 (0,213) & 0,774 & 0,950 (0,062) \\
+    SHAP, todos & 12 & 0,638 (0,213) & 0,736 & 0,758 (0,062) \\
+    SHAP, só amostragem & 9 & 0,517 (0,135) & 0,648 & 0,678 (0,043) \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. Valores médios por chamado. Jaccard: das 5 palavras mais relevantes entre as repetições. ``Topo igual'': fração das repetições com a mesma palavra no topo. Entre parênteses, o valor esperado ao acaso. ``Só amostragem'' exclui os 3 chamados em que o SHAP foi exato.}
+\end{table}
+
+Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% das repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,638 e a mesma palavra no topo em 76\% das repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,517 e 68\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,517 do SHAP, Spearman de 0,706 contra 0,648 e a mesma palavra no topo em 93\% das repetições contra 68\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 500 consultas, não foi mais estável que o LIME, e só o cálculo exato dá estabilidade total ao SHAP. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo.
+
+\subsubsection{Concordância entre SHAP e LIME}
+\label{subsubsec:res_concordancia}
+
+A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e o LIME apontaram como importantes para a classe prevista. Como os pesos estão em escalas diferentes (probabilidade no SHAP, coeficiente do modelo linear local no LIME), a comparação usa a ordem e o sinal das palavras, e não o valor dos pesos. A Tabela~\ref{tab:res_concordancia} mostra o resultado, ao lado do valor esperado ao acaso.
+
+\begin{table}[htb]
+  \centering
+  \caption{Concordância entre SHAP e LIME nos 98 chamados da amostra}
+  \label{tab:res_concordancia}
+  \small
+  \begin{tabular}{p{5.6cm}ccc}
+    \toprule
+    Medida & Resultado & Ao acaso & Chamados acima do acaso \\
+    \midrule
+    Correlação de Spearman entre os pesos (média) & 0,704 & 0,000 & 98 de 98 \\
+    Jaccard das 5 palavras mais relevantes (média) & 0,575 & 0,226 & 91 de 96 \\
+    Mesma palavra no topo (fração de chamados) & 0,714 (70 de 98) & 0,068 & -- \\
+    Palavras com o mesmo sinal (média) & 0,792 & 0,500 & 97 de 98 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. O Jaccard considera apenas os 96 chamados com mais de 5 palavras.}
+\end{table}
+
+Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 70 dos 98 chamados (71\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,757. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte.
+
+A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálculo do SHAP e por acerto do modelo. A concordância é maior nos 27 chamados em que o SHAP foi calculado de forma exata (Spearman de 0,864) do que nos 71 em que houve amostragem (0,643). Os chamados do primeiro grupo são os mais curtos, então os dados não separam o efeito do método de cálculo do efeito do tamanho do texto. Em todos os chamados, a correlação entre o número de palavras e a concordância de Spearman é de $-0{,}67$ ($p < 0{,}001$): quanto mais palavras, menos os dois métodos concordam. Já entre acertos e erros do modelo, a concordância é praticamente a mesma (Spearman de 0,704 nos dois grupos), com amostra de erros pequena (18 chamados).
+
+\begin{table}[htb]
+  \centering
+  \caption{Concordância entre SHAP e LIME por subconjunto de chamados}
+  \label{tab:res_concordancia_grupos}
+  \small
+  \begin{tabular}{lrcccc}
+    \toprule
+    Subconjunto & Chamados & Spearman & Jaccard & Mesmo topo & Mesmo sinal \\
+    \midrule
+    Todos & 98 & 0,704 & 0,575 & 0,714 & 0,792 \\
+    SHAP exato & 27 & 0,864 & 0,762 & 0,741 & 0,899 \\
+    SHAP por amostragem & 71 & 0,643 & 0,509 & 0,704 & 0,752 \\
+    Acertos do modelo & 80 & 0,704 & 0,583 & 0,700 & 0,788 \\
+    Erros do modelo & 18 & 0,704 & 0,535 & 0,778 & 0,815 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. Valores médios por chamado; ``Mesmo topo'' é a fração de chamados com a mesma palavra no topo. O Jaccard considera apenas chamados com mais de 5 palavras (25 no SHAP exato, 71 na amostragem, 79 nos acertos e 17 nos erros).}
+\end{table}
 
 \subsection{Grafo de co-ocorrência (cenário D)}
+O grafo foi avaliado por rastreabilidade em três chamados da amostra de 98, escolhidos para cobrir situações diferentes: um acerto com vocabulário típico da classe (caso 1), um erro do modelo (caso 2) e um acerto em que os dois métodos divergem nas palavras secundárias (caso 3). A Tabela~\ref{tab:res_casos} resume os três, e as Figuras~\ref{fig:grafo_caso1}, \ref{fig:grafo_caso2} e~\ref{fig:grafo_caso3} mostram os grafos na interface.
+
+\begin{table}[htb]
+  \centering
+  \caption{Chamados usados nos estudos de caso do grafo}
+  \label{tab:res_casos}
+  \footnotesize
+  \begin{tabular}{cp{3.8cm}p{4.9cm}cc}
+    \toprule
+    Caso & Chamado & Classe real $\rightarrow$ prevista & Conf. & Nós/arestas \\
+    \midrule
+    1 & ache\_ticket\_001118 & AQUISICAO\_TI $\rightarrow$ igual & 0,91 & 16/42 \\
+    2 & bayer\_ticket\_001351 & OUTROS $\rightarrow$ SUPORTE\_E\_EQUIPAMENTOS & 0,42 & 4/6 \\
+    3 & bayer\_ticket\_016056 & SOLICITACAO\_DE\_SERVICO $\rightarrow$ igual & 0,83 & 10/25 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores.}
+\end{table}
+
+Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavra que aparece no texto do chamado, com o campo em que ocorre e os pesos do SHAP e do LIME; cada aresta liga dois nós existentes e tem como peso o número de vezes que o par co-ocorre na janela deslizante de 4 palavras, valor que pode ser recalculado a partir do texto.
+
+No caso 1, o chamado pede a transferência de uma licença do pacote \textit{Office} para outra pessoa. As duas palavras de maior peso a favor da classe são as mesmas nos dois métodos, \textit{licença} (SHAP de 0,476; LIME de 0,447) e \textit{office} (0,151 e 0,138), e são o vocabulário esperado para a aquisição de \textit{software}. O grafo mostra \textit{licença} como o maior nó, ligado a \textit{office} e \textit{pacote}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso1_ache_001118.png}
+    \caption{Grafo de co-ocorrência do caso 1 (ache\_ticket\_001118), com pesos SHAP}
+    \label{fig:grafo_caso1}
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
+
+No caso 2, o chamado tem uma única frase, sobre a instalação de duas impressoras, e a categoria real é OUTROS; o modelo previu SUPORTE\_E\_EQUIPAMENTOS com confiança de 0,42. O grafo tem apenas 4 nós. A palavra de maior peso, \textit{Rena}, a marca de uma das impressoras, pesa contra a classe prevista (SHAP de $-$0,248; LIME de $-$0,290), assim como \textit{impressoras} ($-$0,101 e $-$0,077), enquanto o marcador de anonimização \textit{[PERSON]} pesa a favor (0,124 e 0,144). A explicação mostra que a decisão se apoiou em muito pouca evidência e que um marcador de anonimização influenciou a previsão, o que um analista pode questionar.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso2_bayer_001351.png}
+    \caption{Grafo de co-ocorrência do caso 2 (bayer\_ticket\_001351), com pesos SHAP}
+    \label{fig:grafo_caso2}
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
+
+No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concordam na palavra de maior peso, \textit{Favor} (SHAP de 0,322; LIME de 0,346), típica de um pedido de serviço. Nas demais palavras, porém, divergem: \textit{limpeza} tem peso de 0,165 no SHAP e de apenas 0,002 no LIME. O grafo, construído com os pesos do SHAP, e o do LIME, portanto, destacam conjuntos diferentes de palavras além da primeira, o que o analista pode verificar alternando o método na interface.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso3_bayer_016056.png}
+    \caption{Grafo de co-ocorrência do caso 3 (bayer\_ticket\_016056), com pesos SHAP}
+    \label{fig:grafo_caso3}
+    \legend{Fonte: Elaborado pelos autores}
+\end{figure}
 
 \section{Análise crítica e comparação}
+\textbf{Classificação.} O BERTimbau superou o \textit{baseline} SVM em 3,7 pontos percentuais de F1-macro (intervalo de 95\% de 1,0 a 6,7), abaixo do critério de 5 pontos do TCC1. Os dados mostram que o ganho existe, mas não que ele atinja o critério: o intervalo inclui o 5, e a probabilidade de a diferença verdadeira ser de pelo menos 5 pontos é de cerca de 21\%. O ganho vem da revocação e se concentra em poucas classes (SOFTWARE e SOLICITACAO\_DE\_SERVICO, além de duas classes pequenas), enquanto na maior classe os dois modelos empatam. Há ainda dois cuidados de leitura: o resultado na Aché é pouco informativo, pois seus chamados formam poucos grupos de texto, e na validação um único texto repetido 491 vezes inflaria a diferença para 11,9 pontos. Por isso, o resultado mais seguro é o do teste, com os grupos de texto reamostrados juntos.
+ 
+\textbf{Fidelidade.} O SHAP e o LIME têm fidelidade bem acima do acaso, e a comparação chamado a chamado não distingue os métodos na \textit{comprehensiveness} nem na \textit{sufficiency}. Só no Tau-LOO há diferença, a favor do LIME (diferença média de $-$0,059 para o SHAP, com intervalo que exclui o zero). Isso difere do que se poderia esperar de um método com garantias teóricas como o SHAP, mas uma diferença em uma das três medidas não basta para afirmar que o LIME seja mais fiel.
+ 
+\textbf{Estabilidade.} \citeonline{salih2023} indicam que o SHAP tende a ser mais estável que o LIME. Neste trabalho, isso só vale quando o SHAP é calculado de forma exata, o que ocorre em textos curtos (até 10 palavras por campo), onde a explicação é idêntica em todas as repetições. Nos 9 chamados em que o SHAP foi estimado por amostragem, com orçamento de 500 consultas, o LIME foi mais estável (mesma palavra no topo em 93\% das repetições, contra 68\%). Uma explicação possível, que este trabalho não testou, é que 500 consultas são poucas para textos longos; o orçamento, portanto, é um parâmetro que troca tempo de processamento por estabilidade, e o resultado vale para o orçamento usado. A amostra de 12 chamados é pequena, e as conclusões são indicativas.
+ 
+\textbf{Concordância.} Os dois métodos concordam bem acima do acaso (a mesma palavra no topo em 71\% dos chamados), mas a concordância cai com o tamanho do texto. Assim, em chamados longos, a escolha do método muda de forma relevante quais palavras o analista vê como importantes.
+ 
+\textbf{Grafo.} Nos três estudos de caso, a rastreabilidade se cumpriu: cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME. Os casos também mostraram o uso prático da explicação: no caso 2, ela expôs que um erro do modelo se apoiou em muito pouca evidência e em um marcador de anonimização, e no caso 3, que os dois métodos concordam na palavra de maior peso, mas destacam palavras diferentes depois dela. A limitação é que três casos, escolhidos para ilustrar situações diferentes, mostram que o grafo é rastreável, mas não que ele melhore a decisão de um analista.
 
 \section{Discussão}
+A hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}) tem duas partes, e os resultados as sustentam de forma diferente. A primeira afirma que o grafo ponderado pelos valores SHAP e LIME contribui para a auditabilidade ao permitir rastrear os termos que levaram à categoria. Essa parte foi sustentada nos termos em que foi definida, a rastreabilidade, nos três estudos de caso. Como a auditabilidade foi medida por rastreabilidade e não em um teste com analistas, o resultado mostra que o caminho da decisão pode ser reconstruído, e não que um analista o reconstrua com facilidade.
+ 
+A segunda parte afirma que o SHAP e o LIME produzem explicações com fidelidade e estabilidade distintas. Na fidelidade, a diferença é pequena e só aparece em uma das três medidas, a favor do LIME. Na estabilidade, a diferença depende de como o SHAP é calculado: ele é perfeitamente estável quando exato e menos estável que o LIME quando estimado por amostragem com 500 consultas. A parte é, portanto, sustentada de forma condicional, e o resultado não sustenta a ideia de que um método seja melhor em todos os casos.
+ 
+Em relação aos objetivos específicos, o ganho do BERTimbau sobre o \textit{baseline} foi analisado (3,7 pontos, abaixo do critério de 5), e SHAP e LIME foram comparados em fidelidade, estabilidade e concordância. A consistência semântica das explicações foi avaliada apenas de forma qualitativa, nos casos: no caso 1, as palavras de maior peso (\textit{licença} e \textit{office}) são o vocabulário esperado para a classe, e no caso 2 a explicação mostra uma previsão apoiada em muito pouca evidência. \citeonline{razma2026} observam que o \textit{fine-tuning} de um modelo como o BERT pode destacar termos coerentes com o significado do chamado; os casos analisados aqui mostram que isso ocorre em alguns chamados, mas não em todos.
+ 
+Para a prática de suporte, os resultados sugerem que o grafo é mais útil como ferramenta de auditoria dos erros e das previsões de baixa confiança, como no caso 2, do que como justificativa de todos os acertos. Por fim, os resultados valem para os dados e a configuração usados (duas empresas, um treinamento, uma amostra de 98 chamados), e as limitações descritas no Capítulo~\ref{cap:conclusao} delimitam o alcance das conclusões.
 
 % ===============================================================
 % CAPÍTULO 6 - CONCLUSÃO
@@ -1780,10 +1989,47 @@ O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classi
 \label{cap:conclusao}
 
 \section{Retomada do problema e dos objetivos}
+Este trabalho partiu de um problema: classificadores baseados em \textit{transformers} acertam bem a categoria de um chamado de TI, mas não mostram por que a escolheram, o que dificulta a auditoria de suas decisões. A pergunta de pesquisa foi como se comparam o SHAP e o LIME quanto à fidelidade e à estabilidade das explicações de um classificador BERTimbau, e de que forma um grafo de co-ocorrência contribui para tornar o processo de classificação auditável.
+
+Para respondê-la, os chamados de duas empresas (53.279 chamados, em 11 categorias) foram usados para treinar um \textit{baseline} SVM com TF-IDF e ajustar o BERTimbau, e as decisões do BERTimbau foram explicadas por SHAP e LIME e representadas em um grafo. Os resultados, por objetivo específico, foram os seguintes.
+
+\begin{enumerate}
+    \item \textbf{Ganho do BERTimbau sobre o \textit{baseline}.} O BERTimbau obteve F1-macro de 0,628 contra 0,591 do SVM, uma diferença de 3,7 pontos percentuais (intervalo de confiança de 95\% de 1,0 a 6,7), abaixo do critério de 5 pontos definido no TCC1. O ganho existe, mas os dados não mostram que atinja o critério, e ele se concentra em poucas classes.
+
+    \item \textbf{Comparação entre SHAP e LIME.} Em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata, mas menos estável que o LIME quando estimado por amostragem com 500 consultas. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
+
+    \item \textbf{Auditabilidade pelo grafo.} Nos três estudos de caso, cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME, o que atende à auditabilidade nos termos em que foi definida, a rastreabilidade. Não se mediu, porém, se analistas conseguem acompanhar a decisão a partir do grafo.
+
+    \item \textbf{Consistência semântica.} Foi avaliada apenas de forma qualitativa, nos casos: em um deles, as palavras de maior peso são o vocabulário esperado para a classe, e em outro a explicação expôs uma previsão apoiada em muito pouca evidência.
+\end{enumerate}
+
+Assim, a hipótese de pesquisa foi sustentada na parte da rastreabilidade e, na parte da comparação entre os métodos, de forma condicional: nenhum dos dois foi melhor em todas as medidas.
 
 \section{Contribuições para a Computação}
+As contribuições deste trabalho para a área são as seguintes.
+ 
+\begin{itemize}
+    \item \textbf{Comparação empírica entre SHAP e LIME em chamados de TI em português.} A literatura identificada não traz essa comparação para um BERT \textit{fine-tuned} em chamados de suporte em português brasileiro. Os resultados mostram que a vantagem de estabilidade atribuída ao SHAP depende de como ele é calculado, e que a escolha do método importa mais em textos longos.
+ 
+    \item \textbf{Protocolo de avaliação das explicações.} O trabalho reúne, em um mesmo procedimento, medidas de fidelidade, estabilidade e concordância, cada uma comparada ao valor esperado ao acaso, com intervalos de confiança por \textit{bootstrap} pareado. O procedimento pode ser reaplicado a outros classificadores de texto.
+ 
+    \item \textbf{Grafo de co-ocorrência com pesos SHAP e LIME como camada de auditabilidade.} O grafo liga cada decisão às palavras do chamado, à janela de co-ocorrência e aos pesos dos dois métodos, e foi implementado em uma interface \textit{web} que serve de prova de conceito.
+ 
+    \item \textbf{Evidência sobre o BERTimbau frente a um \textit{baseline} clássico.} O trabalho mede o ganho do modelo neural em chamados reais de duas empresas, com a divisão dos dados agrupada pelo texto do chamado, de modo que textos repetidos não vazem entre treino e teste, e mostra como textos muito repetidos podem inflar a diferença entre os modelos.
+\end{itemize}
 
 \section{Limitações e trabalhos futuros}
+Este trabalho tem limitações que delimitam o alcance de seus resultados.
+
+Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Bayer reúne 86\% do conjunto de teste. Os chamados da Aché cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Aché traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha.
+
+Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo.
+
+Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 500 consultas, o mesmo número de amostras do LIME; orçamentos maiores podem alterar a estabilidade medida. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, as medidas de fidelidade foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e por isso seus valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
+
+Quanto ao grafo, a auditabilidade foi avaliada pela rastreabilidade, em estudos de caso, e não em um teste com analistas de TI. O trabalho, portanto, mostra que cada nó e cada aresta podem ser levados de volta ao chamado, mas não que analistas conseguem, na prática, acompanhar a decisão do classificador a partir do grafo.
+
+Como trabalhos futuros, sugerem-se: (i) repetir o treinamento com outras sementes e incluir chamados de outras empresas e de períodos mais longos; (ii) explicar uma amostra maior de chamados, com mais amostras e consultas por explicação, para medir a estabilidade com mais precisão; (iii) avaliar o grafo em um teste com analistas de TI; e (iv) comparar o grafo ponderado por SHAP e por LIME com outras formas de apresentar as explicações.
 
 % ---------------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
@@ -1793,24 +2039,6 @@ O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classi
 % ===============================================================
 % CAPÍTULO 4 - REFERÊNCIAS BIBLIOGRÁFICAS
 % ===============================================================
-% As referências bibliográficas são geradas automaticamente a partir
-% do arquivo bibliografia.bib, seguindo o padrão ABNT (NBR 6023).
-%
-% COMO CITAR no texto:
-%   \cite{chave}         -> (SOBRENOME, ano) — citação indireta
-%   \citeonline{chave}   -> Sobrenome (ano) — citação direta no texto
-%
-% TIPOS DE REFERÊNCIA no arquivo .bib:
-%   @book        -> Livros
-%   @article     -> Artigos de periódicos
-%   @inproceedings -> Artigos em anais de eventos
-%   @mastersthesis -> Dissertações de mestrado
-%   @phdthesis   -> Teses de doutorado
-%   @misc        -> Sites, vídeos e outros materiais
-%   @manual      -> Documentação técnica
-%
-% Veja o arquivo bibliografia.bib para exemplos de cada tipo.
-% ---------------------------------------------------------------
 \bibliography{bibliografia}
 \bibliographystyle{abntex2-alf}
 % ---------------------------------------------------------------
@@ -1822,69 +2050,26 @@ O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classi
 \chapter{Cronograma de atividades}
 \label{ap:cronograma}
 
-O cronograma a seguir apresenta as atividades do TCC2, organizadas em quatro fases ao longo de 16 semanas. Em relação ao plano inicial, a interface passou a ser servida com \textit{Flask}, em vez de \textit{FastAPI}.
+O cronograma a seguir apresenta as fases do TCC2, com as datas em que foram concluídas e o status atual.
 
-\begin{figure}[H]
-    \centering
-    \caption{Cronograma de atividades -- Diagrama de Gantt}
-    \label{fig:gantt}
-    
-    \resizebox{\textwidth}{!}{
-        \begin{ganttchart}[
-            hgrid,
-            vgrid,
-            x unit=0.7cm,
-            y unit title=0.6cm,
-            y unit chart=0.7cm,
-            title height=1,
-            bar height=0.5,
-            bar label font=\scriptsize,
-            title label font=\small,
-            milestone label font=\scriptsize\itshape,
-            group label font=\scriptsize\bfseries,
-            bar/.append style={fill=blue!40},
-            group/.append style={draw=black, fill=blue!70},
-            milestone/.append style={fill=red!70},
-            link/.style={->, thick, black}
-        ]{1}{16}
-            \gantttitle{Semanas}{16} \\
-            \gantttitlelist{1,...,16}{1} \\
-     
-            \ganttgroup{Fase 1: Dados e modelo}{1}{5} \\
-            \ganttbar{Obtenção e limpeza do dataset}{1}{2} \\
-            \ganttbar{Pré-processamento}{2}{3} \\
-            \ganttbar{Fine-tuning do BERTimbau}{3}{5} \\
-            \ganttmilestone{Modelo treinado e avaliado}{5} \\
-     
-            \ganttgroup{Fase 2: XAI e grafo}{5}{9} \\
-            \ganttbar{Implementação do SHAP e LIME}{5}{7} \\
-            \ganttbar{Construção do grafo de co-ocorrência}{7}{9} \\
-            \ganttmilestone{Pipeline XAI funcional}{9} \\
-     
-            \ganttgroup{Fase 3: Sistema e interface}{9}{13} \\
-            \ganttbar{Desenvolvimento da API Flask}{9}{11} \\
-            \ganttbar{Desenvolvimento do frontend React}{10}{13} \\
-            \ganttbar{Integração backend + frontend}{12}{13} \\
-            \ganttmilestone{Protótipo funcional completo}{13} \\
-     
-            \ganttgroup{Fase 4: Validação e escrita}{13}{16} \\
-            \ganttbar{Experimentos e análise de resultados}{13}{15} \\
-            \ganttbar{Redação do TCC2}{5}{16} \\
-            \ganttmilestone{Entrega final}{16}
-     
-            \ganttlink{elem2}{elem3}
-            \ganttlink{elem3}{elem4}
-            \ganttlink{elem4}{elem5}
-            \ganttlink{elem7}{elem8}
-            \ganttlink{elem8}{elem9}
-            \ganttlink{elem11}{elem12}
-            \ganttlink{elem12}{elem13}
-            \ganttlink{elem14}{elem15}
-        \end{ganttchart}
-    }
-    
-    \legend{Fonte: Elaborado pelos autores}
-\end{figure}
+\begin{table}[htb]
+  \centering
+  \caption{Cronograma do TCC2, com datas e status}
+  \label{tab:cronograma}
+  \small
+  \begin{tabular}{p{4.2cm}p{4.6cm}p{3.6cm}}
+    \toprule
+    Fase & Período & Status \\
+    \midrule
+    1. Dados e modelo & setembro a 04/10/2026 & Concluída (modelo final treinado em 04/10) \\
+    2. XAI e grafo & outubro a 01/11/2026 & Concluída (rodada oficial do SHAP e do LIME em 01/11) \\
+    3. Sistema e interface & até 05/11/2026 & Concluída (prova de conceito funcionando em 05/11) \\
+    4. Escrita do documento & 02/11 a 07/11/2026 & Concluída (capítulos 1 a 6 redigidos) \\
+    5. Prévia e entrega & 10/11 e 24/11/2026 & Prévia da banca e entrega final agendadas \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores. Em relação ao plano inicial, a interface passou a ser servida com \textit{Flask}, em vez de \textit{FastAPI}.}
+\end{table}
 
 \end{apendicesenv}
 
