@@ -90,6 +90,10 @@ Kayke Ahrens Biscegli}
 % ---------------------------------------------------------------
 % INÍCIO DO DOCUMENTO
 % ---------------------------------------------------------------
+% Legenda "Fonte:" em tamanho menor que o texto (ABNT)
+\let\legendoriginal\legend
+\renewcommand{\legend}[1]{\legendoriginal{\small #1}}
+\setlength{\emergencystretch}{3em}
 \begin{document}
 
 % Seleciona o idioma do documento
@@ -162,44 +166,45 @@ The results were integrated into a web interface that classifies a typed ticket,
 \begin{siglas}
   \item[AOPC] \textit{Area Over the Perturbation Curve} (Área sobre a Curva de Perturbação)
   \item[API] \textit{Application Programming Interface} (Interface de Programação de Aplicações)
-  \item[BEGNN] \textit{BERT-Enhanced Graph Neural Network}
-  \item[BERT] \textit{Bidirectional Encoder Representations from Transformers}
+  \item[BEGNN] \textit{BERT-Enhanced Graph Neural Network} (Rede Neural de Grafos Aprimorada por BERT)
+  \item[BERT] \textit{Bidirectional Encoder Representations from Transformers} (Representações de Codificador Bidirecional a partir de Transformers)
   \item[BERTimbau] Variante do BERT pré-treinada para o português brasileiro
-  \item[BiLSTM] \textit{Bidirectional Long Short-Term Memory}
+  \item[BiLSTM] \textit{Bidirectional Long Short-Term Memory} (Memória de Longo e Curto Prazo Bidirecional)
   \item[CNN] \textit{Convolutional Neural Network} (Rede Neural Convolucional)
   \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
   \item[CSS] \textit{Cascading Style Sheets} (Folhas de Estilo em Cascata)
   \item[GCN] \textit{Graph Convolutional Network} (Rede Neural Convolucional em Grafos)
-  \item[GloVe] \textit{Global Vectors for Word Representation}
+  \item[GloVe] \textit{Global Vectors for Word Representation} (Vetores Globais para Representação de Palavras)
   \item[GNN] \textit{Graph Neural Network} (Rede Neural de Grafos)
-  \item[GPT] \textit{Generative Pre-trained Transformer}
+  \item[GPT] \textit{Generative Pre-trained Transformer} (Transformer Generativo Pré-treinado)
   \item[GPU] \textit{Graphics Processing Unit} (Unidade de Processamento Gráfico)
-  \item[HOOM] \textit{Hybrid Online Offline Model}
+  \item[HOOM] \textit{Hybrid Online Offline Model} (Modelo Híbrido \textit{Online} e \textit{Offline})
+  \item[ITIL] \textit{Information Technology Infrastructure Library} (Biblioteca de Infraestrutura de Tecnologia da Informação)
   \item[ITSM] \textit{IT Service Management} (Gerenciamento de Serviços de TI)
-  \item[JSON] \textit{JavaScript Object Notation}
+  \item[JSON] \textit{JavaScript Object Notation} (Notação de Objetos JavaScript)
   \item[LGPD] Lei Geral de Proteção de Dados Pessoais
-  \item[LIME] \textit{Local Interpretable Model-Agnostic Explanations}
+  \item[LIME] \textit{Local Interpretable Model-Agnostic Explanations} (Explicações Locais Interpretáveis Independentes de Modelo)
   \item[LOO] \textit{Leave-One-Out} (Deixar Um de Fora)
-  \item[LSTM] \textit{Long Short-Term Memory}
-  \item[mBERT] \textit{Multilingual BERT}
-  \item[MLM] \textit{Masked Language Modeling}
+  \item[LSTM] \textit{Long Short-Term Memory} (Memória de Longo e Curto Prazo)
+  \item[mBERT] \textit{Multilingual BERT} (BERT Multilíngue)
+  \item[MLM] \textit{Masked Language Modeling} (Modelagem de Linguagem com Máscara)
   \item[MLP] \textit{Multilayer Perceptron} (Perceptron Multicamadas)
   \item[NER] \textit{Named Entity Recognition} (Reconhecimento de Entidades Nomeadas)
-  \item[NLTK] \textit{Natural Language Toolkit}
-  \item[NSP] \textit{Next Sentence Prediction}
+  \item[NLTK] \textit{Natural Language Toolkit} (Kit de Ferramentas de Linguagem Natural)
+  \item[NSP] \textit{Next Sentence Prediction} (Predição da Próxima Sentença)
   \item[PLN] Processamento de Linguagem Natural
   \item[PMI] \textit{Pointwise Mutual Information} (Informação Mútua Pontual)
   \item[PT-BR] Português Brasileiro
   \item[RNN] \textit{Recurrent Neural Network} (Rede Neural Recorrente)
-  \item[RoBERTa] \textit{Robustly Optimized BERT Pretraining Approach}
-  \item[SHAP] \textit{SHapley Additive exPlanations}
+  \item[RoBERTa] \textit{Robustly Optimized BERT Pretraining Approach} (Abordagem de Pré-treinamento do BERT Robustamente Otimizada)
+  \item[SHAP] \textit{SHapley Additive exPlanations} (Explicações Aditivas de Shapley)
   \item[SLA] \textit{Service Level Agreement} (Acordo de Nível de Serviço)
-  \item[SMOTE] \textit{Synthetic Minority Oversampling Technique}
+  \item[SMOTE] \textit{Synthetic Minority Oversampling Technique} (Técnica de Sobreamostragem Sintética de Minorias)
   \item[SVM] \textit{Support Vector Machine} (Máquina de Vetores de Suporte)
-  \item[TF-IDF] \textit{Term Frequency–Inverse Document Frequency}
+  \item[TF-IDF] \textit{Term Frequency–Inverse Document Frequency} (Frequência do Termo–Inverso da Frequência nos Documentos)
   \item[TI] Tecnologia da Informação
   \item[XAI] \textit{Explainable Artificial Intelligence} (Inteligência Artificial Explicável)
-  \item[XLM-RoBERTa] \textit{Cross-lingual Language Model RoBERTa}
+  \item[XLM-RoBERTa] \textit{Cross-lingual Language Model RoBERTa} (Modelo de Linguagem Multilíngue RoBERTa)
   \item[ZHAW] \textit{Zürcher Hochschule für Angewandte Wissenschaften} (Universidade de Ciências Aplicadas de Zurique)
 \end{siglas}
 
@@ -221,75 +226,26 @@ The results were integrated into a web interface that classifies a typed ticket,
 \chapter{Introdução}
 \label{cap:introducao}
 
-A gestão eficiente de \textit{tickets} de suporte técnico em 
-organizações de TI enfrenta desafios crescentes devido ao 
-volume elevado de chamados e à complexidade semântica dos 
-textos gerados por usuários não técnicos \cite{zemp2021, 
-razma2026}. Este trabalho investiga o uso de um 
-\textit{pipeline} de classificação automática utilizando 
-Processamento de Linguagem Natural (PLN) com modelos BERT 
-(\textit{Bidirectional Encoder Representations from 
-Transformers}, modelos de linguagem baseados em redes neurais 
-profundas), técnicas de explicabilidade SHAP 
-(\textit{SHapley Additive exPlanations}) e LIME 
-(\textit{Local Interpretable Model-Agnostic Explanations}) 
-— métodos que identificam quais termos do texto influenciaram 
-a decisão do modelo — e visualização em grafos de 
-co-ocorrência (estruturas que representam relações entre 
-termos do texto) para tornar transparente o processo 
-decisório.
+Os \textit{helpdesks} das organizações recebem grandes volumes de chamados de suporte de Tecnologia da Informação (TI): empresas modernas geram milhares de chamados por mês \cite{razma2026}, e cada um precisa ser lido, classificado em uma categoria e encaminhado à equipe responsável. Os dados deste trabalho dão a dimensão: a Aché registrou 9.317 chamados em um único mês (abril de 2026), e a Bayer, 191.350 entre janeiro de 2021 e agosto de 2026. Quando essa triagem é manual, ela é lenta e inconsistente, e os chamados trazem descrições variadas, com jargão técnico, erros de ortografia e expressões coloquiais, o que a torna ainda mais difícil \cite{zemp2021}.
+
+O custo de uma triagem ruim recai sobre toda a organização. Um chamado classificado na categoria errada vai para uma equipe sem competência para resolvê-lo, e o ciclo de reatribuições aumenta o tempo de resolução, desperdiça o tempo da equipe e frustra o usuário \cite{harun2023}. Esse atraso pode comprometer o cumprimento do SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço), o prazo de resolução acordado com o usuário, com impacto na produtividade da organização e na satisfação dos usuários \cite{razma2026}. A triagem manual também depende do conhecimento de cada analista sobre as categorias da empresa, conhecimento que se perde com a rotatividade \cite{wahba2023}, e, no Brasil, o problema é agravado pela informalidade da linguagem dos usuários \cite{pereira2023}.
+
+Por isso, a classificação automática de chamados é estudada com Processamento de Linguagem Natural (PLN) e já chegou à prática: no estudo de \citeonline{zemp2021}, com mais de um milhão de chamados de um banco, uma CNN (\textit{Convolutional Neural Network} -- Rede Neural Convolucional) alcançou 92\% de acurácia de validação, e a previsão do serviço afetado foi considerada útil, por unanimidade, pela equipe de suporte. Os modelos mais recentes, como o BERT (\textit{Bidirectional Encoder Representations from Transformers} -- Representações de Codificador Bidirecional a partir de Transformers), têm mais de cem milhões de parâmetros (110 milhões no BERT-base \cite{devlin2019}) e funcionam como caixas-pretas: produzem a categoria sem revelar quais palavras do chamado a determinaram. Sem essa informação, o analista não consegue conferir a decisão, nem o gestor identificar erros sistemáticos, e o bom desempenho sozinho não garante a adoção: no mesmo estudo, a equipe de suporte recusou a função que separava requisições de incidentes, mesmo com 93\% de acurácia de validação (Seção~\ref{subsubsec:helpdesk_caixapreta}).
 
 % ---------------------------------------------------------------
 \section{Contextualização do problema}
 \label{sec:contexto}
 
-Os \textit{helpdesks} corporativos processam diariamente milhares 
-de \textit{tickets} com descrições variadas que misturam jargão 
-técnico, erros ortográficos e expressões coloquiais \cite{zemp2021}. 
-Isso sobrecarrega os analistas, tornando a triagem manual lenta, 
-inconsistente e propensa a erros.
+Neste contexto, explicabilidade é a capacidade de mostrar quais palavras do chamado levaram o modelo à categoria escolhida. A área de XAI (\textit{Explainable Artificial Intelligence} -- Inteligência Artificial Explicável) reúne métodos para isso, como o SHAP (\textit{SHapley Additive exPlanations} -- Explicações Aditivas de Shapley), que distribui o crédito da decisão entre as palavras com base na teoria dos jogos, e o LIME (\textit{Local Interpretable Model-Agnostic Explanations} -- Explicações Locais Interpretáveis Independentes de Modelo), que altera o texto e ajusta um modelo simples para ver quais palavras mais pesam \cite{lundberg2017, ribeiro2016}. Os dois atribuem uma importância a cada palavra do chamado.
 
- Um estudo com mais de um milhão de chamados reporta que redes neurais profundas alcançam até 
- 92\% de acurácia em classificação multi-categoria \cite{zemp2021}, mas sua natureza de ``caixa-preta'', modelos que produzem 
-predições sem revelar os critérios utilizados para tomá-las, pode gerar 
-resistência entre equipes operacionais que precisam confiar nas decisões 
-algorítmicas para roteamento, o que torna a explicabilidade relevante 
-nesses sistemas \cite{razma2026}. Em sistemas reais, o bom desempenho não garante a adoção: no estudo de \citeonline{zemp2021}, a equipe de suporte recusou a função que separava requisições de incidentes, mesmo com 93\% de acurácia de validação (Seção~\ref{subsubsec:helpdesk_caixapreta}).
+Essa informação serve a diferentes interessados. O analista pode verificar se os termos destacados fazem sentido para a categoria e decidir se confia na previsão \cite{ribeiro2016, razma2026}. O gestor pode auditar o sistema e identificar erros sistemáticos, por exemplo uma categoria que o modelo decide por palavras irrelevantes. A equipe que mantém o modelo pode depurá-lo e melhorá-lo: no estudo de \citeonline{mustafa2025}, as explicações do LIME revelaram que palavras sem conteúdo informativo recebiam pesos altos, o que levou a ajustar o pré-processamento. E o usuário, indiretamente, se beneficia de chamados mais bem encaminhados.
 
-A raiz matemática dessa intransparência está no mecanismo central 
-desses modelos. A cada camada de processamento, o modelo realiza 
-operações do tipo:
+Mas uma explicação só ajuda se for confiável e legível, e há dois obstáculos. O primeiro é que o SHAP e o LIME podem divergir entre si e variar entre execuções, pois o LIME depende de amostragem aleatória \cite{salih2023}, o que torna necessário medir a fidelidade e a estabilidade das explicações. O segundo é que uma lista de pesos por palavra mostra a importância de cada termo, mas não como eles se relacionam no texto. Um grafo de co-ocorrência, em que cada nó é uma palavra e cada aresta liga palavras que aparecem próximas \cite{yao2019}, pode apresentar as explicações de forma visual e rastreável \cite{talebi2025}.
 
-\begin{equation*}
-\text{Attention}(Q, K, V) = 
-\text{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
-\end{equation*}
+Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam 75\% de precisão média, em sete categorias \cite{pereira2023}, e F1-macro de até 61\%, em 226.438 chamados \cite{yokota2025}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
 
-onde $Q$, $K$ e $V$ são matrizes de consulta, chave e valor 
-derivadas da entrada \cite{vaswani2017}. Essas transformações 
-se repetem em centenas de milhões de parâmetros distribuídos 
-em múltiplas camadas, tornando impossível rastrear por que uma 
-palavra específica influenciou determinada classificação. Embora 
-o modelo produza resultados precisos, o caminho percorrido até 
-a decisão permanece não auditável, ou seja, não é possível rastrear 
-nem reproduzir a explicação de uma predição individual, propriedade 
-definida em detalhe na Seção~\ref{subsec:auditabilidade}. Isso 
-justifica a necessidade de técnicas de explicabilidade como SHAP e 
-LIME para atribuir a importância de cada termo na predição \cite{lundberg2017, ribeiro2016}.
+É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Para isso, foram usados 53.279 chamados reais, em 11 categorias, cedidos pela Aché e pela Bayer. Os objetivos e a hipótese estão na Seção~\ref{sec:hipotese_pesquisa}.
 
-No contexto brasileiro, onde grande parte da comunicação técnica 
-ocorre em português, modelos tradicionais como o \textit{Naive 
-Bayes}, que classifica textos com base em probabilidades, e redes 
-MLP (\textit{Multilayer Perceptron}), que são redes neurais simples 
-sem capacidade de entender o contexto das palavras, apresentam 
-limitações significativas ao lidar com \textit{tickets} reais, 
-pois não conseguem capturar a variabilidade semântica nem o 
-vocabulário técnico específico do domínio de TI \cite{yokota2025}.
-
-\vspace{0.3cm}
-
-
-% ---------------------------------------------------------------
 % ---------------------------------------------------------------
 \section{Formulação do problema}
 \label{sec:problema}
@@ -321,14 +277,22 @@ de suporte de TI em português brasileiro.
 
     \item Comparar a explicabilidade gerada por SHAP e LIME em
     termos de fidelidade, estabilidade, concordância entre os
-    métodos e relevância semântica das explicações produzidas
-    para chamados de suporte técnico em português brasileiro.
+    métodos e relevância semântica, calculando essas medidas
+    sobre uma amostra de chamados do conjunto de teste:
+    a fidelidade por meio da \textit{comprehensiveness}, da
+    \textit{sufficiency} e do Tau-LOO; a estabilidade, repetindo
+    o cálculo com sorteios diferentes; e a concordância,
+    comparando as palavras mais relevantes apontadas pelos dois métodos.
     
     \item Analisar se a visualização em grafos de co-ocorrência
     ponderados por valores SHAP e LIME fornece auditabilidade
     ao processo de classificação, no sentido de
     rastrear cada decisão até os termos, a janela de palavras e
-    os valores SHAP e LIME que a originaram.
+    os valores SHAP e LIME que a originaram. Para isso, constrói-se
+    um grafo para cada chamado, com as palavras como nós, ponderados
+    pelos valores SHAP e LIME, e a co-ocorrência na janela como arestas,
+    e verifica-se, em estudos de caso, se cada nó e cada aresta
+    pode ser levado ao chamado e aos pesos das explicações.
 
     \item Validar a consistência semântica das explicações 
     geradas pelo \textit{pipeline} no contexto de chamados de 
@@ -349,13 +313,15 @@ Os métodos SHAP e LIME, por sua vez, produzem explicações com fidelidade e es
 \section{Justificativa}
 \label{sec:justificativa}
 
-A triagem de chamados em sistemas de \textit{Help Desk} ainda é frequentemente realizada manualmente por analistas de suporte, que precisam interpretar descrições textuais de problemas e direcionar os chamados para a equipe técnica responsável. Esse processo pode ser lento, sujeito a inconsistências e dependente da experiência individual dos analistas.
+A triagem de chamados é uma etapa de grande volume nas empresas. Feita manualmente, é lenta, depende da experiência de cada analista e está sujeita a inconsistências, e o atraso pode comprometer o cumprimento do SLA, como discutido na Introdução. A classificação automática com PLN já é estudada e usada na prática, o que mostra que o problema é relevante e que há ganho possível.
 
-Técnicas de Processamento de Linguagem Natural (PLN) e aprendizado de máquina têm sido utilizadas para automatizar essa tarefa por meio da classificação automática de \textit{tickets}. No entanto, muitos desses modelos funcionam como caixas-pretas, dificultando a compreensão de como as decisões são tomadas.
+Esse problema, no entanto, está mal resolvido em dois pontos. Os modelos que melhor classificam, baseados em \textit{transformers}, funcionam como caixas-pretas, e um analista ou auditor não consegue verificar por que um chamado foi para uma categoria. E, para o português brasileiro, os trabalhos encontrados não aplicam modelos BERT com explicações, e não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de suporte.
 
-A área de \textit{Explainable Artificial Intelligence} (XAI) busca justamente aumentar a transparência desses sistemas, permitindo compreender quais fatores influenciam as decisões dos modelos. Nesse contexto, a utilização de modelagem em grafos pode oferecer uma forma visual e estrutural de representar relações entre termos e evidenciar como essas relações contribuem para a classificação.
+Este trabalho propõe acrescentar ao classificador uma camada de explicabilidade: SHAP e LIME indicam as palavras que levaram à categoria, e um grafo de co-ocorrência ponderado por esses valores mostra como essas palavras se relacionam no chamado. Para o analista, isso permite conferir a decisão do modelo. Para o gestor, permite auditar a triagem e identificar erros do modelo. Para quem desenvolve o modelo, permite encontrar palavras sem valor informativo que pesam na decisão, como já observado por \citeonline{mustafa2025}.
 
-Dessa forma, investigar se mecanismos de explicabilidade baseados em grafos podem tornar o processo decisório mais compreensível representa uma contribuição relevante tanto para aplicações práticas de suporte técnico quanto para o estudo de transparência em sistemas de inteligência artificial.
+A contribuição é prática e científica. Do lado prático, há uma prova de conceito de interface para chamados em português. Do lado científico, compara-se SHAP e LIME em um idioma e um domínio pouco estudados e mede-se o ganho do BERTimbau sobre o \textit{baseline} SVM com TF-IDF, relevante porque \citeonline{wahba2023} questiona o custo-benefício do BERT.
+
+O restante deste documento está organizado da seguinte forma. O Capítulo~\ref{cap:revisao} apresenta a revisão bibliográfica: os fundamentos teóricos, as técnicas existentes e os trabalhos correlatos. O Capítulo~\ref{cap:metodologia} descreve a metodologia e as métricas de avaliação. O Capítulo~\ref{cap:desenvolvimento} detalha a solução, a implementação, os experimentos e os dados. O Capítulo~\ref{cap:resultados} apresenta e analisa os resultados, e o Capítulo~\ref{cap:conclusao} traz as conclusões, as limitações e os trabalhos futuros.
 
 % ===============================================================
 % CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
@@ -449,9 +415,9 @@ natural da pesquisa.
 
 
 % ---------------------------------------------------------------
-% 2.3 TÉCNICAS, MÉTODOS OU ABORDAGENS EXISTENTES
+% 2.3 TÉCNICAS, MÉTODOS E ABORDAGENS EXISTENTES
 % ---------------------------------------------------------------
-\section{Técnicas, métodos ou abordagens existentes}
+\section{Técnicas, métodos e abordagens existentes}
 \label{sec:tecnicas}
 
 As subseções a seguir aprofundam os conceitos apresentados na Seção~\ref{sec:fundamentos} e descrevem as abordagens já empregadas na classificação de chamados de TI, nos modelos de linguagem, na explicabilidade e nos grafos de co-ocorrência.
@@ -460,9 +426,15 @@ As subseções a seguir aprofundam os conceitos apresentados na Seção~\ref{sec
 \subsection{Definição e importância dos sistemas de \textit{help desk} nas organizações}
 \label{subsec:helpdesk_definicao}
 
-Sistemas de \textit{help desk}, também denominados sistemas de suporte técnico, centrais de serviço ou plataformas ITSM (\textit{IT Service Management}), são estruturas organizacionais e tecnológicas responsáveis por centralizar e gerenciar as solicitações de suporte submetidas pelos usuários de uma organização. Esses sistemas recebem chamados relacionados a falhas de infraestrutura, problemas em aplicações, solicitações de acesso, dúvidas operacionais e demais ocorrências que interrompem ou dificultam o trabalho dos colaboradores \cite{zemp2021}.
+Sistemas de \textit{help desk}, também denominados sistemas de suporte técnico, centrais de serviço ou plataformas ITSM (\textit{IT Service Management} -- Gerenciamento de Serviços de TI), são estruturas organizacionais e tecnológicas responsáveis por centralizar e gerenciar as solicitações de suporte submetidas pelos usuários de uma organização. Esses sistemas recebem chamados relacionados a falhas de infraestrutura, problemas em aplicações, solicitações de acesso, dúvidas operacionais e demais ocorrências que interrompem ou dificultam o trabalho dos colaboradores \cite{zemp2021}.
 
-A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável para que o prazo de resolução estabelecido nos acordos de nível de serviço (SLA, do inglês \textit{Service Level Agreement}) seja cumprido. O não cumprimento desses prazos impacta diretamente a produtividade organizacional e a satisfação dos usuários.
+A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável para que o prazo de resolução estabelecido no SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço) seja cumprido. O não cumprimento desses prazos impacta diretamente a produtividade organizacional e a satisfação dos usuários.
+
+Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail}, telefone ou \textit{chat}, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e, conforme ela, priorizado e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo. Nos dados deste trabalho, cada chamado traz a descrição completa e uma categoria, e os da Bayer trazem também uma descrição curta (Seção~\ref{subsubsec:dataset_finetuning}). A etapa de classificação é a que este trabalho busca automatizar e explicar.
+
+Boa parte dessa organização vem do ITIL (\textit{Information Technology Infrastructure Library} -- Biblioteca de Infraestrutura de Tecnologia da Informação), um conjunto de boas práticas de gerenciamento de serviços de TI amplamente adotado \cite{axelos2019}. O ITIL distingue o incidente, uma interrupção não planejada de um serviço ou redução de sua qualidade, da requisição de serviço, um pedido do usuário que inicia uma ação de serviço acordada como parte normal da entrega do serviço \cite{axelos2019}. Essa é a distinção que a equipe de suporte do estudo de \citeonline{zemp2021} recusou automatizar (Seção~\ref{subsubsec:helpdesk_caixapreta}).
+
+Os sistemas que implementam esse ciclo podem ser de código aberto ou comerciais. Entre os de código aberto estão o GLPI, o Znuny, o Zammad e o osTicket, que a própria organização pode instalar e adaptar; entre os comerciais estão o ServiceNow, o Jira Service Management, o Zendesk e o Freshservice, oferecidos como serviço pago, em geral na nuvem. Independentemente do produto, esses sistemas em geral guardam o texto de cada chamado e sua categoria, e é esse histórico que permite treinar classificadores como os deste trabalho.
 
 % ---------------------------------------------------------------
 \subsection{O processo manual de triagem e seus problemas}
@@ -484,17 +456,23 @@ A automação da triagem de chamados por meio de aprendizado de máquina tem sid
 \subsubsection{Modelos clássicos — \textit{Naive Bayes} e SVM com TF-IDF}
 \label{subsubsec:helpdesk_classicos}
 
-As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} e SVM (\textit{Support Vector Machine}), um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, com vetorização TF-IDF. Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia e F1-score (métrica que combina precisão e revocação em um único valor, detalhada na Seção~\ref{sec:metricas_avaliacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
+As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} e SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte), um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, com vetorização TF-IDF. Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia e F1-score (métrica que combina precisão e revocação em um único valor, detalhada na Seção~\ref{sec:metricas_avaliacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
 
 Apesar de sua eficiência computacional e facilidade de interpretação, esses modelos apresentam limitações na captura de relações semânticas entre termos. A representação TF-IDF trata cada palavra de forma independente, sem considerar o contexto em que ela aparece, o que restringe a capacidade do modelo de distinguir categorias semanticamente próximas.
+
+Formalmente, o peso de um termo $t$ em um documento $d$ é
+\begin{equation}
+\text{TF-IDF}(t,d) = \text{TF}(t,d) \cdot \log\frac{N}{\text{DF}(t)}
+\end{equation}
+onde $\text{TF}(t,d)$ é o número de vezes que $t$ aparece em $d$, $N$ é o total de documentos do corpus e $\text{DF}(t)$ é o número de documentos que contêm $t$. Por exemplo, em um corpus hipotético de 1.000 chamados, um termo que aparece em 10 deles (como ``VPN'') tem $\log_{10}(1000/10) = 2$, enquanto um que aparece em 500 (como ``acesso'') tem $\log_{10}(1000/500) \approx 0{,}3$: o termo raro pesa mais.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Redes neurais convolucionais aplicadas a \textit{tickets}}
 \label{subsubsec:helpdesk_cnn}
 
-Com o avanço das técnicas de aprendizado profundo, modelos baseados em redes neurais convolucionais (CNN) passaram a ser aplicados à classificação de chamados de suporte. \citeonline{paramesh2022} propuseram um classificador baseado em CNN com \textit{word embeddings} (representações vetoriais densas de palavras aprendidas por redes neurais) para categorização automática de \textit{tickets} de \textit{service desk} de infraestrutura de TI. Os autores compararam o modelo proposto com SVM, \textit{Naive Bayes}, Regressão Logística e \textit{K-Nearest Neighbor}, demonstrando que a CNN supera todos os modelos clássicos em acurácia e F1-score, especialmente em categorias com descrições textuais mais longas e complexas.
+Com o avanço das técnicas de aprendizado profundo, modelos baseados em redes neurais convolucionais (CNN) passaram a ser aplicados à classificação de chamados de suporte. \citeonline{paramesh2022} propuseram um classificador baseado em CNN com \textit{word embeddings} (representações vetoriais densas de palavras aprendidas por redes neurais) para categorização automática de \textit{tickets} de \textit{service desk} de infraestrutura de TI. Os autores compararam o modelo proposto com SVM, \textit{Naive Bayes}, Regressão Logística e \textit{K-Nearest Neighbor}, e a CNN obteve a maior acurácia (91,20\%) e o maior F1-score (91,02\%) no conjunto de teste, contra 87,43\% e 87,36\% do SVM, o melhor dos modelos clássicos.
 
-A vantagem das CNN em relação aos modelos clássicos reside na capacidade de identificar automaticamente quais grupos de palavras que aparecem juntas são importantes para a classificação, sem que um especialista precise definir isso manualmente. Essa progressão de modelos lineares com TF-IDF para redes profundas com \textit{embeddings}, estabelece o contexto histórico sobre o qual os modelos baseados em \textit{transformers} representam um novo salto qualitativo.
+A vantagem das CNN em relação aos modelos clássicos reside na capacidade de identificar automaticamente quais grupos de palavras que aparecem juntas são importantes para a classificação, sem que um especialista precise definir isso manualmente. Essa progressão de modelos lineares com TF-IDF para redes profundas com \textit{embeddings} estabelece o contexto histórico sobre o qual os modelos baseados em \textit{transformers} representam um novo salto qualitativo.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Classificação de chamados no contexto brasileiro}
@@ -505,16 +483,16 @@ A literatura sobre classificação automática de chamados de suporte em portugu
 \citeonline{pereira2023} apresentaram um modelo de classificação automática de chamados de suporte de TI em sete categorias, atingindo 75\% de precisão média com modelos de aprendizado de máquina tradicionais. Os autores disponibilizaram publicamente o código, o modelo e os dados anonimizados, e desenvolveram um protótipo \textit{web} com \textit{backend} e \textit{frontend} para uso dos analistas de TI, tornando-o um dos poucos trabalhos nacionais com \textit{dataset} público e interface funcional. No entanto, a acurácia de 75\% deixa margem considerável para melhoria, especialmente em cenários com maior número de categorias ou com classes semanticamente próximas.
 
 \citeonline{yokota2025} investigou a classificação hierárquica de 
-chamados de suporte utilizando \textit{Naive Bayes} e 
-\textit{Multilayer Perceptron} (MLP) com duas variações arquiteturais. 
-Os resultados, avaliados por F1-macro para lidar com o 
-desbalanceamento entre classes, foram insatisfatórios, evidenciando 
-que modelos simples falham em capturar as nuances semânticas presentes 
-em textos técnicos de suporte em PT-BR. A autora conclui que a 
-abordagem proposta revelou desafios substanciais na classificação 
-automática de textos especializados, evidenciando a necessidade de 
-abordagens metodológicas mais sofisticadas, o que reforça a escolha 
-do BERTimbau neste trabalho.
+chamados de suporte ao cliente em PT-BR utilizando \textit{Naive Bayes} e 
+MLP (\textit{Multilayer Perceptron} -- Perceptron Multicamadas) com duas variações arquiteturais, 
+sobre \textit{embeddings} do modelo Multilingual E5. Os resultados, 
+avaliados por F1-macro para lidar com o desbalanceamento entre classes, 
+foram limitados (no máximo 61\%), o que a autora associa ao desbalanceamento, 
+à proximidade semântica entre categorias e ao vocabulário especializado.
+A autora conclui que a abordagem proposta revelou desafios substanciais 
+na classificação automática de textos especializados, evidenciando a 
+necessidade de abordagens metodológicas mais sofisticadas, o que motiva 
+avaliar o ajuste fino do BERTimbau neste trabalho.
 
 % ---------------------------------------------------------------
 \subsection{Representações vetoriais de texto}
@@ -534,13 +512,43 @@ Apesar de sua simplicidade, o \textit{TF-IDF} ainda é amplamente utilizado como
 
 Os \textit{embeddings} de palavras representam um avanço significativo em relação às abordagens baseadas em frequência, ao mapear cada palavra para um vetor denso em um espaço de baixa dimensionalidade, de forma que palavras semanticamente relacionadas sejam representadas por vetores próximos. O \textit{Word2Vec}, proposto por \citeonline{mikolov2013}, aprende \textit{embeddings} a partir de grandes corpora (plural de \textit{corpus}, conjunto amplo de textos usado para treinamento) textuais utilizando redes neurais rasas, treinadas para predizer palavras a partir de seu contexto ou contexto a partir de palavras. 
 
-O GloVe (\textit{Global Vectors for Word Representation}) utiliza 
+O GloVe (\textit{Global Vectors for Word Representation} -- Vetores Globais para Representação de Palavras) utiliza 
 estatísticas globais de co-ocorrência do corpus para produzir 
 representações com propriedades algébricas notáveis: vetores de 
 palavras semanticamente relacionadas tendem a ser próximos no espaço 
 vetorial, e operações aritméticas entre vetores refletem relações 
 semânticas — o exemplo clássico é que o vetor de ``rei'' menos 
 ``homem'' mais ``mulher'' resulta em um vetor próximo ao de ``rainha''.
+
+Para tornar a ideia concreta, a Tabela~\ref{tab:embedding_exemplo} mostra um exemplo ilustrativo com vetores de quatro dimensões para três palavras do vocabulário de TI. Em um modelo real, os vetores têm centenas de dimensões e seus valores são aprendidos a partir do corpus. Na representação \textit{bag-of-words}, ``senha'' e ``login'' seriam palavras sem relação alguma (similaridade 0). Nos \textit{embeddings}, a similaridade do cosseno entre os vetores de ``senha'' e ``login'' é alta (0,99), enquanto a de ``senha'' e ``impressora'' é baixa (0,12).
+ 
+\begin{table}[H]
+    \centering
+    \caption{Exemplo ilustrativo de \textit{embeddings} de quatro dimensões}
+    \label{tab:embedding_exemplo}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Palavra} & \textbf{$d_1$} & \textbf{$d_2$} & \textbf{$d_3$} & \textbf{$d_4$} \\
+        \midrule
+        senha      & 0,8 & 0,1 & 0,7 & 0,0 \\
+        login      & 0,7 & 0,2 & 0,6 & 0,1 \\
+        impressora & 0,0 & 0,9 & 0,1 & 0,8 \\
+        \bottomrule
+    \end{tabular}
+ 
+    \vspace{0.3cm}
+ 
+    \begin{tabular}{lc}
+        \toprule
+        \textbf{Par de palavras} & \textbf{Similaridade do cosseno} \\
+        \midrule
+        senha -- login      & 0,99 \\
+        senha -- impressora & 0,12 \\
+        login -- impressora & 0,28 \\
+        \bottomrule
+    \end{tabular}
+    \legend{Fonte: Elaborado pelos autores (valores ilustrativos, não aprendidos de um corpus)}
+\end{table}
 
 Esses \textit{embeddings} estáticos representaram um avanço expressivo na qualidade das representações textuais e foram amplamente adotados como camada de entrada em modelos de aprendizado profundo para PLN. No entanto, eles atribuem um único vetor a cada palavra, independentemente do contexto em que ela aparece, limitação conhecida como o problema da representação estática.
 
@@ -581,13 +589,22 @@ normalização (\textit{layer normalization}) que estabiliza o treinamento
 o bloco \textit{encoder}, pois seu objetivo é produzir representações 
 contextuais do texto de entrada, e não gerar novas sequências \cite{devlin2019}.
 
+A Figura~\ref{fig:transformer} resume essa estrutura. O BERT utiliza apenas o bloco da esquerda, o \textit{encoder}.
+ 
+\begin{figure}[H]
+    \caption{Arquitetura \textit{Transformer} simplificada}
+    \label{fig:transformer}
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/transformer_arquitetura.png}
+    \legend{Fonte: Elaborado pelos autores, com base em \citeonline{vaswani2017}}
+\end{figure}
+
 A arquitetura \textit{Transformer}, proposta por \citeonline{vaswani2017}, 
 introduziu o mecanismo de \textit{self-attention} como alternativa às redes 
-recorrentes para processamento de sequências. As RNN (\textit{Recurrent Neural 
-Networks}) são uma classe de redes neurais 
+recorrentes para processamento de sequências. As RNN (\textit{Recurrent Neural Network} -- Rede Neural Recorrente) são uma classe de redes neurais 
 projetadas para processar dados sequenciais, nos quais o contexto e a ordem 
 temporal importam, processando os \textit{tokens} um por vez, da esquerda para 
-a direita. As LSTM (\textit{Long Short-Term Memory}) são um tipo especializado 
+a direita. As LSTM (\textit{Long Short-Term Memory} -- Memória de Longo e Curto Prazo) são um tipo especializado 
 de RNN projetado para aprender dependências de longo prazo em sequências, 
 mitigando o problema de desvanecimento do gradiente presente nas RNN simples. 
 Apesar dessas melhorias, ambas as arquiteturas ainda processam a sequência de 
@@ -606,6 +623,16 @@ posições'' significa que esse cálculo é realizado em paralelo para todos os
 pares de \textit{tokens} da sequência, possibilitando a captura de dependências 
 de longo alcance de forma muito mais eficiente do que as arquiteturas recorrentes.
 
+A Figura~\ref{fig:self_attention} ilustra esse cálculo para a palavra ``banco'': os pesos de atenção, que somam 1, indicam o quanto cada \textit{token} contribui para a nova representação de ``banco''. Nesse exemplo, ``acesso'' e ``bloqueou'' recebem os maiores pesos, o que leva o modelo a representar ``banco'' como instituição financeira.
+ 
+\begin{figure}[H]
+    \caption{Exemplo ilustrativo de \textit{self-attention} para o \textit{token} ``banco''}
+    \label{fig:self_attention}
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/self_attention.png}
+    \legend{Fonte: Elaborado pelos autores (valores ilustrativos, não extraídos de um modelo treinado)}
+\end{figure}
+
 Modelos como o GPT utilizam atenção unidirecional (cada \textit{token} só pode 
 atender aos \textit{tokens} anteriores). O BERT, por sua vez, utiliza atenção 
 bidirecional: cada \textit{token} atende simultaneamente a todos os outros 
@@ -615,13 +642,23 @@ contextualizadas geradas pelo modelo, uma vez que o significado de uma palavra
 frequentemente depende tanto de seu contexto anterior quanto posterior 
 \cite{devlin2019}.
 
+A Figura~\ref{fig:atencao_bidirecional} compara os dois tipos de atenção: na atenção unidirecional, cada \textit{token} só atende a si mesmo e aos anteriores; na bidirecional, atende a todos.
+ 
+\begin{figure}[H]
+    \caption{Atenção unidirecional e atenção bidirecional}
+    \label{fig:atencao_bidirecional}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/atencao_bidirecional.png}
+    \legend{Fonte: Elaborado pelos autores. Cada linha indica a quais \textit{tokens} a palavra daquela linha pode atender}
+\end{figure}
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Pré-treinamento — \textit{Masked Language Modeling} e \textit{Next Sentence Prediction}}
 \label{subsubsec:bert_pretrain}
 
-O BERT é pré-treinado em dois objetivos complementares sobre grandes corpora textuais não rotulados. O primeiro, \textit{Masked Language Modeling} (MLM), mascara aleatoriamente 15\% dos \textit{tokens} de cada sequência de entrada e treina o modelo para predizer os \textit{tokens} mascarados a partir do contexto bidirecional restante. Esse objetivo força o modelo a aprender representações ricas que capturam o significado de cada palavra em seu contexto completo \cite{devlin2019}.
+O BERT é pré-treinado em dois objetivos complementares sobre grandes corpora textuais não rotulados. O primeiro, MLM (\textit{Masked Language Modeling} -- Modelagem de Linguagem com Máscara), mascara aleatoriamente 15\% dos \textit{tokens} de cada sequência de entrada e treina o modelo para predizer os \textit{tokens} mascarados a partir do contexto bidirecional restante. Esse objetivo força o modelo a aprender representações ricas que capturam o significado de cada palavra em seu contexto completo \cite{devlin2019}.
 
-O segundo objetivo, \textit{Next Sentence Prediction} (NSP), treina o modelo a determinar se duas sentenças apresentadas em sequência são consecutivas no texto original ou foram pareadas aleatoriamente. Esse objetivo permite ao modelo aprender relações semânticas entre sentenças, o que é útil para tarefas como inferência textual e resposta a perguntas.
+O segundo objetivo, NSP (\textit{Next Sentence Prediction} -- Predição da Próxima Sentença), treina o modelo a determinar se duas sentenças apresentadas em sequência são consecutivas no texto original ou foram pareadas aleatoriamente. Esse objetivo permite ao modelo aprender relações semânticas entre sentenças, o que é útil para tarefas como inferência textual e resposta a perguntas.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{\textit{Fine-tuning} para tarefas \textit{downstream}}
@@ -791,10 +828,10 @@ destacadas indicam sua contribuição positiva ou negativa para a
 classe predita.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{imagens/lime_exemplo.png}
     \caption{Exemplo de explicação gerada pelo LIME}
     \label{fig:lime_exemplo}
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagens/lime_exemplo.png}
     \legend{Fonte: \citeonline{ribeiro2016}}
 \end{figure}
 
@@ -807,9 +844,10 @@ No contexto de classificação de texto, cada palavra (ou \textit{token}) da ent
 \citeonline{mustafa2025} demonstraram que a aplicação de LIME na 
 classificação de texto não apenas produz explicações úteis para o 
 usuário final, mas também contribui para melhorar o processo de 
-pré-processamento: ao revelar que \textit{stopwords} recebem pesos 
-desproporcionalmente altos nas explicações, o LIME evidenciou a 
-necessidade de sua remoção.
+pré-processamento: ao revelar que \textit{stopwords}, palavras muito 
+frequentes e de pouco conteúdo informativo, como artigos e preposições 
+(``de'', ``o'', ``para''), recebem pesos desproporcionalmente altos 
+nas explicações, o LIME evidenciou a necessidade de sua remoção.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Vantagens e limitações}
@@ -875,10 +913,10 @@ A Figura~\ref{fig:shap_exemplo} ilustra esse conceito: cada
 valor final do modelo.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{imagens/shap_exemplo.png}
     \caption{Representação dos valores SHAP por \textit{feature}}
     \label{fig:shap_exemplo}
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagens/shap_exemplo.png}
     \legend{Fonte: \citeonline{lundberg2017}}
 \end{figure}
 
@@ -946,9 +984,10 @@ se a escolha do método de XAI afeta a estrutura do grafo resultante.
 
 \citeonline{mustafa2025} propuseram um \textit{framework} de 
 classificação de texto que combina PLN e XAI. O sistema inclui 
-pré-processamento com NLTK (\textit{Natural Language Toolkit}), 
-balanceamento de classes com SMOTE (\textit{Synthetic Minority 
-Oversampling Technique}) para lidar com datasets desbalanceados, 
+pré-processamento com NLTK (\textit{Natural Language Toolkit} -- Kit de Ferramentas de Linguagem Natural), 
+balanceamento de classes com SMOTE (\textit{Synthetic Minority Oversampling Technique} -- Técnica de Sobreamostragem Sintética de Minorias), 
+técnica que cria exemplos sintéticos das classes minoritárias a partir da interpolação 
+entre exemplos vizinhos, para lidar com \textit{datasets} desbalanceados, 
 e validação cruzada estratificada repetida: uma técnica que divide 
 os dados em múltiplos subconjuntos para avaliar o modelo de forma 
 mais robusta, garantindo que todas as classes estejam representadas 
@@ -1027,7 +1066,13 @@ importância explicativa calculada por SHAP e LIME.
 \subsubsection{Ponderação de arestas — frequência, PMI}
 \label{subsubsec:grafos_ponderacao}
 
-O peso das arestas em um grafo de co-ocorrência pode ser determinado por diferentes métricas. A abordagem mais simples utiliza a frequência bruta de co-ocorrência, ou seja, a contagem de quantas vezes o par de \textit{tokens} co-ocorreu dentro da janela deslizante. Métricas mais sofisticadas, como a Informação Mútua Pontual (PMI, do inglês \textit{Pointwise Mutual Information}), normalizam a frequência de co-ocorrência pelas frequências individuais de cada \textit{token}, favorecendo pares que co-ocorrem mais do que seria esperado pelo acaso \cite{yao2019}.
+O peso das arestas em um grafo de co-ocorrência pode ser determinado por diferentes métricas. A abordagem mais simples utiliza a frequência bruta de co-ocorrência, ou seja, a contagem de quantas vezes o par de \textit{tokens} co-ocorreu dentro da janela deslizante. Métricas mais sofisticadas, como a PMI (\textit{Pointwise Mutual Information} -- Informação Mútua Pontual), normalizam a frequência de co-ocorrência pelas frequências individuais de cada \textit{token}, favorecendo pares que co-ocorrem mais do que seria esperado pelo acaso \cite{yao2019}.
+
+A PMI de um par de \textit{tokens} $a$ e $b$ é
+\begin{equation}
+\text{PMI}(a,b) = \log\frac{p(a,b)}{p(a)\,p(b)}
+\end{equation}
+onde $p(a,b)$ é a fração de janelas em que $a$ e $b$ aparecem juntos, e $p(a)$ e $p(b)$ são as frações de janelas em que cada um aparece. A frequência de co-ocorrência é, portanto, normalizada pelas frequências individuais dos \textit{tokens}: um par só recebe PMI alta se aparecer junto mais do que o esperado se os termos fossem independentes.
 
 No presente trabalho, os pesos das arestas foram determinados pelo número de co-ocorrências do par dentro da janela deslizante (frequência bruta, sem normalização), enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, foram determinados pelos valores SHAP e LIME de cada \textit{token}, calculados sobre as predições do BERTimbau, o que permite comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é o diferencial da camada de visualização proposta.
 
@@ -1041,13 +1086,13 @@ No presente trabalho, os pesos das arestas foram determinados pelo número de co
 
 \citeonline{yao2019} propuseram o \textit{TextGCN} (\textit{Text Graph Convolutional Network}), modelo que constrói um único grafo heterogêneo para todo o corpus, conectando documentos e palavras. As arestas documento-palavra recebem pesos baseados em TF-IDF, refletindo a importância de cada palavra para cada documento. As arestas palavra-palavra recebem pesos baseados em PMI calculada sobre co-ocorrências em janela deslizante de tamanho 20 sobre todo o corpus, refletindo a força de associação semântica entre pares de palavras.
 
-Essa estrutura permite que as redes neurais de grafos (GCN) propaguem informação simultaneamente entre documentos e palavras, capturando relações semânticas globais que modelos baseados em sequências não conseguem representar diretamente.
+Essa estrutura permite que as GCN (\textit{Graph Convolutional Network} -- Rede Neural Convolucional em Grafos) propaguem informação simultaneamente entre documentos e palavras, capturando relações semânticas globais que modelos baseados em sequências não conseguem representar diretamente.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Redes neurais de grafos e propagação de informação}
 \label{subsubsec:textgcn_gcn}
 
-As redes neurais de grafos (GNN, do inglês \textit{Graph Neural Networks}) operam sobre grafos propagando informação entre nós vizinhos por meio de operações de agregação e transformação. Em cada camada da rede, a representação de cada nó é atualizada com base nas representações de seus vizinhos na iteração anterior \cite{yao2019}. Após múltiplas camadas, cada nó possui uma representação que agrega informação de sua vizinhança local de múltiplos saltos.
+As GNN (\textit{Graph Neural Network} -- Rede Neural de Grafos) operam sobre grafos propagando informação entre nós vizinhos por meio de operações de agregação e transformação. Em cada camada da rede, a representação de cada nó é atualizada com base nas representações de seus vizinhos na iteração anterior \cite{yao2019}. Após múltiplas camadas, cada nó possui uma representação que agrega informação de sua vizinhança local de múltiplos saltos.
 
 No contexto deste trabalho, a relevância do \textit{TextGCN} é fundamentalmente teórica: ele formaliza matematicamente a estrutura do grafo de co-ocorrência e demonstra sua utilidade para classificação de texto. O presente trabalho não implementou GCN: o grafo de co-ocorrência foi utilizado exclusivamente como estrutura de visualização das explicações XAI, e não como componente do modelo de classificação.
 
@@ -1059,7 +1104,7 @@ No contexto deste trabalho, a relevância do \textit{TextGCN} é fundamentalment
 \subsubsection{\textit{Embeddings} BERT como \textit{features} iniciais dos nós}
 \label{subsubsec:bert_grafo_embeddings}
 
-\citeonline{yang2021} propuseram o BEGNN (\textit{BERT-Enhanced Graph Neural Network}), que combina representações contextualizadas do BERT com grafos de co-ocorrência para classificação de texto. Na arquitetura BEGNN, o BERT gera \textit{embeddings} contextualizados para cada \textit{token} da entrada; esses \textit{embeddings} são utilizados como \textit{features} iniciais dos nós do grafo de co-ocorrência correspondente ao documento. Em seguida, uma GCN propaga informação entre nós vizinhos, produzindo representações enriquecidas pela estrutura do grafo. A representação final do documento é obtida por agregação das representações dos nós.
+\citeonline{yang2021} propuseram o BEGNN (\textit{BERT-Enhanced Graph Neural Network} -- Rede Neural de Grafos Aprimorada por BERT), que combina representações contextualizadas do BERT com grafos de co-ocorrência para classificação de texto. Na arquitetura BEGNN, o BERT gera \textit{embeddings} contextualizados para cada \textit{token} da entrada; esses \textit{embeddings} são utilizados como \textit{features} iniciais dos nós do grafo de co-ocorrência correspondente ao documento. Em seguida, uma GCN propaga informação entre nós vizinhos, produzindo representações enriquecidas pela estrutura do grafo. A representação final do documento é obtida por agregação das representações dos nós.
 
 Essa combinação aborda uma limitação do BERT quando utilizado isoladamente: o mecanismo de atenção do BERT captura relações entre \textit{tokens}, mas essas relações são implícitas nos pesos de atenção e não explicitamente estruturadas como um grafo. O grafo de co-ocorrência fornece uma estrutura explícita que complementa as representações contextualizadas.
 
@@ -1081,7 +1126,7 @@ Essa combinação aborda uma limitação do BERT quando utilizado isoladamente: 
 metodológica com o presente TCC: aplicam RoBERTa combinado com LIME 
 e um grafo de co-ocorrência para detectar \textit{body shaming}, 
 prática de humilhar pessoas com base em sua aparência física, em 
-redes sociais em inglês. No trabalho de Talebi e Abdolvand, o grafo 
+redes sociais em inglês. No trabalho de \citeonline{talebi2025}, o grafo 
 de co-ocorrência é construído com nós representando \textit{tokens} 
 e arestas ponderadas pelos \textit{scores} LIME de cada \textit{token}. 
 Os \textit{tokens} com maior importância LIME produzem arestas de 
@@ -1116,7 +1161,68 @@ Capítulo~\ref{cap:desenvolvimento}.
 \section{Trabalhos correlatos e limitações}
 \label{sec:trabalhos_relacionados}
 
-Os quatro trabalhos a seguir enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
+Os quatro trabalhos a seguir enfrentaram o desafio de automatizar a triagem de chamados de suporte, servindo de base comparativa para a evolução proposta neste TCC.
+
+\subsection{Trabalho 1: Text Classification of Service Desk Tickets}
+
+\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. 
+Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala 
+num \textit{dataset} real de um banco privado de médio porte. Os resultados mostraram uma acurácia de 92\%. 
+No entanto, a classificação automática entre incidentes e requisições foi considerada potencialmente 
+perigosa pela equipe de suporte, devido ao risco de avaliações superficiais dos chamados. O presente trabalho 
+diferencia-se por focar na explicabilidade via SHAP, LIME e grafos, permitindo que os analistas de TI 
+entendam o ``porquê'' da classificação.
+
+\subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
+
+\citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, 
+mas propôs uma abordagem focada em eficiência para domínios especializados. 
+A solução utilizou um modelo híbrido (HOOM) que combina SVM linear e regras 
+definidas com especialistas a um classificador \textit{online}. A metodologia 
+demonstrou que em textos técnicos, modelos mais simples podem ser competitivos: 
+a autora testou BERT e XLM e não encontrou ganho significativo sobre o SVM linear. 
+Os resultados mostraram boa performance com baixo custo computacional. A limitação, 
+em relação a este trabalho, é que a tese usa dados em inglês, não públicos, e não 
+avalia explicações por palavra com métodos como SHAP e LIME. O presente trabalho 
+adotou o BERTimbau, específico para PT-BR, que captura o contexto das palavras, 
+e o combinou com SHAP, LIME e visualização em grafos para explicar as classificações.
+
+\subsection{Trabalho 3: Classificação hierárquica de textos aplicado ao contexto chamados de suporte}
+
+\citeonline{yokota2025} investigou a classificação de chamados de atendimento ao cliente especificamente em português brasileiro, utilizando \textit{Naive Bayes} e MLP sobre \textit{embeddings} do Multilingual E5. A metodologia focou na estrutura hierárquica das categorias (31 categorias e 240 subcategorias). Os resultados apresentaram F1-macro limitado, no máximo 61\%. A lacuna principal foi o desempenho baixo dos classificadores, que a autora associa ao desbalanceamento, à proximidade semântica entre categorias e ao vocabulário especializado, sem tratar da explicabilidade das decisões. O presente trabalho diferencia-se pelo ajuste fino de uma arquitetura de estado da arte (BERTimbau) pré-treinada em português e pela explicação das decisões com SHAP, LIME e grafos.
+
+\subsection{Trabalho 4: AI-Based Classification of IT Support Requests in Enterprise Service Management Systems}
+
+\citeonline{razma2026} compararam regressão logística com TF-IDF, mBERT e XLM-RoBERTa na classificação de mais de 87 mil chamados multilíngues de uma empresa de manufatura, e aplicaram o LIME (à regressão logística e ao mBERT) e o SHAP (à regressão logística) a exemplos de chamados. Os \textit{transformers} tiveram F1-macro maior, e as explicações do BERT destacaram termos mais contextuais que as do modelo linear. Pelo que o artigo apresenta, as explicações são mostradas em exemplos, sem medidas de fidelidade, estabilidade ou concordância entre os métodos, e sem estruturá-las em grafo. O presente trabalho mede essas propriedades para SHAP e LIME sobre o BERTimbau, em chamados em português, e as representa em um grafo de co-ocorrência.
+
+\vspace{0.5cm}
+
+\begin{table}[htb]
+    \centering
+    \caption{Comparação entre trabalhos relacionados}
+    \label{tab:trabalhos_relacionados}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{l|c|c|c|c|c}
+        \toprule
+        \textbf{Critério} & \textbf{Zemp (2021)} & \textbf{Wahba (2023)} & 
+        \textbf{Yokota (2025)} & \textbf{Razma e Jurkus (2026)} & \textbf{Este trabalho} \\
+        \midrule
+        Objetivo & Classificação & Eficiência & Classificação PT-BR & 
+        Classificação + XAI & Classificação + XAI \\
+        \midrule
+        Tecnologia & RoBERTa / CNN & SVM / HOOM & E5 + \textit{Naive Bayes} / MLP & 
+        mBERT / XLM-R / Reg. logística & BERTimbau + Grafos \\
+        \midrule
+        Explicabilidade & Não & Intrínseca & Não aborda & LIME / SHAP (em exemplos) & SHAP / LIME / Grafos \\
+        \midrule
+        Limitação & Caixa-Preta & Dados em inglês, privados & Baixa Performance & 
+        Sem medidas de qualidade das explicações & Custo Computacional \\
+        \bottomrule
+    \end{tabular}
+    }
+    \vspace{0.2cm}
+    \legend{Fonte: Elaborado pelos autores}
+\end{table}
 
 % ---------------------------------------------------------------
 \subsection{Limitações dos modelos existentes}
@@ -1133,8 +1239,7 @@ palavras com múltiplos sentidos dependendo do contexto, tem impacto
 reduzido, tornando o SVM com TF-IDF competitivo em termos de 
 desempenho.
 
-Com base nessa observação, Wahba propõe o modelo HOOM 
-(\textit{Hybrid Online Offline Model}), que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
+Com base nessa observação, \citeonline{wahba2023} propõe o modelo HOOM (\textit{Hybrid Online Offline Model} -- Modelo Híbrido \textit{Online} e \textit{Offline}), que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
 é um algoritmo de aprendizado incremental que atualiza o modelo a cada nova amostra, mantendo-se ``passivo'' quando a predição está correta e ``agressivo'' ao corrigir erros e treinado em modo 
 \textit{online} para detectar mudanças na distribuição dos dados ao longo do tempo. O modelo é descrito como mais eficiente, interpretável e reproduzível 
 do que abordagens baseadas em \textit{transformers}, que são modelos 
@@ -1188,7 +1293,13 @@ Nos modelos comparados por \citeonline{zemp2021}, a predição não vem acompanh
 \subsubsection{Carência de soluções robustas para PT-BR em \textit{helpdesk}}
 \label{subsubsec:lacuna_ptbr}
 
-Os trabalhos de \citeonline{yokota2025} e \citeonline{pereira2023} evidenciam que o estado da arte em classificação de chamados de suporte em português brasileiro ainda é incipiente. Os melhores resultados reportados com modelos simples (75\% de precisão média com ML tradicional e F1-macro insatisfatório com NB e MLP) são inferiores a modelos baseados em \textit{transformers} já alcançados em inglês. Não foi identificado nenhum trabalho nacional que aplique BERTimbau com XAI a chamados de suporte de TI.
+Os trabalhos de \citeonline{yokota2025} e \citeonline{pereira2023} evidenciam 
+que o estado da arte em classificação de chamados de suporte em português brasileiro 
+ainda é incipiente. Os resultados reportados (75\% de precisão média com ML tradicional 
+e F1-macro de até 61\% com NB e MLP sobre \textit{embeddings}) são inferiores a modelos 
+baseados em \textit{transformers} já alcançados em inglês, embora os dados e as 
+métricas sejam diferentes. Não foi identificado nenhum trabalho nacional que aplique 
+BERTimbau com XAI a chamados de suporte de TI.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Custo-benefício do BERT sem camada de explicabilidade}
@@ -1204,57 +1315,6 @@ de avaliação for a acurácia. O presente trabalho examina esse argumento medin
 \label{subsec:sintese_direcao}
 
 Diante das lacunas identificadas: ausência de XAI em sistemas de classificação de chamados em produção, carência de soluções robustas para PT-BR em \textit{helpdesk} de TI, e a questão do custo-benefício do BERT sem explicabilidade, o presente trabalho investiga um \textit{pipeline} que combina BERTimbau, SHAP, LIME e grafo de co-ocorrência ponderado para classificação de chamados em PT-BR com explicabilidade visual. A descrição detalhada da arquitetura, do \textit{dataset}, dos experimentos e da interface desenvolvida é apresentada no Capítulo~\ref{cap:desenvolvimento}.
-
-\subsection{Trabalho 1: Text Classification of Service Desk Tickets}
-
-\citeonline{zemp2021} abordou o problema da triagem automática num ambiente corporativo com mais de um milhão de chamados. 
-Para resolvê-lo, o autor comparou modelos CNN, BiLSTM e RoBERTa. A metodologia envolveu o treino em larga escala 
-num \textit{dataset} real de um banco privado de médio porte. Os resultados mostraram uma acurácia de 92\%. 
-No entanto, a classificação automática entre incidentes e requisições foi considerada potencialmente 
-perigosa pela equipe de suporte, devido ao risco de avaliações superficiais dos chamados. O presente trabalho 
-diferencia-se por focar na explicabilidade via SHAP, LIME e grafos, permitindo que os analistas de TI 
-entendam o ``porquê'' da classificação.
-
-\subsection{Trabalho 2: A Hybrid Continual Machine Learning Model for Efficient Hierarchical Classification of Domain-Specific Text in The Presence of Class Overlap (Case Study: IT Support Tickets)}
-
-\citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, mas propôs uma abordagem focada em eficiência para domínios especializados. A solução utilizou um modelo híbrido (HOOM) que combina SVM linear com classificadores \textit{online}. A metodologia demonstrou que em textos técnicos, modelos mais simples podem ser competitivos. Os resultados mostraram boa performance com baixo custo computacional. A limitação identificada é que essa abordagem perde as nuances contextuais que modelos baseados em \textit{Transformers} capturam. O presente trabalho adotou o BERTimbau, específico para PT-BR, que captura o contexto das palavras, e o combinou com SHAP, LIME e visualização em grafos para explicar as classificações.
-
-\subsection{Trabalho 3: Classificação hierárquica de textos aplicado ao contexto chamados de suporte}
-
-\citeonline{yokota2025} investigou a classificação de chamados especificamente em português brasileiro, utilizando modelos clássicos como \textit{Naive Bayes} e MLP. A metodologia focou na estrutura hierárquica das categorias de TI. Os resultados apresentaram F1-macro insatisfatório para uso em produção. A lacuna principal foi a incapacidade de modelos simples lidarem com o jargão técnico do suporte em português. O presente trabalho diferencia-se pelo uso de uma arquitetura de estado da arte (BERTimbau) pré-treinada em português, buscando lidar com as limitações semânticas dos modelos testados por \citeonline{yokota2025}.
-
-\subsection{Trabalho 4: AI-Based Classification of IT Support Requests in Enterprise Service Management Systems}
-
-\citeonline{razma2026} compararam regressão logística com TF-IDF, mBERT e XLM-RoBERTa na classificação de mais de 87 mil chamados multilíngues de uma empresa de manufatura, e aplicaram o LIME (à regressão logística e ao mBERT) e o SHAP (à regressão logística) a exemplos de chamados. Os \textit{transformers} tiveram F1-macro maior, e as explicações do BERT destacaram termos mais contextuais que as do modelo linear. Pelo que o artigo apresenta, as explicações são mostradas em exemplos, sem medidas de fidelidade, estabilidade ou concordância entre os métodos, e sem estruturá-las em grafo. O presente trabalho mede essas propriedades para SHAP e LIME sobre o BERTimbau, em chamados em português, e as representa em um grafo de co-ocorrência.
-
-\vspace{0.5cm}
-
-\begin{table}[htb]
-    \centering
-    \caption{Comparação entre trabalhos relacionados}
-    \label{tab:trabalhos_relacionados}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{l|c|c|c|c|c}
-        \toprule
-        \textbf{Critério} & \textbf{Zemp (2021)} & \textbf{Wahba (2023)} & 
-        \textbf{Yokota (2025)} & \textbf{Razma e Jurkus (2026)} & \textbf{Este trabalho} \\
-        \midrule
-        Objetivo & Classificação & Eficiência & Classificação PT-BR & 
-        Classificação + XAI & Classificação + XAI \\
-        \midrule
-        Tecnologia & RoBERTa / CNN & SVM / HOOM & \textit{Naive Bayes} / MLP & 
-        mBERT / XLM-R / Reg. logística & BERTimbau + Grafos \\
-        \midrule
-        Explicabilidade & Não & Intrínseca & Limitada & LIME / SHAP (em exemplos) & SHAP / LIME / Grafos \\
-        \midrule
-        Limitação & Caixa-Preta & Baixo Contexto & Baixa Performance & 
-        Sem medidas de qualidade das explicações & Custo Computacional \\
-        \bottomrule
-    \end{tabular}
-    }
-    \vspace{0.2cm}
-    \legend{Fonte: Elaborado pelos autores}
-\end{table}
 
 % ===============================================================
 % CAPÍTULO 3 - METODOLOGIA
@@ -1445,43 +1505,43 @@ inserção de chamados, painel de resultados e espaço destinado às visualizaç
 explicativas.
 
 \begin{figure}[H]
+    \caption{Protótipo de baixa fidelidade da interface (proposta 1)}
+    \label{fig:prototipo_baixa_agatha}
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_agatha.png}
-    \caption{Protótipo de baixa fidelidade da interface (proposta 1)}
     \legend{Fonte: Elaborado pelos autores}
-    \label{fig:prototipo_baixa_agatha}
 \end{figure}
 
 \begin{figure}[H]
+    \caption{Protótipo de baixa fidelidade da interface (proposta 2)}
+    \label{fig:prototipo_baixa_bru}
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_bru.png}
-    \caption{Protótipo de baixa fidelidade da interface (proposta 2)}
     \legend{Fonte: Elaborado pelos autores}
-    \label{fig:prototipo_baixa_bru}
 \end{figure}
 
 \begin{figure}[H]
+    \caption{Protótipo de baixa fidelidade da interface (proposta 3)}
+    \label{fig:prototipo_baixa_kayke}
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_kayke.png}
-    \caption{Protótipo de baixa fidelidade da interface (proposta 3)}
     \legend{Fonte: Elaborado pelos autores}
-    \label{fig:prototipo_baixa_kayke}
 \end{figure}
 
 \begin{figure}[H]
+    \caption{Protótipo de baixa fidelidade da interface final - Tela do grafo}
+    \label{fig:prototipo_baixa_grafo}
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_grafo.png}
-    \caption{Protótipo de baixa fidelidade da interface final - Tela do grafo}
     \legend{Fonte: Elaborado pelos autores}
-    \label{fig:prototipo_baixa_grafo}
 \end{figure}
 
 \begin{figure}[H]
+    \caption{Protótipo de baixa fidelidade da interface final - Tela das estatísticas}
+    \label{fig:prototipo_baixa_estatisticas}
     \centering
     \includegraphics[width=0.75\textwidth]{imagens/baixa_estatisticas.png}
-    \caption{Protótipo de baixa fidelidade da interface final - Tela das estatísticas}
     \legend{Fonte: Elaborado pelos autores}
-    \label{fig:prototipo_baixa_estatisticas}
 \end{figure}
 
 Posteriormente, foram elaborados protótipos de média fidelidade com maior nível de detalhamento visual, com foco em validar como as explicações geradas pelo modelo seriam apresentadas de forma compreensível para os analistas de TI. 
@@ -1521,25 +1581,27 @@ se os recursos de explicabilidade seriam apresentados de forma
 intuitiva, clara e acessível aos analistas de TI.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{imagens/grafo.png}
     \caption{Protótipo de média fidelidade - visualização do grafo de co-ocorrência}
     \label{fig:prototipo_media_grafo}
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagens/grafo.png}
+    \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{imagens/estatisticas.png}
     \caption{Protótipo de média fidelidade - visualização estatística dos \textit{tokens}}
     \label{fig:prototipo_media_estatisticas}
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagens/estatisticas.png}
+    \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
 A Figura~\ref{fig:interface_final} mostra a interface final com um chamado inventado, digitado apenas para ilustração: a interface exibe a categoria prevista e a confiança, e o grafo de co-ocorrência, com nós em azul (a favor da classe prevista) e laranja (contra), o seletor entre SHAP e LIME e a lista de chamados recentes.
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{imagens/interface_final.jpg}
     \caption{Interface final: classificação de um chamado digitado e grafo de co-ocorrência}
     \label{fig:interface_final}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/interface_final.jpg}
     \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
@@ -1670,14 +1732,16 @@ Laboratórios Farmacêuticos e Bayer S.A. Os autores solicitaram o
 acesso por e-mail, explicando o objetivo acadêmico do trabalho, quais
 informações seriam necessárias e como os registros seriam tratados.
 
-As autorizações de uso foram concedidas pelas duas empresas por e-mail,
-com a condição de que os chamados fossem anonimizados antes de qualquer
-etapa de processamento. Essas mensagens são o registro da autorização
-concedida e delimitam a finalidade acadêmica do uso, e estão
+Não foi utilizado um conjunto de dados público. Os chamados são dados privados das duas empresas, cedidos com finalidade acadêmica e anonimizados, e por isso os textos originais não são divulgados neste trabalho.
+
+As autorizações de uso foram concedidas pelas duas empresas por e-mail.
+Os autores se comprometeram a usar os chamados apenas neste trabalho e a
+anonimizá-los antes de qualquer etapa de processamento. Essas mensagens
+são o registro da autorização concedida e da finalidade acadêmica do uso, e estão
 reproduzidas nos Anexos~\ref{an:autorizacao_ache}
 e~\ref{an:autorizacao_bayer}.
 
-A anonimização, além de atender a essa condição, alinha o trabalho ao
+A anonimização, além de cumprir esse compromisso, alinha o trabalho ao
 tratamento que a Lei Geral de Proteção de Dados Pessoais (LGPD, Lei
 n.º 13.709/2018) dá aos dados anonimizados, que não são considerados
 dados pessoais para os fins da lei, salvo quando a anonimização puder
@@ -1691,6 +1755,34 @@ portanto, apenas uma escolha metodológica.
 \label{subsubsec:dataset_finetuning}
 
 O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Bayer Brasil e da Aché, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Bayer tinha 191.350 chamados, abertos de janeiro de 2021 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Aché tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Aché: 6.949; Bayer: 46.330), em 11 classes, entre elas a classe OUTROS.
+
+As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
+
+\begin{table}[htb]
+  \centering
+  \caption{Categorias de classificação dos chamados}
+  \label{tab:categorias}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{p{5.5cm}p{6.2cm}r}
+    \toprule
+    Categoria & Tipo de chamado (exemplo) & Chamados no teste \\
+    \midrule
+    SISTEMAS\_E\_APLICACOES & Falhas e dúvidas em sistemas corporativos e aplicações & 2.458 \\
+    ACESSOS\_E\_IDENTIDADE & Criação, bloqueio e revogação de acessos e contas (ex.: desligamento de colaborador) & 610 \\
+    SUPORTE\_E\_EQUIPAMENTOS & Suporte a computadores e equipamentos (ex.: \textit{checklist} preventivo de salas de reunião) & 589 \\
+    CONSULTA\_E\_ORIENTACAO & Dúvidas e pedidos de orientação & 555 \\
+    REDES\_E\_COMUNICACOES & Rede, conectividade e comunicação & 435 \\
+    SOFTWARE & Instalação e problemas de \textit{software} & 297 \\
+    SOLICITACAO\_DE\_SERVICO & Pedidos de serviço (ex.: limpeza de um \textit{rack}) & 260 \\
+    SERVIDORES & Chamados sobre servidores & 40 \\
+    CIBERSEGURANCA & Segurança da informação & 21 \\
+    AQUISICAO\_TI & Compra e licenciamento (ex.: transferência de licença do \textit{Office}) & 16 \\
+    OUTROS & Demais chamados (ex.: instalação de impressoras) & 12 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores}
+\end{table}
 
 A base da Bayer possui, além da descrição completa, uma descrição curta, que a base da Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Aché, o que motivou o agrupamento descrito a seguir.
 
@@ -1715,6 +1807,8 @@ A Tabela~\ref{tab:res_teste} apresenta o desempenho dos dois classificadores no 
   \centering
   \caption{Desempenho dos classificadores no conjunto de teste}
   \label{tab:res_teste}
+  \small
+  \setlength{\tabcolsep}{4pt}
   \begin{tabular}{lcccc}
     \toprule
     Modelo & Acurácia & Precisão (macro) & Revocação (macro) & F1-macro \\
@@ -1734,10 +1828,11 @@ A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se co
   \centering
   \caption{F1 por classe no conjunto de teste e diferença entre BERTimbau e SVM}
   \label{tab:res_classe}
-  \small
-  \begin{tabular}{p{4.9cm}rcccc}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lrcccc}
     \toprule
-    Classe & Chamados & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC de 95\% (p.p.) \\
+    Classe & Chamados & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC 95\% (p.p.) \\
     \midrule
 SISTEMAS\_E\_APLICACOES & 2.458 & 0,811 & 0,809 & +0,3 & $-$0,8 a 1,3 \\
 ACESSOS\_E\_IDENTIDADE & 610 & 0,802 & 0,775 & +2,7 & 0,5 a 8,8 \\
@@ -1762,8 +1857,9 @@ Sem esse grupo, restam 418 chamados da Aché, ainda nas mesmas 7 classes, e o F1
   \centering
   \caption{Desempenho no conjunto de teste, por empresa de origem}
   \label{tab:res_empresa}
-  \small
-  \begin{tabular}{lrrccccc}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lrrcccc}
     \toprule
     Subconjunto & Chamados & Grupos & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC de 95\% (p.p.) \\
     \midrule
@@ -1780,10 +1876,10 @@ No conjunto de validação, a diferença segue a mesma direção. Após retirar 
 A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no teste. Os erros mais frequentes ocorrem entre CONSULTA\_E\_ORIENTACAO e SISTEMAS\_E\_APLICACOES (180 chamados previstos como a segunda e 146 no sentido inverso), seguidos de SOLICITACAO\_DE\_SERVICO previstos como SISTEMAS\_E\_APLICACOES (78) e de SISTEMAS\_E\_APLICACOES previstos como SUPORTE\_E\_EQUIPAMENTOS (76). As classes de menor F1 são CONSULTA\_E\_ORIENTACAO (0,429), SOLICITACAO\_DE\_SERVICO (0,440) e OUTROS (0,000). Uma possível explicação, que este trabalho não testou, é que essas classes descrevem o tipo de pedido, e não o sistema ou equipamento envolvido, e por isso se sobrepõem às demais.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/matriz_confusao_teste.png}
     \caption{Matriz de confusão do BERTimbau no conjunto de teste, normalizada por classe real}
     \label{fig:matriz_confusao}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/matriz_confusao_teste.png}
     \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
@@ -1914,30 +2010,30 @@ Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavr
 No caso 1, o chamado pede a transferência de uma licença do pacote \textit{Office} para outra pessoa. As duas palavras de maior peso a favor da classe são as mesmas nos dois métodos, \textit{licença} (SHAP de 0,476; LIME de 0,447) e \textit{office} (0,151 e 0,138), e são o vocabulário esperado para a aquisição de \textit{software}. O grafo mostra \textit{licença} como o maior nó, ligado a \textit{office} e \textit{pacote}.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso1_ache_001118.png}
     \caption{Grafo de co-ocorrência do caso 1 (ache\_ticket\_001118), com pesos SHAP}
     \label{fig:grafo_caso1}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso1_ache_001118.png}
     \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
 No caso 2, o chamado tem uma única frase, sobre a instalação de duas impressoras, e a categoria real é OUTROS; o modelo previu SUPORTE\_E\_EQUIPAMENTOS com confiança de 0,42. O grafo tem apenas 4 nós. A palavra de maior peso, \textit{Rena}, a marca de uma das impressoras, pesa contra a classe prevista (SHAP de $-$0,248; LIME de $-$0,290), assim como \textit{impressoras} ($-$0,101 e $-$0,077), enquanto o marcador de anonimização \textit{[PERSON]} pesa a favor (0,124 e 0,144). A explicação mostra que a decisão se apoiou em muito pouca evidência e que um marcador de anonimização influenciou a previsão, o que um analista pode questionar.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso2_bayer_001351.png}
     \caption{Grafo de co-ocorrência do caso 2 (bayer\_ticket\_001351), com pesos SHAP}
     \label{fig:grafo_caso2}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso2_bayer_001351.png}
     \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
 No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concordam na palavra de maior peso, \textit{Favor} (SHAP de 0,322; LIME de 0,346), típica de um pedido de serviço. Nas demais palavras, porém, divergem: \textit{limpeza} tem peso de 0,165 no SHAP e de apenas 0,002 no LIME. O grafo, construído com os pesos do SHAP, e o do LIME, portanto, destacam conjuntos diferentes de palavras além da primeira, o que o analista pode verificar alternando o método na interface.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso3_bayer_016056.png}
     \caption{Grafo de co-ocorrência do caso 3 (bayer\_ticket\_016056), com pesos SHAP}
     \label{fig:grafo_caso3}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_caso3_bayer_016056.png}
     \legend{Fonte: Elaborado pelos autores}
 \end{figure}
 
@@ -2002,13 +2098,17 @@ Este trabalho tem limitações que delimitam o alcance de seus resultados.
 
 Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Bayer reúne 86\% do conjunto de teste. Os chamados da Aché cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Aché traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha.
 
+Além disso, dos 189.909 chamados da Bayer que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico.
+
 Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo.
+
+Quanto à escolha do modelo, o trabalho usou o BERTimbau, um modelo de 2020, e não avaliou modelos generalistas mais recentes (LLMs), nem abordagens com recuperação de contexto (RAG, \textit{Retrieval-Augmented Generation} -- Geração Aumentada por Recuperação) ou explicações em texto geradas pelo próprio modelo, como as de \textit{Chain-of-Thought} (Cadeia de Raciocínio). O BERTimbau foi mantido por ser específico para o português e por permitir calcular, em máquinas locais, as centenas de consultas ao modelo que o SHAP e o LIME exigem por explicação; com um LLM, esse custo seria bem maior. Já as explicações em texto de um LLM teriam de ter sua fidelidade ao processo de decisão avaliada com medidas como as usadas aqui.
 
 Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 500 consultas, o mesmo número de amostras do LIME; orçamentos maiores podem alterar a estabilidade medida. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, as medidas de fidelidade foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e por isso seus valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
 
 Quanto ao grafo, a auditabilidade foi avaliada pela rastreabilidade, em estudos de caso, e não em um teste com analistas de TI. O trabalho, portanto, mostra que cada nó e cada aresta podem ser levados de volta ao chamado, mas não que analistas conseguem, na prática, acompanhar a decisão do classificador a partir do grafo.
 
-Como trabalhos futuros, sugerem-se: (i) repetir o treinamento com outras sementes e incluir chamados de outras empresas e de períodos mais longos; (ii) explicar uma amostra maior de chamados, com mais amostras e consultas por explicação, para medir a estabilidade com mais precisão; (iii) avaliar o grafo em um teste com analistas de TI; e (iv) comparar o grafo ponderado por SHAP e por LIME com outras formas de apresentar as explicações.
+Como trabalhos futuros, sugerem-se: (i) repetir o treinamento com outras sementes e incluir chamados de outras empresas e de períodos mais longos; (ii) explicar uma amostra maior de chamados, com mais amostras e consultas por explicação, para medir a estabilidade com mais precisão; (iii) avaliar o grafo em um teste com analistas de TI; (iv) comparar o grafo ponderado por SHAP e por LIME com outras formas de apresentar as explicações; e (v) comparar o BERTimbau com modelos generalistas mais recentes e avaliar abordagens com RAG e explicações por cadeia de raciocínio.
 
 % ---------------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
@@ -2061,17 +2161,21 @@ O cronograma a seguir apresenta as fases do TCC2, com as datas em que foram conc
 \chapter{Autorização de uso de dados --- Aché Laboratórios Farmacêuticos}
 \label{an:autorizacao_ache}
 
-Mensagem de e-mail em que a Aché Laboratórios Farmacêuticos autoriza o
-uso de chamados de suporte técnico para fins acadêmicos neste trabalho,
-mediante anonimização dos registros. Nomes, e-mails, ramais e
-assinaturas dos remetentes foram removidos da imagem, mantendo-se
-apenas o conteúdo da autorização e a identificação da empresa.
+Troca de e-mails em que a Aché Laboratórios Farmacêuticos, por meio de sua equipe de suporte de TI e do prestador do serviço, concorda em compartilhar a base de chamados de suporte técnico para fins acadêmicos neste trabalho. Nomes, endereços de e-mail, telefones e assinaturas dos participantes foram ocultados, mantendo-se a data, o assunto e o conteúdo da conversa. As mensagens aparecem em ordem cronológica: o pedido dos autores e a concordância da empresa (Figura~\ref{fig:autorizacao_ache_1}) e o envio da base de chamados (Figura~\ref{fig:autorizacao_ache_2}).
 
 \begin{figure}[H]
+    \caption{Autorização de uso de dados concedida pela Aché Laboratórios Farmacêuticos (1 de 2): pedido e concordância}
+    \label{fig:autorizacao_ache_1}
     \centering
-    \includegraphics[width=0.85\textwidth]{imagens/autorizacao_ache.png}
-    \caption{Autorização de uso de dados concedida pela Aché Laboratórios Farmacêuticos}
-    \label{fig:autorizacao_ache}
+    \includegraphics[width=0.9\textwidth]{imagens/autorizacao_ache_1.png}
+    \legend{Fonte: Correspondência recebida pelos autores (2026)}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Autorização de uso de dados concedida pela Aché Laboratórios Farmacêuticos (2 de 2): acompanhamento e envio da base}
+    \label{fig:autorizacao_ache_2}
+    \centering
+    \includegraphics[width=0.9\textwidth,height=0.75\textheight,keepaspectratio]{imagens/autorizacao_ache_2.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026)}
 \end{figure}
 
@@ -2085,10 +2189,10 @@ remetentes foram removidos da imagem, mantendo-se apenas o conteúdo da
 autorização e a identificação da empresa.
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{imagens/autorizacao_bayer.png}
     \caption{Autorização de uso de dados concedida pela Bayer S.A.}
     \label{fig:autorizacao_bayer}
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagens/autorizacao_bayer.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026)}
 \end{figure}
 
