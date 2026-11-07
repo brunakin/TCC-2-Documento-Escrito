@@ -363,20 +363,98 @@ Dessa forma, investigar se mecanismos de explicabilidade baseados em grafos pode
 \chapter{Revisão Bibliográfica}
 \label{cap:revisao}
 
-Esta seção apresenta os fundamentos conceituais que sustentam a 
-proposta deste trabalho. Os temas foram organizados em seis blocos 
-para apresentar a evolução do problema até chegar às limitações 
-identificadas na literatura e à proposta deste trabalho: 
-(1) Sistemas de \textit{Help Desk} e a triagem de chamados de TI; 
-(2) Processamento de Linguagem Natural para classificação de texto; 
-(3) o modelo BERT e suas variantes; (4) Inteligência Artificial 
-Explicável (XAI); (5) grafos de co-ocorrência como representação 
-estrutural de texto; e (6) a síntese da literatura e posicionamento 
-do trabalho.
+Este capítulo apresenta a base teórica e o estado da arte do trabalho. Ele começa pela metodologia da pesquisa bibliográfica (Seção~\ref{sec:metodologia_pesquisa}) e pelos fundamentos teóricos necessários à leitura (Seção~\ref{sec:fundamentos}): Processamento de Linguagem Natural, modelos baseados em \textit{Transformer}, Inteligência Artificial Explicável, grafos de co-ocorrência e auditabilidade. Em seguida, aprofunda as técnicas, métodos e abordagens existentes (Seção~\ref{sec:tecnicas}) e encerra com os trabalhos correlatos, as limitações da literatura e o posicionamento deste trabalho (Seção~\ref{sec:trabalhos_relacionados}).
 
-% ===============================================================
-\section{Sistemas de \textit{Help Desk} e a Triagem de Chamados de TI}
-\label{sec:helpdesk}
+% ---------------------------------------------------------------
+\section{Metodologia da pesquisa bibliográfica}
+\label{sec:metodologia_pesquisa}
+
+A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. Foram selecionados artigos publicados entre 2021 e 2026, em português e inglês, que tivessem relação direta com o tema abordado.
+
+% ---------------------------------------------------------------
+% 2.2 FUNDAMENTOS TEÓRICOS
+% ---------------------------------------------------------------
+\section{Fundamentos teóricos}
+\label{sec:fundamentos}
+
+Esta seção apresenta os conceitos técnicos fundamentais que sustentam a proposta deste trabalho. O objetivo é fornecer ao leitor as definições necessárias para compreender a solução proposta antes de sua descrição detalhada.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Sistema de \textit{Help Desk} e Triagem de Chamados}
+ 
+Um sistema de \textit{help desk} é uma plataforma que centraliza e gerencia solicitações de suporte técnico submetidas pelos usuários de uma organização. A triagem de chamados consiste em classificar cada solicitação em uma categoria predefinida e encaminhá-la à equipe responsável pela resolução. A automação desse processo, substituindo ou auxiliando a triagem manual, é o problema central abordado por este trabalho \cite{zemp2021}.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Processamento de Linguagem Natural}
+ 
+Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto deste trabalho, PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários \cite{devlin2019}.
+ 
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Modelos de Linguagem Baseados em \textit{Transformer}}
+ 
+Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é o modelo desta família mais amplamente adotado para tarefas de classificação de texto. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro, sendo o modelo adotado neste trabalho.
+ 
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Inteligência Artificial Explicável}
+ 
+Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho:
+ 
+\begin{itemize}
+    \item \textbf{LIME} \cite{ribeiro2016}: explica predições individuais ajustando um modelo linear simples em torno de perturbações da entrada original, indicando quais palavras mais contribuíram para a classificação.
+ 
+    \item \textbf{SHAP} \cite{lundberg2017}: atribui a cada palavra da entrada um valor de importância calculado com base na teoria dos jogos cooperativos, com garantias matemáticas de consistência e equidade na distribuição de crédito.
+\end{itemize}
+ 
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Grafo de Co-ocorrência}
+ 
+Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$ na qual os nós $V$ representam os termos únicos de um texto e as arestas $E$ conectam pares de termos que aparecem juntos dentro de uma janela deslizante de tamanho fixo \cite{yao2019}. 
+Neste trabalho, essa estrutura foi utilizada como camada de visualização das explicações XAI: os pesos dos nós foram determinados pelos valores SHAP e LIME de cada \textit{token}, e os pesos das arestas, pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection{Auditabilidade}
+\label{subsec:auditabilidade}
+
+A literatura de XAI não apresenta uma definição única e consolidada de
+auditabilidade. Por essa razão, adota-se aqui uma definição operacional,
+construída a partir de propriedades já estabelecidas na literatura: um
+sistema de classificação é auditável quando permite rastrear, verificar
+e reproduzir a explicação de cada decisão do modelo. Trata-se, portanto,
+de uma propriedade técnica do sistema, e não da confiança percebida por
+quem o utiliza. Essa distinção é relevante porque o estudo de \citeonline{zemp2021}, 
+ao relatar a reação de analistas de suporte a um sistema de classificação 
+em produção, trata da confiança percebida, e não da propriedade técnica definida aqui.
+
+A definição se desdobra em três dimensões:
+
+\begin{itemize}
+    \item \textbf{Rastreabilidade}: a capacidade de atribuir a decisão
+    do modelo a termos específicos da entrada, obtida por meio dos
+    valores SHAP \cite{lundberg2017} e LIME \cite{ribeiro2016};
+
+    \item \textbf{Estabilidade}: a reprodutibilidade da explicação
+    gerada para uma mesma instância ao longo de execuções repetidas,
+    questão especialmente relevante para o LIME, que depende de
+    amostragem aleatória de perturbações \cite{salih2023};
+
+    \item \textbf{Fidelidade}: o grau em que a explicação reflete o
+    processo de decisão efetivamente utilizado pelo modelo
+    \cite{jacovi2020}, verificável pela variação da confiança preditiva
+    ao remover da entrada os termos apontados como mais relevantes.
+\end{itemize}
+
+A validação da percepção de confiança por parte de gestores ou analistas
+de TI não é objeto deste trabalho, sendo reconhecida como extensão
+natural da pesquisa.
+
+
+% ---------------------------------------------------------------
+% 2.3 TÉCNICAS, MÉTODOS OU ABORDAGENS EXISTENTES
+% ---------------------------------------------------------------
+\section{Técnicas, métodos ou abordagens existentes}
+\label{sec:tecnicas}
+
+As subseções a seguir aprofundam os conceitos apresentados na Seção~\ref{sec:fundamentos} e descrevem as abordagens já empregadas na classificação de chamados de TI, nos modelos de linguagem, na explicabilidade e nos grafos de co-ocorrência.
 
 % ---------------------------------------------------------------
 \subsection{Definição e importância dos sistemas de \textit{help desk} nas organizações}
@@ -439,63 +517,6 @@ abordagens metodológicas mais sofisticadas, o que reforça a escolha
 do BERTimbau neste trabalho.
 
 % ---------------------------------------------------------------
-\subsection{Limitações dos modelos existentes}
-\label{subsec:helpdesk_limitacoes}
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{O debate BERT versus SVM em domínios especializados}
-\label{subsubsec:helpdesk_debate}
-
-\citeonline{wahba2023}, em sua tese de doutorado na Universidade de Western Ontario, propõe um contraponto relevante ao uso indiscriminado de modelos baseados em \textit{transformers} para classificação de texto em domínios especializados. Com base em quatro anos de estudos empíricos com dados reais de uma empresa parceira, a autora demonstra 
-que chamados de suporte de TI utilizam vocabulário técnico específico 
-e de baixa ambiguidade. Nesse contexto, a principal vantagem do BERT, que é compreender 
-palavras com múltiplos sentidos dependendo do contexto, tem impacto 
-reduzido, tornando o SVM com TF-IDF competitivo em termos de 
-desempenho.
-
-Com base nessa observação, Wahba propõe o modelo HOOM 
-(\textit{Hybrid Online Offline Model}), que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
-é um algoritmo de aprendizado incremental que atualiza o modelo a cada nova amostra, mantendo-se ``passivo'' quando a predição está correta e ``agressivo'' ao corrigir erros e treinado em modo 
-\textit{online} para detectar mudanças na distribuição dos dados ao longo do tempo. O modelo é descrito como mais eficiente, interpretável e reproduzível 
-do que abordagens baseadas em \textit{transformers}, que são modelos 
-de linguagem baseados em redes neurais profundas e que serão 
-detalhados na Seção~\ref{sec:bert}.
-
-Este argumento é diretamente relevante para o presente trabalho, pois os cenários A (SVM com TF-IDF) e B (BERTimbau) permitem medir, nos chamados analisados, o ganho do modelo mais complexo (Seção~\ref{subsec:experimentos}). Além do desempenho, investiga-se se a camada de explicabilidade traz um benefício de auditabilidade ao classificador.
-
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsubsection{A caixa-preta e a verificação das decisões em produção}
-\label{subsubsec:helpdesk_caixapreta}
-
-\citeonline{zemp2021}, em estudo desenvolvido na ZHAW com dados reais 
-de um banco privado de médio porte com atuação internacional, treinou três tipos de modelos: CNN, 
-BiLSTM, que é uma rede neural recorrente bidirecional capaz de 
-processar sequências de texto nos dois sentidos, e RoBERTa, uma 
-variante aprimorada do BERT com treinamento mais robusto. O estudo 
-utilizou mais de um milhão de \textit{tickets} históricos, atingindo, com a CNN, 
-92\% de acurácia de validação e F1-macro de 0,75 em mais de 300 
-classes. O sistema foi parcialmente implantado em produção, e os agentes 
-de suporte foram convidados a utilizá-lo em seu trabalho diário. 
-
-Na avaliação com a equipe de suporte, a previsão do serviço afetado foi considerada útil por unanimidade e mantida no sistema. Já a classificação entre requisições e incidentes, embora tenha atingido 93\% de acurácia de validação, foi recusada: a equipe a considerou potencialmente perigosa, por poder levar a avaliações superficiais dos chamados, e entendeu que essa distinção deve ser aprendida pelos próprios analistas no trabalho.
-
-Em um ambiente ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}, \citeonline{razma2026} aplicaram LIME e 
-SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
-também do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
-em mais de 100 idiomas, e afirmam que essas explicações contribuem para a 
-interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
-
-Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de 
-classificação de chamados de TI em produção real funcionam, mas a ausência 
-de mecanismos de explicabilidade limita sua auditabilidade. 
-A proposta deste TCC busca lidar com essa limitação.
-
-% ===============================================================
-\section{Processamento de Linguagem Natural para Classificação de Texto}
-\label{sec:pln}
-
-% ---------------------------------------------------------------
 \subsection{Representações vetoriais de texto}
 \label{subsec:pln_representacoes}
 
@@ -535,10 +556,6 @@ manifesta em termos como ``acesso'', ``serviço'' ou ``sistema'', que
 podem ter significados muito distintos dependendo do chamado.
 
 Essa limitação motivou o desenvolvimento de representações contextualizadas, nas quais o \textit{embedding} de cada palavra é computado dinamicamente a partir do contexto completo da frase. Os modelos baseados na arquitetura \textit{Transformer}, em particular o BERT, representam a abordagem dominante nessa direção \cite{devlin2019}.
-
-% ===============================================================
-\section{O Modelo BERT e suas Variantes}
-\label{sec:bert}
 
 % ---------------------------------------------------------------
 \subsection{Arquitetura \textit{Transformer} e mecanismo de atenção}
@@ -682,10 +699,6 @@ em um corpus de 87 mil \textit{tickets} multilíngues de uma empresa
 de manufatura. Os resultados confirmaram que \textit{transformers} 
 superam modelos clássicos em macro-F1, especialmente para classes 
 de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao mBERT e à regressão logística, e o SHAP à regressão logística, o que mostra ser viável explicar um BERT \textit{fine-tuned} com LIME sobre chamados reais de ITSM; eles afirmam que as explicações contribuem para a interpretabilidade e a confiança.
-
-% ===============================================================
-\section{Inteligência Artificial Explicável (XAI)}
-\label{sec:xai}
 
 % ---------------------------------------------------------------
 \subsection{Definição e motivação}
@@ -966,10 +979,6 @@ para analistas de TI sem formação em aprendizado de máquina, hipótese que es
 avaliando se os termos destacados fazem sentido para cada categoria 
 de chamado classificada.
 
-% ===============================================================
-\section{Grafos de Co-ocorrência como Representação Estrutural de Texto}
-\label{sec:grafos}
-
 % ---------------------------------------------------------------
 \subsection{Fundamentos de grafos aplicados a texto}
 \label{subsec:grafos_fundamentos}
@@ -1101,9 +1110,66 @@ propriedade técnica de auditabilidade da representação proposta, sem
 medir a adoção efetiva do sistema por usuários. A solução proposta 
 adota essa abordagem, cuja implementação é detalhada no 
 Capítulo~\ref{cap:desenvolvimento}.
-% ===============================================================
-\section{Síntese da Literatura e Posicionamento do Trabalho}
-\label{sec:sintese}
+% ---------------------------------------------------------------
+% 2.4 TRABALHOS CORRELATOS E LIMITAÇÕES
+% ---------------------------------------------------------------
+\section{Trabalhos correlatos e limitações}
+\label{sec:trabalhos_relacionados}
+
+Os quatro trabalhos a seguir enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
+
+% ---------------------------------------------------------------
+\subsection{Limitações dos modelos existentes}
+\label{subsec:helpdesk_limitacoes}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{O debate BERT versus SVM em domínios especializados}
+\label{subsubsec:helpdesk_debate}
+
+\citeonline{wahba2023}, em sua tese de doutorado na Universidade de Western Ontario, propõe um contraponto relevante ao uso indiscriminado de modelos baseados em \textit{transformers} para classificação de texto em domínios especializados. Com base em quatro anos de estudos empíricos com dados reais de uma empresa parceira, a autora demonstra 
+que chamados de suporte de TI utilizam vocabulário técnico específico 
+e de baixa ambiguidade. Nesse contexto, a principal vantagem do BERT, que é compreender 
+palavras com múltiplos sentidos dependendo do contexto, tem impacto 
+reduzido, tornando o SVM com TF-IDF competitivo em termos de 
+desempenho.
+
+Com base nessa observação, Wahba propõe o modelo HOOM 
+(\textit{Hybrid Online Offline Model}), que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
+é um algoritmo de aprendizado incremental que atualiza o modelo a cada nova amostra, mantendo-se ``passivo'' quando a predição está correta e ``agressivo'' ao corrigir erros e treinado em modo 
+\textit{online} para detectar mudanças na distribuição dos dados ao longo do tempo. O modelo é descrito como mais eficiente, interpretável e reproduzível 
+do que abordagens baseadas em \textit{transformers}, que são modelos 
+de linguagem baseados em redes neurais profundas e que serão 
+detalhados na Seção~\ref{subsec:bert_transformer}.
+
+Este argumento é diretamente relevante para o presente trabalho, pois os cenários A (SVM com TF-IDF) e B (BERTimbau) permitem medir, nos chamados analisados, o ganho do modelo mais complexo (Seção~\ref{subsec:experimentos}). Além do desempenho, investiga-se se a camada de explicabilidade traz um benefício de auditabilidade ao classificador.
+
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsubsection{A caixa-preta e a verificação das decisões em produção}
+\label{subsubsec:helpdesk_caixapreta}
+
+\citeonline{zemp2021}, em estudo desenvolvido na ZHAW com dados reais 
+de um banco privado de médio porte com atuação internacional, treinou três tipos de modelos: CNN, 
+BiLSTM, que é uma rede neural recorrente bidirecional capaz de 
+processar sequências de texto nos dois sentidos, e RoBERTa, uma 
+variante aprimorada do BERT com treinamento mais robusto. O estudo 
+utilizou mais de um milhão de \textit{tickets} históricos, atingindo, com a CNN, 
+92\% de acurácia de validação e F1-macro de 0,75 em mais de 300 
+classes. O sistema foi parcialmente implantado em produção, e os agentes 
+de suporte foram convidados a utilizá-lo em seu trabalho diário. 
+
+Na avaliação com a equipe de suporte, a previsão do serviço afetado foi considerada útil por unanimidade e mantida no sistema. Já a classificação entre requisições e incidentes, embora tenha atingido 93\% de acurácia de validação, foi recusada: a equipe a considerou potencialmente perigosa, por poder levar a avaliações superficiais dos chamados, e entendeu que essa distinção deve ser aprendida pelos próprios analistas no trabalho.
+
+Em um ambiente ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}, \citeonline{razma2026} aplicaram LIME e 
+SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
+também do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
+em mais de 100 idiomas, e afirmam que essas explicações contribuem para a 
+interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
+
+Esses estudos ajudam a justificar a proposta deste trabalho: sistemas de 
+classificação de chamados de TI em produção real funcionam, mas a ausência 
+de mecanismos de explicabilidade limita sua auditabilidade. 
+A proposta deste TCC busca lidar com essa limitação.
 
 % ---------------------------------------------------------------
 \subsection{Lacunas identificadas no estado da arte}
@@ -1138,93 +1204,6 @@ de avaliação for a acurácia. O presente trabalho examina esse argumento medin
 \label{subsec:sintese_direcao}
 
 Diante das lacunas identificadas: ausência de XAI em sistemas de classificação de chamados em produção, carência de soluções robustas para PT-BR em \textit{helpdesk} de TI, e a questão do custo-benefício do BERT sem explicabilidade, o presente trabalho investiga um \textit{pipeline} que combina BERTimbau, SHAP, LIME e grafo de co-ocorrência ponderado para classificação de chamados em PT-BR com explicabilidade visual. A descrição detalhada da arquitetura, do \textit{dataset}, dos experimentos e da interface desenvolvida é apresentada no Capítulo~\ref{cap:desenvolvimento}.
-
-% ---------------------------------------------------------------
-\section{Metodologia da pesquisa bibliográfica}
-\label{sec:metodologia_pesquisa}
-
-A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. Foram selecionados artigos publicados entre 2021 e 2026, em português e inglês, que tivessem relação direta com o tema abordado.
-
-% ---------------------------------------------------------------
-\section{Fundamentos}
-\label{sec:fundamentos}
- 
-Esta seção apresenta os conceitos técnicos fundamentais que sustentam a proposta deste trabalho. O objetivo é fornecer ao leitor as definições necessárias para compreender a solução proposta antes de sua descrição detalhada.
- 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Processamento de Linguagem Natural}
- 
-Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto deste trabalho, PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários \cite{devlin2019}.
- 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Modelos de Linguagem Baseados em \textit{Transformer}}
- 
-Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é o modelo desta família mais amplamente adotado para tarefas de classificação de texto. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro, sendo o modelo adotado neste trabalho.
- 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Inteligência Artificial Explicável}
- 
-Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho:
- 
-\begin{itemize}
-    \item \textbf{LIME} \cite{ribeiro2016}: explica predições individuais ajustando um modelo linear simples em torno de perturbações da entrada original, indicando quais palavras mais contribuíram para a classificação.
- 
-    \item \textbf{SHAP} \cite{lundberg2017}: atribui a cada palavra da entrada um valor de importância calculado com base na teoria dos jogos cooperativos, com garantias matemáticas de consistência e equidade na distribuição de crédito.
-\end{itemize}
- 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Grafo de Co-ocorrência}
- 
-Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$ na qual os nós $V$ representam os termos únicos de um texto e as arestas $E$ conectam pares de termos que aparecem juntos dentro de uma janela deslizante de tamanho fixo \cite{yao2019}. 
-Neste trabalho, essa estrutura foi utilizada como camada de visualização das explicações XAI: os pesos dos nós foram determinados pelos valores SHAP e LIME de cada \textit{token}, e os pesos das arestas, pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Auditabilidade}
-\label{subsec:auditabilidade}
-
-A literatura de XAI não apresenta uma definição única e consolidada de
-auditabilidade. Por essa razão, adota-se aqui uma definição operacional,
-construída a partir de propriedades já estabelecidas na literatura: um
-sistema de classificação é auditável quando permite rastrear, verificar
-e reproduzir a explicação de cada decisão do modelo. Trata-se, portanto,
-de uma propriedade técnica do sistema, e não da confiança percebida por
-quem o utiliza. Essa distinção é relevante porque o estudo de \citeonline{zemp2021}, 
-ao relatar a reação de analistas de suporte a um sistema de classificação 
-em produção, trata da confiança percebida, e não da propriedade técnica definida aqui.
-
-A definição se desdobra em três dimensões:
-
-\begin{itemize}
-    \item \textbf{Rastreabilidade}: a capacidade de atribuir a decisão
-    do modelo a termos específicos da entrada, obtida por meio dos
-    valores SHAP \cite{lundberg2017} e LIME \cite{ribeiro2016};
-
-    \item \textbf{Estabilidade}: a reprodutibilidade da explicação
-    gerada para uma mesma instância ao longo de execuções repetidas,
-    questão especialmente relevante para o LIME, que depende de
-    amostragem aleatória de perturbações \cite{salih2023};
-
-    \item \textbf{Fidelidade}: o grau em que a explicação reflete o
-    processo de decisão efetivamente utilizado pelo modelo
-    \cite{jacovi2020}, verificável pela variação da confiança preditiva
-    ao remover da entrada os termos apontados como mais relevantes.
-\end{itemize}
-
-A validação da percepção de confiança por parte de gestores ou analistas
-de TI não é objeto deste trabalho, sendo reconhecida como extensão
-natural da pesquisa.
-
-
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\subsection{Sistema de \textit{Help Desk} e Triagem de Chamados}
- 
-Um sistema de \textit{help desk} é uma plataforma que centraliza e gerencia solicitações de suporte técnico submetidas pelos usuários de uma organização. A triagem de chamados consiste em classificar cada solicitação em uma categoria predefinida e encaminhá-la à equipe responsável pela resolução. A automação desse processo, substituindo ou auxiliando a triagem manual, é o problema central abordado por este trabalho \cite{zemp2021}.
-
-% ---------------------------------------------------------------
-\section{Trabalhos relacionados}
-\label{sec:trabalhos_relacionados}
-
-Esta seção analisa quatro trabalhos que enfrentaram o desafio de automatizar a triagem de chamados de suporte de TI, servindo de base comparativa para a evolução proposta neste TCC.
 
 \subsection{Trabalho 1: Text Classification of Service Desk Tickets}
 
