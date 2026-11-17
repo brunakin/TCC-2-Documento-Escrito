@@ -290,7 +290,7 @@ de suporte de TI em português brasileiro.
     um grafo para cada chamado, com as palavras como nós, ponderados
     pelos valores SHAP e LIME, e a co-ocorrência na janela como arestas,
     e verifica-se, em casos aplicados, se cada nó e cada aresta
-    pode ser levado ao chamado e aos pesos das explicações.
+    pode ser rastreado até o texto do chamado e aos pesos das explicações.
 
     \item Validar a consistência semântica das explicações 
     geradas pelo \textit{pipeline} no contexto de chamados de 
@@ -1421,8 +1421,7 @@ O sucesso da solução é avaliado sob duas perspectivas complementares.
   \item \textbf{Coerência semântica:} análise qualitativa, nos casos aplicados, de se os termos destacados pelo SHAP e pelo LIME correspondem ao vocabulário técnico esperado para a categoria predita.
 \end{itemize}
 
-\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e às notas do SHAP e do LIME. 
-
+\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e aos pesos do SHAP e do LIME. Na prática, a verificação tem duas partes: (i) para cada nó, confere-se que a palavra aparece no texto do chamado e que seu peso corresponde ao valor atribuído pelo SHAP e pelo LIME; (ii) para cada aresta, confere-se que as duas palavras aparecem juntas na janela de 4 palavras e que seu peso é o número de vezes em que isso ocorre, valor que pode ser recalculado a partir do texto.
 
 % ---------------------------------------------------------------
 \section{Detalhes da implementação}
