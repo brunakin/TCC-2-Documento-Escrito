@@ -383,7 +383,7 @@ Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial 
 \subsubsubsection{\textit{TF-IDF} e modelos baseados em frequência}
 \label{subsubsec:pln_tfidf}
 
-A representação mais simples de um documento para fins de classificação é o modelo \textit{bag-of-words}: cada documento é representado como um vetor de contagens de palavras, sem considerar a ordem em que aparecem. O \textit{TF-IDF} é um refinamento desse modelo que pondera cada termo pelo produto de sua frequência no documento e pelo inverso de sua frequência no corpus (o conjunto de textos usado como base, aqui os chamados), reduzindo o peso de termos muito comuns e aumentando o peso de termos mais informativos \cite{razma2026}.
+A representação mais simples de um documento para fins de classificação é o modelo \textit{bag-of-words}: cada documento é representado como um vetor de contagens de palavras, sem considerar a ordem em que aparecem. O \textit{TF-IDF} é um refinamento desse modelo que pondera cada termo pelo produto de duas quantidades: a frequência do termo no documento (TF, de \textit{term frequency}) e o inverso de sua frequência no corpus (IDF, de \textit{inverse document frequency}), sendo o corpus o conjunto de textos usado como base, aqui os chamados. Com isso, reduz o peso de termos muito comuns e aumenta o peso de termos mais informativos \cite{razma2026}.
 
 Apesar de sua simplicidade, o \textit{TF-IDF} ainda é amplamente utilizado como \textit{baseline} em tarefas de classificação de texto, especialmente quando combinado com o SVM, um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, e apresenta desempenho competitivo em domínios com vocabulário técnico específico e baixa polissemia, ou seja, onde as palavras raramente mudam de sentido dependendo do contexto \cite{wahba2023}. Sua principal limitação é a incapacidade de capturar relações semânticas entre termos: palavras sinônimas ou semanticamente relacionadas são tratadas como completamente distintas.
 
@@ -468,7 +468,7 @@ A automação da triagem de chamados por meio de aprendizado de máquina tem sid
 \subsubsubsection{Modelos clássicos — \textit{Naive Bayes} e SVM com TF-IDF}
 \label{subsubsec:helpdesk_classicos}
 
-As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} (Bayes ingênuo, classificador probabilístico que supõe que as palavras são independentes entre si) e SVM, com vetorização TF-IDF. Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia e F1-score (métricas definidas na Seção~\ref{subsec:metricas_classificacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
+As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} (Bayes ingênuo, classificador probabilístico que supõe que as palavras são independentes entre si) e SVM, com vetorização TF-IDF, representação que pondera cada palavra pela frequência no chamado e pela raridade no conjunto de chamados (Seção~\ref{subsubsec:pln_tfidf}). Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia e F1-score (métricas definidas na Seção~\ref{subsec:metricas_classificacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
 
 Apesar de sua eficiência computacional e facilidade de interpretação, esses modelos apresentam limitações na captura de relações semânticas entre termos. A representação TF-IDF trata cada palavra de forma independente, sem considerar o contexto em que ela aparece, o que restringe a capacidade do modelo de distinguir categorias semanticamente próximas.
 
@@ -634,7 +634,7 @@ tarefas de PLN.
 \subsubsubsection{\textit{Token} [CLS] e classificação de sequências}
 \label{subsubsec:bert_cls}
 
-Para tarefas de classificação de sequências, o BERT utiliza um \textit{token} especial [CLS] (abreviação de \textit{Classification}, marcador inserido pelo modelo para agregar a representação global da sequência) inserido no início de cada sequência de entrada. Após o processamento pelas camadas de \textit{encoder}, a representação vetorial correspondente ao [CLS] agrega informação contextual de toda a sequência e é usada como entrada para a camada de classificação \cite{devlin2019}. Durante o \textit{fine-tuning}, essa camada de classificação, tipicamente uma camada \textit{linear} seguida de \textit{softmax}, aprende a mapear a representação do [CLS] para as probabilidades de cada categoria. 
+Para tarefas de classificação de sequências, o BERT utiliza um \textit{token} especial [CLS] (abreviação de \textit{Classification}, marcador inserido pelo modelo para agregar a representação global da sequência) inserido no início de cada sequência de entrada. Após o processamento pelas camadas de \textit{encoder}, a representação vetorial correspondente ao [CLS] agrega informação contextual de toda a sequência e é usada como entrada para a camada de classificação \cite{devlin2019}. Durante o \textit{fine-tuning}, essa camada de classificação, tipicamente uma camada \textit{linear} seguida de \textit{softmax}, aprende a mapear a representação do [CLS] para as probabilidades de cada categoria. A camada linear produz uma pontuação $z_k$ para cada categoria $k$, e a \textit{softmax} converte essas pontuações em probabilidades, $p_k = e^{z_k} / \sum_{j} e^{z_j}$, todas positivas e com soma igual a 1. Por exemplo, as pontuações 2, 1 e 0 viram probabilidades de cerca de 0,67, 0,24 e 0,09, e a categoria prevista é a de maior probabilidade. 
 Neste trabalho, essa representação é usada para classificar o chamado de TI em uma das categorias predefinidas, e os valores SHAP e LIME (importância que dois métodos de explicação atribuem a cada palavra) são calculados sobre os \textit{tokens} de entrada para identificar quais contribuíram mais para a predição.
 
 \subsubsection{BERTimbau — BERT para o português brasileiro}
@@ -652,7 +652,25 @@ A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT
 \subsubsubsection{Desempenho em tarefas de PLN em PT-BR}
 \label{subsubsec:bertimbau_desempenho}
 
-\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER, do inglês \textit{Named Entity Recognition}), similaridade textual entre sentenças e inferência textual (\textit{Recognizing Textual Entailment}). O modelo obteve desempenho de estado da arte nas três tarefas, consolidando-se como referência para aplicações de PLN em PT-BR.
+\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER, do inglês \textit{Named Entity Recognition}), similaridade textual entre sentenças e inferência textual (\textit{Recognizing Textual Entailment}). O modelo obteve desempenho de estado da arte nas três tarefas, como mostra a Tabela~\ref{tab:bertimbau_sota}, consolidando-se como referência para aplicações de PLN em PT-BR. Na versão \textit{base}, a mesma usada neste trabalho, o BERTimbau superou o mBERT e o melhor resultado anterior nas quatro medidas da tabela.
+
+\begin{table}[htb]
+  \centering
+  \caption{Desempenho do BERTimbau-base em tarefas de PLN em português}
+  \label{tab:bertimbau_sota}
+  \small
+  \begin{tabular}{p{5.2cm}lccc}
+    \toprule
+    Tarefa (conjunto de avaliação) & Métrica & BERTimbau-base & mBERT & Melhor anterior \\
+    \midrule
+    Similaridade textual (ASSIN2) & Correlação de Pearson & 0,836 & 0,809 & 0,83 \\
+    Inferência textual (ASSIN2) & F1 (\%) & 89,2 & 86,8 & 88,3 \\
+    NER no MiniHAREM (5 classes) & F1 (\%) & 83,1 & 79,2 & 82,3 \\
+    NER no MiniHAREM (10 classes) & F1 (\%) & 77,6 & 73,1 & 74,6 \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Adaptado de \citeonline{souza2020}. A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
+\end{table}
 
 Para o presente trabalho, a escolha do BERTimbau em detrimento do mBERT é motivada por dois fatores. Primeiro, os chamados de suporte analisados estão em português brasileiro, idioma para o qual o BERTimbau possui representações mais ricas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente de sua versão em inglês. E o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
 
@@ -772,16 +790,14 @@ objetivo é encontrar o modelo interpretável mais simples
 possível que seja localmente fiel ao comportamento do modelo 
 complexo.
 
-A Figura~\ref{fig:lime_exemplo} ilustra esse processo: as palavras 
-destacadas indicam sua contribuição positiva ou negativa para a 
-classe predita.
+A Figura~\ref{fig:lime_exemplo} mostra o resultado desse processo para um chamado fictício: o painel superior esquerdo traz a probabilidade que o modelo atribui a cada categoria; o inferior esquerdo, o peso que o LIME atribui a cada palavra para a categoria prevista; e o da direita, o texto com as palavras destacadas, em azul quando favorecem a categoria prevista e em laranja quando pesam contra ela.
 
 \begin{figure}[H]
-    \caption{Exemplo de explicação gerada pelo LIME}
+    \caption{Exemplo de explicação gerada pelo LIME para um chamado fictício}
     \label{fig:lime_exemplo}
     \centering
-    \includegraphics[width=0.75\textwidth]{imagens/lime_exemplo.png}
-    \legend{Fonte: \citeonline{ribeiro2016}}
+    \includegraphics[width=\textwidth]{imagens/lime_exemplo_pt.png}
+    \legend{Fonte: Elaborado pelos autores, inspirado nas visualizações de \citeonline{ribeiro2016} (valores ilustrativos, não extraídos de um modelo treinado)}
 \end{figure}
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -940,8 +956,7 @@ em cada divisão. O modelo utilizado foi um híbrido de regressão
 \textit{ridge} com regressão logística. O LIME foi utilizado para 
 validar a explicabilidade das classificações em seis domínios 
 distintos: medicina, esportes, entretenimento, política, tecnologia 
-e negócios. O modelo híbrido atingiu 99\% de acurácia após a 
-aplicação do pré-processamento informado pelas explanações LIME.
+e negócios. Após o ajuste do pré-processamento, a acurácia de alguns modelos individuais subiu de 0,43 para 0,64 (\textit{Linear Discriminant Analysis}) e de 0,51 para 0,59 (\textit{AdaBoost}), e o modelo híbrido atingiu até 99\% de acurácia, em um conjunto combinado de 2.494 textos.
 
 O trabalho demonstra que a integração de XAI ao \textit{pipeline} 
 de classificação não é apenas uma camada de interpretabilidade 
@@ -1047,6 +1062,16 @@ a co-ocorrer em chamados de uma mesma categoria, como ``VPN'' e
 ``acesso'' em chamados de conectividade, estarão estruturalmente 
 próximos no grafo, com pesos de nós proporcionais à sua 
 importância explicativa calculada por SHAP e LIME.
+
+A Figura~\ref{fig:grafo_exemplo} ilustra a construção com o mesmo chamado fictício da Figura~\ref{fig:lime_exemplo}. À esquerda, estão as palavras que restam depois da remoção das palavras vazias (\textit{stopwords}) e as duas janelas de tamanho 4 que percorrem o texto. À direita, está o grafo resultante: o tamanho de cada nó é proporcional ao módulo do peso da palavra, e o número sobre a aresta indica em quantas janelas o par aparece junto.
+
+\begin{figure}[H]
+    \caption{Construção de um grafo de co-ocorrência a partir de um chamado fictício}
+    \label{fig:grafo_exemplo}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/grafo_cooc_exemplo.png}
+    \legend{Fonte: Elaborado pelos autores (valores ilustrativos, não extraídos de um modelo treinado)}
+\end{figure}
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Ponderação de arestas — frequência, PMI}
 \label{subsubsec:grafos_ponderacao}
