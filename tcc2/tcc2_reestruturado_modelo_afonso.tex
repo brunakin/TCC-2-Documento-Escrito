@@ -976,7 +976,7 @@ melhorando a qualidade do modelo como um todo.
 \subsubsubsection{SHAP e LIME em ambiente ITSM corporativo}
 \label{subsubsec:xai_razma}
 
-\citeonline{razma2026} aplicaram o LIME à regressão logística com \textit{TF-IDF} e ao mBERT \textit{fine-tuned}, e o SHAP à regressão logística, em um ambiente ITSM corporativo real. Os resultados qualitativos das explicações foram significativamente distintos: o modelo linear tendia a destacar palavras-chave literais com alta frequência no corpus, enquanto o BERT destacava termos semanticamente coerentes com o significado do chamado.
+\citeonline{razma2026} aplicaram o LIME à regressão logística com \textit{TF-IDF} e ao mBERT \textit{fine-tuned}, e o SHAP à regressão logística, em um ambiente ITSM corporativo real. Os resultados qualitativos das explicações foram bem distintos: o modelo linear tendia a destacar palavras-chave literais com alta frequência no corpus, enquanto o BERT destacava termos semanticamente coerentes com o significado do chamado.
 
 Essa diferença qualitativa nas explicações, documentada por 
 \citeonline{razma2026}, sugere que o BERTimbau, combinado com SHAP 
@@ -1821,7 +1821,7 @@ Para responder ao objetivo específico 1, a Tabela~\ref{tab:res_teste} apresenta
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença é positiva com alta confiança (probabilidade de 99,8\% nas reamostragens), mas a estimativa pontual fica abaixo da meta de 5 pontos estabelecida inicialmente (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: a probabilidade de a diferença ser de pelo menos 5 pontos é de cerca de 21\%.
+A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença foi positiva em 99,8\% das reamostragens, mas a estimativa pontual fica abaixo da meta de 5 pontos estabelecida inicialmente (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: em cerca de 21\% das reamostragens, a diferença atingiu ao menos 5 pontos.
 
 A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por cerca de 96\% da diferença de 3,7 pontos no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste.
 
