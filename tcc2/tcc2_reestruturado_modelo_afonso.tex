@@ -261,6 +261,8 @@ tornar o processo de classificação auditável?}
 % ---------------------------------------------------------------
 \section{Objetivos e hipótese}
 
+Os objetivos a seguir decorrem da lacuna e do problema apresentados nas seções anteriores (Seções~\ref{sec:contexto} e~\ref{sec:problema}): os classificadores baseados em \textit{transformers} não revelam por que atribuíram uma categoria a um chamado, e não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português. Por isso, o trabalho se estrutura a partir de um objetivo central, que define o escopo principal da pesquisa, e de objetivos específicos, que representam as metas intermediárias e os subprodutos analíticos necessários para responder à questão central de investigação. Como a avaliação é computacional, sem teste com analistas, a auditabilidade é tratada como uma propriedade técnica do sistema (Seção~\ref{subsec:auditabilidade}).
+
 \subsection{Objetivo geral}
 Investigar como uma camada de explicabilidade (SHAP e LIME) 
 e grafos de co-ocorrência, acrescentada a um \textit{pipeline} de classificação baseado em \textit{transformers}, contribui 
@@ -270,8 +272,8 @@ de suporte de TI em português brasileiro.
 
 \subsection{Objetivos específicos}
 \begin{enumerate}
-    \item Analisar o ganho de desempenho do modelo BERTimbau com \textit{fine-tuning} em relação ao \textit{baseline} SVM com TF-IDF, utilizando a métrica F1-macro.
- 
+    \item Analisar o ganho de desempenho do modelo BERTimbau com \textit{fine-tuning} em relação ao \textit{baseline} SVM com TF-IDF, utilizando a métrica F1-macro, tendo como critério de referência um ganho de pelo menos 5 pontos percentuais (Seção~\ref{subsec:criterios_validacao}).
+    
     \item Comparar a explicabilidade gerada por SHAP e LIME em
     termos de fidelidade, estabilidade, concordância entre os
     métodos e relevância semântica, calculando essas medidas
