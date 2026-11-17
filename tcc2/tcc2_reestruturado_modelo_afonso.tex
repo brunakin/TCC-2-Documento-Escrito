@@ -165,7 +165,6 @@ The results were integrated into a web interface that classifies a typed ticket,
 % ---------------------------------------------------------------
 \begin{siglas}
   \item[AOPC] \textit{Area Over the Perturbation Curve} (Área sobre a Curva de Perturbação)
-  \item[API] \textit{Application Programming Interface} (Interface de Programação de Aplicações)
   \item[BEGNN] \textit{BERT-Enhanced Graph Neural Network} (Rede Neural de Grafos Aprimorada por BERT)
   \item[BERT] \textit{Bidirectional Encoder Representations from Transformers} (Representações de Codificador Bidirecional a partir de Transformers)
   \item[BERTimbau] Variante do BERT pré-treinada para o português brasileiro
@@ -201,8 +200,12 @@ The results were integrated into a web interface that classifies a typed ticket,
   \item[SLA] \textit{Service Level Agreement} (Acordo de Nível de Serviço)
   \item[SMOTE] \textit{Synthetic Minority Oversampling Technique} (Técnica de Sobreamostragem Sintética de Minorias)
   \item[SVM] \textit{Support Vector Machine} (Máquina de Vetores de Suporte)
+  \item[TCC] Trabalho de Conclusão de Curso
+  \item[TCC1] Trabalho de Conclusão de Curso I
+  \item[TCC2] Trabalho de Conclusão de Curso II
   \item[TF-IDF] \textit{Term Frequency–Inverse Document Frequency} (Frequência do Termo–Inverso da Frequência nos Documentos)
   \item[TI] Tecnologia da Informação
+  \item[VPN] \textit{Virtual Private Network} (Rede Privada Virtual)
   \item[XAI] \textit{Explainable Artificial Intelligence} (Inteligência Artificial Explicável)
   \item[XLM-RoBERTa] \textit{Cross-lingual Language Model RoBERTa} (Modelo de Linguagem Multilíngue RoBERTa)
   \item[ZHAW] \textit{Zürcher Hochschule für Angewandte Wissenschaften} (Universidade de Ciências Aplicadas de Zurique)
@@ -240,11 +243,11 @@ Neste contexto, explicabilidade é a capacidade de mostrar quais palavras do cha
 
 Essa informação serve a diferentes interessados. O analista pode verificar se os termos destacados fazem sentido para a categoria e decidir se confia na previsão \cite{ribeiro2016, razma2026}. O gestor pode auditar o sistema e identificar erros sistemáticos, por exemplo uma categoria que o modelo decide por palavras irrelevantes. A equipe que mantém o modelo pode depurá-lo e melhorá-lo: no estudo de \citeonline{mustafa2025}, as explicações do LIME revelaram que palavras sem conteúdo informativo recebiam pesos altos, o que levou a ajustar o pré-processamento. E o usuário, indiretamente, se beneficia de chamados mais bem encaminhados.
 
-Mas uma explicação só ajuda se for confiável e legível, e há dois obstáculos. O primeiro é que o SHAP e o LIME podem divergir entre si e variar entre execuções, pois o LIME depende de amostragem aleatória \cite{salih2023}, o que torna necessário medir a fidelidade (se a explicação reflete o que o modelo de fato usou) e a estabilidade (se ela se mantém ao repetir o cálculo) das explicações. A fidelidade é medida pela queda da confiança do modelo ao retirar as palavras destacadas (\textit{comprehensiveness}) ou ao manter apenas elas (\textit{sufficiency}), e pela correlação entre o peso de cada palavra e o efeito de retirá-la sozinha (Tau-LOO). A estabilidade é medida repetindo a explicação e comparando as repetições. Além disso, avalia-se a consistência semântica, isto é, se as palavras destacadas fazem sentido para a categoria prevista: em um chamado que pede a transferência de uma licença do \textit{Office}, classificado como aquisição de TI, espera-se que ``licença'' e ``\textit{office}'' recebam peso alto; se as palavras de maior peso não tivessem relação com a categoria, a consistência seria baixa. O segundo é que uma lista de pesos por palavra mostra a importância de cada termo, mas não como eles se relacionam no texto. Um grafo de co-ocorrência, em que cada nó é uma palavra e cada aresta liga palavras que aparecem próximas \cite{yao2019}, pode apresentar as explicações de forma visual e rastreável \cite{talebi2025}. Quando é possível voltar do resultado ao chamado e conferir quais palavras e pesos o produziram, diz-se que a decisão é auditável (auditabilidade).
+Mas uma explicação só ajuda se for confiável e legível, e há dois obstáculos. O primeiro é que o SHAP e o LIME podem divergir entre si e variar entre execuções, pois o LIME depende de amostragem aleatória \cite{salih2023}, o que torna necessário medir a fidelidade (se a explicação reflete o que o modelo de fato usou) e a estabilidade (se ela se mantém ao repetir o cálculo) das explicações. A fidelidade é medida pela queda da confiança do modelo ao retirar as palavras destacadas (\textit{comprehensiveness}) ou ao manter apenas elas (\textit{sufficiency}), e pela correlação entre o peso de cada palavra e o efeito de retirá-la sozinha (Tau-LOO, de \textit{Leave-One-Out} -- Deixar Um de Fora). A estabilidade é medida repetindo a explicação e comparando as repetições. Além disso, avalia-se a consistência semântica, isto é, se as palavras destacadas fazem sentido para a categoria prevista: em um chamado que pede a transferência de uma licença do \textit{Office}, classificado como aquisição de TI, espera-se que ``licença'' e ``\textit{office}'' recebam peso alto; se as palavras de maior peso não tivessem relação com a categoria, a consistência seria baixa. O segundo é que uma lista de pesos por palavra mostra a importância de cada termo, mas não como eles se relacionam no texto. Um grafo de co-ocorrência, em que cada nó é uma palavra e cada aresta liga palavras que aparecem próximas \cite{yao2019}, pode apresentar as explicações de forma visual e rastreável \cite{talebi2025}. Quando é possível voltar do resultado ao chamado e conferir quais palavras e pesos o produziram, diz-se que a decisão é auditável (auditabilidade).
 
 Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam 75\% de precisão média, em sete categorias \cite{pereira2023}, e F1-macro de até 61\% (média do F1, que combina precisão e revocação, calculada com o mesmo peso para cada categoria), em 226.438 chamados \cite{yokota2025}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
 
-É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Isso é feito por meio de um \textit{pipeline}, uma sequência de etapas que vai do chamado à categoria prevista e à sua explicação. O desempenho do BERTimbau é comparado ao de um modelo de referência (\textit{baseline}), um SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte) com TF-IDF (\textit{Term Frequency--Inverse Document Frequency}), classificador tradicional que pesa cada palavra pela frequência no chamado e pela raridade no conjunto. Os dados são 53.279 chamados reais, em 11 categorias, cedidos pelo Aché e pela Bayer.
+É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Isso é feito por meio de um \textit{pipeline}, uma sequência de etapas que vai do chamado à categoria prevista e à sua explicação. O desempenho do BERTimbau é comparado ao de um modelo de referência (\textit{baseline}), um SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte) com TF-IDF (\textit{Term Frequency--Inverse Document Frequency} -- Frequência do Termo--Inverso da Frequência nos Documentos), classificador tradicional que pesa cada palavra pela frequência no chamado e pela raridade no conjunto. Os dados são 53.279 chamados reais, em 11 categorias, cedidos pelo Aché e pela Bayer.
 
 % ---------------------------------------------------------------
 \section{Formulação do problema}
@@ -341,7 +344,7 @@ A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, a
 \section{Fundamentos teóricos}
 \label{sec:fundamentos}
 
-Esta seção apresenta os fundamentos conceituais e as técnicas existentes que sustentam a proposta deste trabalho. Os temas foram organizados em cinco blocos, do mais geral ao mais específico, para apresentar a evolução do problema até a proposta: (1) Sistemas de \textit{Help Desk} e a triagem de chamados de TI; (2) Processamento de Linguagem Natural para classificação de texto; (3) o modelo BERT e suas variantes; (4) Inteligência Artificial Explicável (XAI); e (5) grafos de co-ocorrência como representação estrutural de texto. A síntese da literatura, as lacunas identificadas e o posicionamento deste trabalho são apresentados na Seção~\ref{sec:trabalhos_relacionados}.
+Esta seção apresenta os fundamentos conceituais e as técnicas existentes que sustentam a proposta deste trabalho. Os temas foram organizados em cinco blocos, do mais geral ao mais específico, para apresentar a evolução do problema até a proposta: (1) Sistemas de \textit{Help Desk} e a triagem de chamados de TI; (2) Processamento de Linguagem Natural para classificação de texto; (3) o modelo BERT e suas variantes; (4) Inteligência Artificial Explicável (XAI, do inglês \textit{Explainable Artificial Intelligence}); e (5) grafos de co-ocorrência como representação estrutural de texto. A síntese da literatura, as lacunas identificadas e o posicionamento deste trabalho são apresentados na Seção~\ref{sec:trabalhos_relacionados}.
 
 % ---------------------------------------------------------------
 \subsection{Sistemas de \textit{Help Desk} e a triagem de chamados de TI}
@@ -353,13 +356,11 @@ Um sistema de \textit{help desk} é uma plataforma que centraliza e gerencia sol
 
 Sistemas de \textit{help desk}, também denominados sistemas de suporte técnico, centrais de serviço ou plataformas ITSM (\textit{IT Service Management} -- Gerenciamento de Serviços de TI), são estruturas organizacionais e tecnológicas responsáveis por centralizar e gerenciar as solicitações de suporte submetidas pelos usuários de uma organização. Esses sistemas recebem chamados relacionados a falhas de infraestrutura, problemas em aplicações, solicitações de acesso, dúvidas operacionais e demais ocorrências que interrompem ou dificultam o trabalho dos colaboradores \cite{zemp2021}.
 
-A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável para que o prazo de resolução estabelecido no SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço) seja cumprido. O não cumprimento desses prazos impacta diretamente a produtividade organizacional e a satisfação dos usuários.
+A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável para que o prazo de resolução estabelecido no SLA seja cumprido. O não cumprimento desses prazos impacta diretamente a produtividade organizacional e a satisfação dos usuários.
 
 Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail}, telefone ou \textit{chat}, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e, conforme ela, priorizado e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo. Nos dados deste trabalho, cada chamado traz a descrição completa e uma categoria, e os da Bayer trazem também uma descrição curta (Seção~\ref{subsubsec:dataset_finetuning}). A etapa de classificação é a que este trabalho busca automatizar e explicar.
 
 Boa parte dessa organização vem do ITIL (\textit{Information Technology Infrastructure Library} -- Biblioteca de Infraestrutura de Tecnologia da Informação), um conjunto de boas práticas de gerenciamento de serviços de TI amplamente adotado \cite{axelos2019}. O ITIL distingue o incidente, uma interrupção não planejada de um serviço ou redução de sua qualidade, da requisição de serviço, um pedido do usuário que inicia uma ação de serviço acordada como parte normal da entrega do serviço \cite{axelos2019}. Essa é a distinção que a equipe de suporte do estudo de \citeonline{zemp2021} recusou automatizar (Seção~\ref{subsubsec:helpdesk_caixapreta}).
-
-Os sistemas que implementam esse ciclo podem ser de código aberto ou comerciais. Entre os de código aberto estão o GLPI, o Znuny, o Zammad e o osTicket, que a própria organização pode instalar e adaptar; entre os comerciais estão o ServiceNow, o Jira Service Management, o Zendesk e o Freshservice, oferecidos como serviço pago, em geral na nuvem. Independentemente do produto, esses sistemas em geral guardam o texto de cada chamado e sua categoria, e é esse histórico que permite treinar classificadores como os deste trabalho.
 
 \subsubsection{O processo manual de triagem e seus problemas}
 \label{subsec:helpdesk_triagem}
@@ -384,7 +385,7 @@ Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial 
 
 A representação mais simples de um documento para fins de classificação é o modelo \textit{bag-of-words}: cada documento é representado como um vetor de contagens de palavras, sem considerar a ordem em que aparecem. O \textit{TF-IDF} é um refinamento desse modelo que pondera cada termo pelo produto de sua frequência no documento e pelo inverso de sua frequência no corpus (o conjunto de textos usado como base, aqui os chamados), reduzindo o peso de termos muito comuns e aumentando o peso de termos mais informativos \cite{razma2026}.
 
-Apesar de sua simplicidade, o \textit{TF-IDF} ainda é amplamente utilizado como \textit{baseline} em tarefas de classificação de texto, especialmente quando combinado com o SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte), um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, e apresenta desempenho competitivo em domínios com vocabulário técnico específico e baixa polissemia, ou seja, onde as palavras raramente mudam de sentido dependendo do contexto \cite{wahba2023}. Sua principal limitação é a incapacidade de capturar relações semânticas entre termos: palavras sinônimas ou semanticamente relacionadas são tratadas como completamente distintas.
+Apesar de sua simplicidade, o \textit{TF-IDF} ainda é amplamente utilizado como \textit{baseline} em tarefas de classificação de texto, especialmente quando combinado com o SVM, um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, e apresenta desempenho competitivo em domínios com vocabulário técnico específico e baixa polissemia, ou seja, onde as palavras raramente mudam de sentido dependendo do contexto \cite{wahba2023}. Sua principal limitação é a incapacidade de capturar relações semânticas entre termos: palavras sinônimas ou semanticamente relacionadas são tratadas como completamente distintas.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{\textit{Embeddings} estáticos — \textit{Word2Vec} e \textit{GloVe}}
@@ -475,13 +476,13 @@ Formalmente, o peso de um termo $t$ em um documento $d$ é
 \begin{equation}
 \text{TF-IDF}(t,d) = \text{TF}(t,d) \cdot \log\frac{N}{\text{DF}(t)}
 \end{equation}
-onde $\text{TF}(t,d)$ é o número de vezes que $t$ aparece em $d$, $N$ é o total de documentos do corpus e $\text{DF}(t)$ é o número de documentos que contêm $t$. Por exemplo, em um corpus hipotético de 1.000 chamados, um termo que aparece em 10 deles (como ``VPN'') tem $\log_{10}(1000/10) = 2$, enquanto um que aparece em 500 (como ``acesso'') tem $\log_{10}(1000/500) \approx 0{,}3$: o termo raro pesa mais.
+onde $\text{TF}(t,d)$ é o número de vezes que $t$ aparece em $d$, $N$ é o total de documentos do corpus e $\text{DF}(t)$ é o número de documentos que contêm $t$. Por exemplo, em um corpus hipotético de 1.000 chamados, um termo que aparece em 10 deles (como ``VPN'', de \textit{Virtual Private Network} -- Rede Privada Virtual) tem $\log_{10}(1000/10) = 2$, enquanto um que aparece em 500 (como ``acesso'') tem $\log_{10}(1000/500) \approx 0{,}3$: o termo raro pesa mais.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Redes neurais convolucionais aplicadas a \textit{tickets}}
 \label{subsubsec:helpdesk_cnn}
 
-Com o avanço das técnicas de aprendizado profundo, modelos baseados em redes neurais convolucionais (CNN) passaram a ser aplicados à classificação de chamados de suporte. \citeonline{paramesh2022} propuseram um classificador baseado em CNN com \textit{word embeddings} (representações vetoriais densas de palavras aprendidas por redes neurais) para categorização automática de \textit{tickets} de \textit{service desk} de infraestrutura de TI. Os autores compararam o modelo proposto com SVM, \textit{Naive Bayes}, Regressão Logística e \textit{K-Nearest Neighbor}, e a CNN obteve a maior acurácia (91,20\%) e o maior F1-score (91,02\%) no conjunto de teste, contra 87,43\% e 87,36\% do SVM, o melhor dos modelos clássicos.
+Com o avanço das técnicas de aprendizado profundo, modelos baseados em redes neurais convolucionais (CNN, do inglês \textit{Convolutional Neural Network}) passaram a ser aplicados à classificação de chamados de suporte. \citeonline{paramesh2022} propuseram um classificador baseado em CNN com \textit{word embeddings} (representações vetoriais densas de palavras aprendidas por redes neurais) para categorização automática de \textit{tickets} de \textit{service desk} de infraestrutura de TI. Os autores compararam o modelo proposto com SVM, \textit{Naive Bayes}, Regressão Logística e \textit{K-Nearest Neighbor}, e a CNN obteve a maior acurácia (91,20\%) e o maior F1-score (91,02\%) no conjunto de teste, contra 87,43\% e 87,36\% do SVM, o melhor dos modelos clássicos.
 
 A vantagem das CNN em relação aos modelos clássicos reside na capacidade de identificar automaticamente quais grupos de palavras que aparecem juntas são importantes para a classificação, sem que um especialista precise definir isso manualmente. Essa progressão de modelos lineares com TF-IDF para redes profundas com \textit{embeddings} estabelece o contexto histórico sobre o qual os modelos baseados em \textit{transformers} representam um novo salto qualitativo.
 
@@ -494,7 +495,7 @@ A literatura sobre classificação automática de chamados de suporte em portugu
 \citeonline{pereira2023} apresentaram um modelo de classificação automática de chamados de suporte de TI em sete categorias, atingindo 75\% de precisão média com modelos de aprendizado de máquina tradicionais. Os autores disponibilizaram publicamente o código, o modelo e os dados anonimizados, e desenvolveram um protótipo \textit{web} com \textit{backend} e \textit{frontend} para uso dos analistas de TI, tornando-o um dos poucos trabalhos nacionais com \textit{dataset} público e interface funcional. No entanto, a acurácia de 75\% deixa margem considerável para melhoria, especialmente em cenários com maior número de categorias ou com classes semanticamente próximas.
 
 \citeonline{yokota2025} investigou a classificação hierárquica de 
-chamados de suporte ao cliente em PT-BR utilizando \textit{Naive Bayes} e 
+chamados de suporte ao cliente em português brasileiro (PT-BR) utilizando \textit{Naive Bayes} e 
 MLP (\textit{Multilayer Perceptron} -- Perceptron Multicamadas) com duas variações arquiteturais, 
 sobre \textit{embeddings} do modelo Multilingual E5. Os resultados, 
 avaliados por F1-macro para lidar com o desbalanceamento entre classes, 
@@ -577,7 +578,7 @@ A Figura~\ref{fig:self_attention} ilustra esse cálculo para a palavra ``banco''
     \legend{Fonte: Elaborado pelos autores (valores ilustrativos, não extraídos de um modelo treinado)}
 \end{figure}
 
-Modelos como o GPT utilizam atenção unidirecional (cada \textit{token} só pode 
+Modelos como o GPT (\textit{Generative Pre-trained Transformer} -- Transformer Generativo Pré-treinado) utilizam atenção unidirecional (cada \textit{token} só pode 
 atender aos \textit{tokens} anteriores). O BERT, por sua vez, utiliza atenção 
 bidirecional: cada \textit{token} atende simultaneamente a todos os outros 
 \textit{tokens} da sequência, tanto os que aparecem antes quanto os que aparecem 
@@ -645,13 +646,13 @@ Neste trabalho, essa representação é usada para classificar o chamado de TI e
 
 \citeonline{souza2020} desenvolveram o BERTimbau, modelo BERT pré-treinado especificamente para o português brasileiro, a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 335M parâmetros).
 
-A principal diferença em relação ao mBERT está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente, o que dilui a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
+A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT Multilíngue) está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente, o que dilui a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Desempenho em tarefas de PLN em PT-BR}
 \label{subsubsec:bertimbau_desempenho}
 
-\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER), similaridade textual entre sentenças e inferência textual (\textit{Recognizing Textual Entailment}). O modelo obteve desempenho de estado da arte nas três tarefas, consolidando-se como referência para aplicações de PLN em PT-BR.
+\citeonline{souza2020} avaliaram o BERTimbau em três tarefas de PLN em português: reconhecimento de entidades nomeadas (NER, do inglês \textit{Named Entity Recognition}), similaridade textual entre sentenças e inferência textual (\textit{Recognizing Textual Entailment}). O modelo obteve desempenho de estado da arte nas três tarefas, consolidando-se como referência para aplicações de PLN em PT-BR.
 
 Para o presente trabalho, a escolha do BERTimbau em detrimento do mBERT é motivada por dois fatores. Primeiro, os chamados de suporte analisados estão em português brasileiro, idioma para o qual o BERTimbau possui representações mais ricas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente de sua versão em inglês. E o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
 
@@ -662,7 +663,7 @@ O BERTimbau foi mantido como modelo deste trabalho, dado que os chamados analisa
 
 A aplicação de BERT e modelos derivados à classificação de chamados de TI tem demonstrado resultados expressivos na literatura recente. \citeonline{borges2024} realizou uma comparação sistemática entre BERT e algoritmos clássicos, SVM e \textit{Naive Bayes}, em tarefas de classificação de texto em português e inglês, utilizando quatro \textit{datasets} públicos. Os resultados confirmaram que o BERT supera consistentemente os modelos tradicionais em acurácia e F1, especialmente em tarefas multiclasse com nuances semânticas mais complexas, embora com custo computacional consideravelmente maior.
 
-\citeonline{zemp2021} comparou CNN, BiLSTM e RoBERTa sobre mais de um 
+\citeonline{zemp2021} comparou CNN, BiLSTM (\textit{Bidirectional Long Short-Term Memory} -- Memória de Longo e Curto Prazo Bidirecional) e RoBERTa (\textit{Robustly Optimized BERT Pretraining Approach} -- Abordagem de Pré-treinamento do BERT Robustamente Otimizada) sobre mais de um 
 milhão de \textit{tickets} reais de um banco privado de médio porte, em 
 mais de 300 classes. A melhor CNN atingiu F1-macro de 0,75. Com o 
 \textit{fine-tuning} simples, o RoBERTa ficou abaixo desse valor; somente 
@@ -670,7 +671,7 @@ após um pré-treinamento adicional do modelo de linguagem com os próprios
 \textit{tickets} ele superou a CNN, por uma margem de 0,018.
 
 \citeonline{razma2026} compararam regressão logística com TF-IDF 
-frente a mBERT e XLM-RoBERTa, uma variante do RoBERTa desenvolvida 
+frente a mBERT e XLM-RoBERTa (\textit{Cross-lingual Language Model RoBERTa} -- Modelo de Linguagem Multilíngue RoBERTa), uma variante do RoBERTa desenvolvida 
 especificamente para lidar com múltiplos idiomas simultaneamente, 
 em um corpus de 87 mil \textit{tickets} multilíngues de uma empresa 
 de manufatura. Os resultados confirmaram que \textit{transformers} 
@@ -680,7 +681,7 @@ de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao 
 % ---------------------------------------------------------------
 \subsection{Inteligência Artificial Explicável (XAI)}
 
-Inteligência Artificial Explicável (XAI) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho:
+Inteligência Artificial Explicável (XAI, do inglês \textit{Explainable Artificial Intelligence}) refere-se ao conjunto de métodos e técnicas que permitem compreender e auditar as decisões de modelos de aprendizado de máquina \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho:
  
 \begin{itemize}
     \item \textbf{LIME} \cite{ribeiro2016}: explica predições individuais ajustando um modelo linear simples em torno de perturbações da entrada original, indicando quais palavras mais contribuíram para a classificação.
@@ -1104,7 +1105,7 @@ Essa combinação aborda uma limitação do BERT quando utilizado isoladamente: 
 \label{subsubsec:grafo_xai_ponderacao}
 
 \citeonline{talebi2025} apresentam o trabalho de maior proximidade 
-metodológica com o presente TCC: aplicam RoBERTa combinado com LIME 
+metodológica com o presente Trabalho de Conclusão de Curso (TCC): aplicam RoBERTa combinado com LIME 
 e um grafo de co-ocorrência para detectar \textit{body shaming}, 
 prática de humilhar pessoas com base em sua aparência física, em 
 redes sociais em inglês. No trabalho de \citeonline{talebi2025}, o grafo 
@@ -1157,7 +1158,7 @@ entendam o ``porquê'' da classificação.
 
 \citeonline{wahba2023} enfrentou o mesmo desafio de classificação de \textit{tickets}, 
 mas propôs uma abordagem focada em eficiência para domínios especializados. 
-A solução utilizou um modelo híbrido (HOOM) que combina SVM linear e regras 
+A solução utilizou um modelo híbrido (HOOM, \textit{Hybrid Online Offline Model} -- Modelo Híbrido \textit{Online} e \textit{Offline}) que combina SVM linear e regras 
 definidas com especialistas a um classificador \textit{online}. A metodologia 
 demonstrou que em textos técnicos, modelos mais simples podem ser competitivos: 
 a autora testou BERT e XLM e não encontrou ganho significativo sobre o SVM linear. 
@@ -1219,7 +1220,7 @@ palavras com múltiplos sentidos dependendo do contexto, tem impacto
 reduzido, tornando o SVM com TF-IDF competitivo em termos de 
 desempenho.
 
-Com base nessa observação, \citeonline{wahba2023} propõe o modelo HOOM (\textit{Hybrid Online Offline Model} -- Modelo Híbrido \textit{Online} e \textit{Offline}), que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
+Com base nessa observação, \citeonline{wahba2023} propõe o modelo HOOM, que combina um classificador SVM linear treinado em modo \textit{offline} com um classificador \textit{Passive Aggressive Classifier}. Esse segundo classificador 
 é um algoritmo de aprendizado incremental que atualiza o modelo a cada nova amostra, mantendo-se ``passivo'' quando a predição está correta e ``agressivo'' ao corrigir erros e treinado em modo 
 \textit{online} para detectar mudanças na distribuição dos dados ao longo do tempo. O modelo é descrito como mais eficiente, interpretável e reproduzível 
 do que abordagens baseadas em \textit{transformers}, que são modelos 
@@ -1233,7 +1234,7 @@ Este argumento é diretamente relevante para o presente trabalho, pois os cenár
 \subsubsection{A caixa-preta e a verificação das decisões em produção}
 \label{subsubsec:helpdesk_caixapreta}
 
-\citeonline{zemp2021}, em estudo desenvolvido na ZHAW com dados reais 
+\citeonline{zemp2021}, em estudo desenvolvido na ZHAW (\textit{Zürcher Hochschule für Angewandte Wissenschaften} -- Universidade de Ciências Aplicadas de Zurique) com dados reais 
 de um banco privado de médio porte com atuação internacional, treinou três tipos de modelos: CNN, 
 BiLSTM, que é uma rede neural recorrente bidirecional capaz de 
 processar sequências de texto nos dois sentidos, e RoBERTa, uma 
@@ -1247,7 +1248,7 @@ Na avaliação com a equipe de suporte, a previsão do serviço afetado foi cons
 
 Em um ambiente ITSM corporativo multilíngue com mais de 87 mil \textit{tickets}, \citeonline{razma2026} aplicaram LIME e 
 SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
-também do mBERT (multilingual BERT), uma versão do BERT treinada simultaneamente 
+também do mBERT, uma versão do BERT treinada simultaneamente 
 em mais de 100 idiomas, e afirmam que essas explicações contribuem para a 
 interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
 
@@ -1396,9 +1397,9 @@ O treinamento dos modelos usou Python 3.13.2, PyTorch 2.6.0 (CUDA 12.4), Transfo
 
 O BERTimbau \cite{souza2020} foi escolhido por ser um modelo BERT pré-treinado em português brasileiro. O \textit{baseline} SVM com TF-IDF foi escolhido por ser a referência clássica em classificação de texto e permitir medir o ganho do modelo neural.
 
-O \textit{fine-tuning} do BERTimbau foi executado em uma placa de vídeo (GPU) NVIDIA GTX 1650.
+O \textit{fine-tuning} do BERTimbau foi executado em uma placa de vídeo (GPU, \textit{Graphics Processing Unit} -- Unidade de Processamento Gráfico) NVIDIA GTX 1650.
 
-Já a execução do SHAP e do LIME foi feita em CPU, em um MacBook Pro com chip Apple M4.
+Já a execução do SHAP e do LIME foi feita em CPU (\textit{Central Processing Unit} -- Unidade Central de Processamento), em um MacBook Pro com chip Apple M4.
 
 \subsection{Procedimentos experimentais e métricas}
 \subsubsection{Métricas de desempenho do classificador}
@@ -1411,11 +1412,11 @@ O desempenho dos classificadores (cenários A e B) é medido no conjunto de test
 
 O sucesso da solução é avaliado sob duas perspectivas complementares.
 
-\textbf{Desempenho da classificação.} O critério definido no TCC1 é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\% obtido por \textit{bootstrap} pareado (técnica que sorteia, com reposição, chamados do conjunto de teste e compara os dois modelos nas mesmas amostras, repetindo o processo para estimar a incerteza da diferença; aqui, 2.000 reamostragens, semente 42), em que os chamados com texto idêntico são reamostrados juntos, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
+\textbf{Desempenho da classificação.} O critério definido no Trabalho de Conclusão de Curso I (TCC1) é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\% obtido por \textit{bootstrap} pareado (técnica que sorteia, com reposição, chamados do conjunto de teste e compara os dois modelos nas mesmas amostras, repetindo o processo para estimar a incerteza da diferença; aqui, 2.000 reamostragens, semente 42), em que os chamados com texto idêntico são reamostrados juntos, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
 
 \textbf{Qualidade das explicações.} SHAP e LIME são comparados sobre uma amostra de 98 chamados do conjunto de teste, entre acertos e erros do modelo, sem textos repetidos. Cada campo (descrição curta e descrição completa) é explicado separadamente, com o outro fixo, e a perturbação é a remoção de palavras. As propriedades avaliadas são:
 \begin{itemize}
-  \item \textbf{Fidelidade:} mede se as palavras apontadas como importantes realmente influenciam a decisão do modelo. Usam-se a \textit{comprehensiveness}, a \textit{sufficiency} (AOPC) e o Tau-LOO, comparados a uma linha de base aleatória. As medidas seguem a definição de \citeonline{attanasio2023}, mas foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado.
+  \item \textbf{Fidelidade:} mede se as palavras apontadas como importantes realmente influenciam a decisão do modelo. Usam-se a \textit{comprehensiveness}, a \textit{sufficiency} (AOPC, \textit{Area Over the Perturbation Curve} -- Área sobre a Curva de Perturbação) e o Tau-LOO, comparados a uma linha de base aleatória. As medidas seguem a definição de \citeonline{attanasio2023}, mas foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado.
   \item \textbf{Estabilidade:} mede se a explicação se mantém ao repetir o método sobre o mesmo chamado. Repete-se cada explicação cinco vezes e calculam-se a similaridade de Jaccard das cinco palavras mais relevantes, a correlação de Spearman e a fração de repetições com a mesma palavra no topo, em chamados com ao menos oito palavras distintas.
   \item \textbf{Concordância entre SHAP e LIME:} mede se os dois métodos apontam as mesmas palavras, e no mesmo sentido, para o mesmo chamado. Calculam-se a correlação de Spearman entre os pesos das palavras, a similaridade de Jaccard das cinco palavras mais relevantes, a fração de chamados com a mesma palavra no topo e a fração de palavras com o mesmo sinal (a favor ou contra a classe prevista), cada medida comparada ao valor esperado ao acaso.
   \item \textbf{Consistência semântica:} análise qualitativa, nos casos aplicados, de se os termos destacados pelo SHAP e pelo LIME correspondem ao vocabulário técnico esperado para a categoria predita.
@@ -1437,7 +1438,7 @@ Esta seção apresenta a modelagem e a arquitetura da solução, os detalhes de 
 A solução consiste em um \textit{pipeline} que classifica chamados de 
 suporte técnico e explica cada decisão, utilizando técnicas de 
 Processamento de Linguagem Natural (PLN) e Inteligência Artificial 
-Explicável (XAI). O \textit{pipeline} é o meio para investigar a 
+Explicável (XAI, do inglês \textit{Explainable Artificial Intelligence}). O \textit{pipeline} é o meio para investigar a 
 auditabilidade do processo decisório: por meio dele, compara-se a 
 qualidade das explicações geradas por SHAP e LIME e avalia-se como o 
 grafo de co-ocorrência permite rastrear quais termos do chamado 
@@ -1602,7 +1603,7 @@ O fluxo geral de funcionamento da aplicação segue as seguintes etapas:
 
     \item \textbf{Cálculo de explicabilidade} — sobre o mesmo texto de entrada, são calculados os valores SHAP e as importâncias LIME. Cada \textit{token} recebe um valor numérico que representa sua contribuição para a predição: valores positivos indicam contribuição para a classe predita, e valores negativos indicam contribuição contrária.
 
-    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho $w = 4$, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON, com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
+    \item \textbf{Construção do grafo de co-ocorrência} — os \textit{tokens} do chamado são representados como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de \textit{tokens} que co-ocorrem dentro de uma janela deslizante de tamanho $w = 4$, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior — \textit{tokens} com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON (\textit{JavaScript Object Notation} -- Notação de Objetos JavaScript), com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
 
     \item \textbf{Apresentação ao analista} — a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, os \textit{tokens} destacados por cor (azul, a favor da classe prevista; laranja, contra) e os valores SHAP e LIME comparativos.
 \end{enumerate}
@@ -1618,7 +1619,7 @@ está na Tabela~\ref{tab:ferramentas}.
 \begin{itemize}
     \item \textit{React} e \textit{Vite};
     \item \textit{vis-network}, para a exibição do grafo;
-    \item CSS.
+    \item CSS (\textit{Cascading Style Sheets} -- Folhas de Estilo em Cascata).
 \end{itemize}
 
 \textbf{Processamento e Inteligência Artificial:}
@@ -2100,7 +2101,7 @@ Como trabalhos futuros, sugerem-se: (i) repetir o treinamento com outras semente
 \chapter{Cronograma de atividades}
 \label{ap:cronograma}
 
-O cronograma a seguir apresenta as fases do TCC2, com as datas em que foram concluídas e o status atual.
+O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (TCC2), com as datas em que foram concluídas e o status atual.
 
 \begin{table}[htb]
   \centering
