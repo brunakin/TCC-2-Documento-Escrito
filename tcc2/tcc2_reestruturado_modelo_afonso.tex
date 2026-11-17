@@ -1367,7 +1367,7 @@ D & BERTimbau & SHAP + LIME + grafo & Auditabilidade visual \\
 \end{table}
 
 A comparação entre os cenários A e B avalia o ganho de desempenho do BERTimbau sobre o \textit{baseline} clássico, respondendo ao argumento de \citeonline{wahba2023}
- sobre o custo-benefício dos \textit{transformers} em domínios especializados. Os cenários C e D examinam a hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), verificando se a camada de grafo de co-ocorrência contribui para a auditabilidade, nos termos definidos na Seção~\ref{subsec:auditabilidade}, e se o SHAP e o LIME diferem quanto à fidelidade e à estabilidade de suas explicações.
+ sobre o custo-benefício dos \textit{transformers} em domínios especializados. Os cenários C e D examinam a hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}), verificando se a camada de grafo de co-ocorrência contribui para a auditabilidade, nos termos definidos na Seção~\ref{subsec:auditabilidade}, e se o SHAP e o LIME diferem quanto à fidelidade e à estabilidade de suas explicações. Em relação aos objetivos específicos, os cenários A e B respondem ao objetivo 1, o cenário C ao objetivo 2 e o cenário D aos objetivos 3 e 4.
 
 \subsection{Ferramentas, tecnologias e ambientes}
 \label{sec:ferramentas}
@@ -1773,7 +1773,7 @@ Esta seção apresenta os resultados dos cenários A a D e, em seguida, os anali
 \subsection{Desempenho da classificação (cenários A e B)}
 \label{subsec:res_classificacao}
 
-A Tabela~\ref{tab:res_teste} apresenta o desempenho dos dois classificadores no conjunto de teste, com 5.293 chamados em 4.824 grupos de texto. O BERTimbau obteve F1-macro de 0,628 e o \textit{baseline} SVM com TF-IDF, de 0,591. A acurácia dos dois é próxima (0,724 e 0,719); a diferença aparece no F1-macro, que dá o mesmo peso a todas as classes, e vem da revocação (0,611 contra 0,550), pois a precisão é parecida (0,655 contra 0,662).
+Para responder ao objetivo específico 1, a Tabela~\ref{tab:res_teste} apresenta o desempenho dos dois classificadores no conjunto de teste, com 5.293 chamados em 4.824 grupos de texto. O BERTimbau obteve F1-macro de 0,628 e o \textit{baseline} SVM com TF-IDF, de 0,591. A acurácia dos dois é próxima (0,724 e 0,719); a diferença aparece no F1-macro, que dá o mesmo peso a todas as classes, e vem da revocação (0,611 contra 0,550), pois a precisão é parecida (0,655 contra 0,662).
 
 \begin{table}[htb]
   \centering
@@ -1856,7 +1856,7 @@ A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no 
 \end{figure}
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
-As explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 616 segundos (cerca de 10 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local teve mediana de 0,68, com mínimo de 0,11.
+Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 616 segundos (cerca de 10 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local teve mediana de 0,68, com mínimo de 0,11.
 
 \subsubsection{Fidelidade}
 \label{subsubsec:res_fidelidade}
@@ -1958,7 +1958,7 @@ A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálc
 \end{table}
 
 \subsection{Grafo de co-ocorrência (cenário D)}
-O grafo foi avaliado por rastreabilidade em três chamados da amostra de 98, escolhidos para cobrir situações diferentes: um acerto com vocabulário típico da classe (caso 1), um erro do modelo (caso 2) e um acerto em que os dois métodos divergem nas palavras secundárias (caso 3). A Tabela~\ref{tab:res_casos} resume os três, e as Figuras~\ref{fig:grafo_caso1}, \ref{fig:grafo_caso2} e~\ref{fig:grafo_caso3} mostram os grafos na interface.
+Para responder aos objetivos específicos 3 e 4, o grafo foi avaliado por rastreabilidade em três chamados da amostra de 98, escolhidos para cobrir situações diferentes: um acerto com vocabulário típico da classe (caso 1), um erro do modelo (caso 2) e um acerto em que os dois métodos divergem nas palavras secundárias (caso 3). A Tabela~\ref{tab:res_casos} resume os três, e as Figuras~\ref{fig:grafo_caso1}, \ref{fig:grafo_caso2} e~\ref{fig:grafo_caso3} mostram os grafos na interface.
 
 \begin{table}[htb]
   \centering
@@ -2025,7 +2025,7 @@ A hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}) tem duas partes, e
  
 A segunda parte afirma que o SHAP e o LIME produzem explicações com fidelidade e estabilidade distintas. Na fidelidade, a diferença é pequena e só aparece em uma das três medidas, a favor do LIME. Na estabilidade, a diferença depende de como o SHAP é calculado: ele é perfeitamente estável quando exato e menos estável que o LIME quando estimado por amostragem com 500 consultas. A parte é, portanto, sustentada de forma condicional, e o resultado não sustenta a ideia de que um método seja melhor em todos os casos.
  
-Em relação aos objetivos específicos, o ganho do BERTimbau sobre o \textit{baseline} foi analisado (3,7 pontos, abaixo do critério de 5), e SHAP e LIME foram comparados em fidelidade, estabilidade e concordância. A consistência semântica das explicações foi avaliada apenas de forma qualitativa, nos casos: no caso 1, as palavras de maior peso (\textit{licença} e \textit{office}) são o vocabulário esperado para a classe, e no caso 2 a explicação mostra uma previsão apoiada em muito pouca evidência. \citeonline{razma2026} observam que o \textit{fine-tuning} de um modelo como o BERT pode destacar termos coerentes com o significado do chamado; os casos analisados aqui mostram que isso ocorre em alguns chamados, mas não em todos.
+Em relação aos objetivos específicos, o ganho do BERTimbau sobre o \textit{baseline} foi analisado (3,7 pontos, abaixo do critério de 5), e SHAP e LIME foram comparados em fidelidade, estabilidade e concordância. A consistência semântica das explicações O objetivo foi atendido apenas de forma qualitativa, nos casos: no caso 1, as palavras de maior peso (\textit{licença} e \textit{office}) são o vocabulário esperado para a classe, e no caso 2 a explicação mostra uma previsão apoiada em muito pouca evidência. \citeonline{razma2026} observam que o \textit{fine-tuning} de um modelo como o BERT pode destacar termos coerentes com o significado do chamado; os casos analisados aqui mostram que isso ocorre em alguns chamados, mas não em todos.
  
 Para a prática de suporte, os resultados sugerem que o grafo é mais útil como ferramenta de auditoria dos erros e das previsões de baixa confiança, como no caso 2, do que como justificativa de todos os acertos. Por fim, os resultados valem para os dados e a configuração usados (duas empresas, um treinamento, uma amostra de 98 chamados), e as limitações descritas no Capítulo~\ref{cap:conclusao} delimitam o alcance das conclusões.
 
@@ -2041,13 +2041,13 @@ Este trabalho partiu de um problema: classificadores baseados em \textit{transfo
 Para respondê-la, os chamados de duas empresas (53.279 chamados, em 11 categorias) foram usados para treinar um \textit{baseline} SVM com TF-IDF e ajustar o BERTimbau, e as decisões do BERTimbau foram explicadas por SHAP e LIME e representadas em um grafo. Os resultados, por objetivo específico, foram os seguintes.
 
 \begin{enumerate}
-    \item \textbf{Ganho do BERTimbau sobre o \textit{baseline}.} O BERTimbau obteve F1-macro de 0,628 contra 0,591 do SVM, uma diferença de 3,7 pontos percentuais (intervalo de confiança de 95\% de 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente. O ganho existe, mas os dados não mostram que atinja o critério, e ele se concentra em poucas classes.
+    \item \textbf{Ganho do BERTimbau sobre o \textit{baseline}.} O objetivo foi atendido: o BERTimbau obteve F1-macro de 0,628 contra 0,591 do SVM, uma diferença de 3,7 pontos percentuais (intervalo de confiança de 95\% de 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente. O ganho existe, mas os dados não mostram que atinja o critério, e ele se concentra em poucas classes.
 
-    \item \textbf{Comparação entre SHAP e LIME.} Em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata, mas menos estável que o LIME quando estimado por amostragem com 500 consultas. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
+    \item \textbf{Comparação entre SHAP e LIME.} O objetivo foi atendido: em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata, mas menos estável que o LIME quando estimado por amostragem com 500 consultas. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
 
-    \item \textbf{Auditabilidade pelo grafo.} Nos três casos aplicados, cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME, o que atende à auditabilidade nos termos em que foi definida, a rastreabilidade. Não se mediu, porém, se analistas conseguem acompanhar a decisão a partir do grafo.
+    \item \textbf{Auditabilidade pelo grafo.} O objetivo foi atendido nos três casos aplicados: cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME, o que corresponde à auditabilidade nos termos em que foi definida, a rastreabilidade. Não se mediu, porém, se analistas conseguem acompanhar a decisão a partir do grafo.
 
-    \item \textbf{Consistência semântica.} Foi avaliada apenas de forma qualitativa, nos casos: em um deles, as palavras de maior peso são o vocabulário esperado para a classe, e em outro a explicação expôs uma previsão apoiada em muito pouca evidência.
+    \item \textbf{Consistência semântica.} O objetivo foi atendido apenas de forma qualitativa, nos casos: em um deles, as palavras de maior peso são o vocabulário esperado para a classe, e em outro a explicação expôs uma previsão apoiada em muito pouca evidência.
 \end{enumerate}
 
 Assim, a hipótese de pesquisa foi sustentada na parte da rastreabilidade e, na parte da comparação entre os métodos, de forma condicional: nenhum dos dois foi melhor em todas as medidas.
