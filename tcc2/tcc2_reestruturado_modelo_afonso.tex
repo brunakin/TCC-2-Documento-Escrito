@@ -121,8 +121,8 @@ Kayke Ahrens Biscegli}
 % RESUMO
 % ---------------------------------------------------------------
 \begin{resumo}
-O objetivo deste trabalho é investigar como a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau contribui para a auditabilidade do processo decisório, comparando a qualidade das explicações dos dois métodos, utilizando chamados de suporte técnico em português brasileiro. A motivação é que classificadores baseados em \textit{transformers} não revelam por que atribuíram uma categoria a um chamado, o que dificulta a auditoria de suas decisões. Os dados reúnem chamados anonimizados cedidos pela Bayer e pelo Aché, em um total de 53.279 chamados em 11 categorias, divididos em treino, validação e teste de modo que textos repetidos fiquem no mesmo conjunto. Foram comparados quatro cenários, que acrescentam um componente por vez: um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. Em uma amostra de 98 chamados do conjunto de teste, o SHAP e o LIME foram avaliados quanto à fidelidade, à estabilidade e à concordância entre si, e a rastreabilidade do grafo, tomada como critério de auditabilidade, foi examinada em casos aplicados. O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste. O \textit{baseline} SVM com TF-IDF obteve F1-macro de 0,591; a diferença do BERTimbau foi de 3,7 pontos percentuais (intervalo de confiança de 95\%: 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente.
-Nos 98 chamados, SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 71\% dos chamados; só o Tau-LOO distinguiu os métodos, a favor do LIME, e, nos chamados em que o SHAP precisou ser estimado por amostragem, ele foi menos estável que o LIME (mesma palavra no topo em 68\% dos pares de repetições, contra 93\% do LIME nos mesmos chamados).
+O objetivo deste trabalho é investigar como a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau contribui para a auditabilidade do processo decisório, comparando a qualidade das explicações dos dois métodos, utilizando chamados de suporte técnico em português brasileiro. A motivação é que classificadores baseados em \textit{transformers} não revelam por que atribuíram uma categoria a um chamado, o que dificulta a auditoria de suas decisões. Os dados reúnem chamados anonimizados cedidos pela Empresa A e pela Empresa B, em um total de 53.279 chamados em 11 categorias, divididos em treino, validação e teste de modo que textos repetidos fiquem no mesmo conjunto. Foram comparados quatro cenários, que acrescentam um componente por vez: um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. Em uma amostra de 98 chamados do conjunto de teste, o SHAP e o LIME foram avaliados quanto à fidelidade, à estabilidade e à concordância entre si, e a rastreabilidade do grafo, tomada como critério de auditabilidade, foi examinada em casos aplicados. O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste. O \textit{baseline} SVM com TF-IDF obteve F1-macro de 0,591; a diferença do BERTimbau foi de 3,7 pontos percentuais (intervalo de confiança de 95\%: 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente.
+Nos 98 chamados, SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 71\% dos chamados; só o Tau-LOO distinguiu os métodos, a favor do LIME, e, nos chamados em que o SHAP precisou ser estimado por amostragem (2.000 consultas), ele foi mais estável que o LIME no Jaccard e no Spearman, mas menos estável na mesma palavra no topo (83\% dos pares de repetições, contra 93\% do LIME nos mesmos chamados).
 Nos três casos aplicados, cada nó e cada aresta do grafo pôde ser levado ao chamado e aos pesos do SHAP e do LIME, e o grafo expôs, por exemplo, que um erro do modelo se apoiou em muito pouca evidência.
 Os resultados foram integrados a uma interface \textit{web} que classifica um chamado digitado, exibe o grafo de co-ocorrência e permite alternar entre os pesos do SHAP e do LIME; a interface é uma prova de conceito e não foi avaliada junto a analistas de TI.
 
@@ -134,8 +134,8 @@ Os resultados foram integrados a uma interface \textit{web} que classifica um ch
 
 \begin{resumo}[Abstract]
 \begin{otherlanguage*}{english}
-The objective of this work is to investigate how adding an explainability layer based on SHAP, LIME and co-occurrence graphs to a BERTimbau classification \textit{pipeline} contributes to the auditability of the decision process, comparing the quality of the explanations produced by the two methods, using technical support tickets in Brazilian Portuguese. The motivation is that \textit{transformer}-based classifiers do not reveal why they assigned a category to a ticket, which makes it hard to audit their decisions. The data comprise anonymized tickets provided by Bayer and Aché, totaling 53,279 tickets in 11 categories, split into training, validation and test sets so that repeated texts remain in the same set. Four scenarios were compared, each adding one component: a \textit{baseline} SVM with TF-IDF, the \textit{fine-tuning} of BERTimbau, the SHAP and LIME explanations, and the co-occurrence graph weighted by those explanations. On a sample of 98 tickets from the test set, SHAP and LIME were evaluated for faithfulness, stability and agreement with each other, and the traceability of the graph, taken as the criterion of auditability, was examined in applied cases. BERTimbau achieved a macro F1 of 0.628 and an accuracy of 0.724 on the test set. The TF-IDF SVM \textit{baseline} achieved a macro F1 of 0.591; the difference in favor of BERTimbau was 3.7 percentage points (95\% confidence interval: 1.0 to 6.7), below the 5-point target set initially.
-On the 98 tickets, SHAP and LIME showed faithfulness well above chance and pointed to the same top word in 71\% of tickets; only Tau-LOO separated the methods, favoring LIME, and, in the tickets where SHAP had to be estimated by sampling, it was less stable than LIME (same top word in 68\% of repetition pairs, versus 93\% for LIME on the same tickets).
+The objective of this work is to investigate how adding an explainability layer based on SHAP, LIME and co-occurrence graphs to a BERTimbau classification \textit{pipeline} contributes to the auditability of the decision process, comparing the quality of the explanations produced by the two methods, using technical support tickets in Brazilian Portuguese. The motivation is that \textit{transformer}-based classifiers do not reveal why they assigned a category to a ticket, which makes it hard to audit their decisions. The data comprise anonymized tickets provided by Company A and Company B, totaling 53,279 tickets in 11 categories, split into training, validation and test sets so that repeated texts remain in the same set. Four scenarios were compared, each adding one component: a \textit{baseline} SVM with TF-IDF, the \textit{fine-tuning} of BERTimbau, the SHAP and LIME explanations, and the co-occurrence graph weighted by those explanations. On a sample of 98 tickets from the test set, SHAP and LIME were evaluated for faithfulness, stability and agreement with each other, and the traceability of the graph, taken as the criterion of auditability, was examined in applied cases. BERTimbau achieved a macro F1 of 0.628 and an accuracy of 0.724 on the test set. The TF-IDF SVM \textit{baseline} achieved a macro F1 of 0.591; the difference in favor of BERTimbau was 3.7 percentage points (95\% confidence interval: 1.0 to 6.7), below the 5-point target set initially.
+On the 98 tickets, SHAP and LIME showed faithfulness well above chance and pointed to the same top word in 71\% of tickets; only Tau-LOO separated the methods, favoring LIME, and, in the tickets where SHAP had to be estimated by sampling (2,000 queries), it was more stable than LIME in Jaccard and Spearman but less stable in the same top word (83\% of repetition pairs, versus 93\% for LIME on the same tickets).
 In the three applied cases, every node and edge of the graph could be traced back to the ticket and to the SHAP and LIME weights, and the graph showed, for example, that a model error relied on very little evidence.
 The results were integrated into a web interface that classifies a typed ticket, displays the co-occurrence graph and allows switching between SHAP and LIME weights; the interface is a proof of concept and was not evaluated with IT analysts.
 
@@ -238,7 +238,7 @@ The results were integrated into a web interface that classifies a typed ticket,
 \chapter{Introdução}
 \label{cap:introducao}
 
-Os sistemas de \textit{help desk} das organizações recebem grandes volumes de chamados de suporte de Tecnologia da Informação (TI): empresas modernas geram milhares de chamados por mês \cite{razma2026} e cada um precisa ser lido, classificado em uma categoria e encaminhado à equipe responsável. Os dados deste trabalho dão a dimensão: o Aché registrou 9.317 chamados em um único mês (abril de 2026), e a Bayer, 191.350 entre janeiro de 2021 e agosto de 2026. Quando essa triagem é manual, ela é lenta e inconsistente e os chamados trazem descrições variadas, com jargão técnico, erros de ortografia e linguagem informal, o que a torna ainda mais difícil \cite{zemp2021}.
+Os sistemas de \textit{help desk} das organizações recebem grandes volumes de chamados de suporte de Tecnologia da Informação (TI): empresas modernas geram milhares de chamados por mês \cite{razma2026} e cada um precisa ser lido, classificado em uma categoria e encaminhado à equipe responsável. Os dados deste trabalho dão a dimensão: a Empresa B registrou 9.317 chamados em um único mês (abril de 2026), e a Empresa A, 191.350 entre maio de 2020 e agosto de 2026. Quando essa triagem é manual, ela é lenta e inconsistente e os chamados trazem descrições variadas, com jargão técnico, erros de ortografia e linguagem informal, o que a torna ainda mais difícil \cite{zemp2021}.
 
 O custo de uma triagem ruim recai sobre toda a organização. Um chamado classificado na categoria errada vai para uma equipe sem competência para resolvê-lo, e o ciclo de reatribuições aumenta o tempo de resolução, desperdiça o tempo da equipe e frustra o usuário \cite{harun2023}. Esse atraso pode comprometer o cumprimento do SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço), o prazo de resolução acordado com o usuário, com impacto na produtividade da organização e na satisfação dos usuários \cite{razma2026}. A triagem manual também depende do conhecimento de cada analista sobre as categorias da empresa, conhecimento que se perde com a rotatividade \cite{wahba2023}, e no Brasil, o problema é agravado pela informalidade da linguagem dos usuários \cite{pereira2023}.
 
@@ -256,7 +256,7 @@ Mas uma explicação só ajuda se for confiável e legível, e há dois obstácu
 
 Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam 75\% de precisão média, em sete categorias \cite{pereira2023}, e F1-macro de até 61\% (média do F1, que combina precisão e revocação, calculada com o mesmo peso para cada categoria), em 226.438 chamados \cite{yokota2025}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
 
-É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Isso é feito por meio de um \textit{pipeline}, uma sequência de etapas que vai do chamado à categoria prevista e à sua explicação. O desempenho do BERTimbau é comparado ao de um modelo de referência (\textit{baseline}), um SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte) com TF-IDF (\textit{Term Frequency--Inverse Document Frequency} -- Frequência do Termo--Inverso da Frequência nos Documentos), classificador tradicional que pesa cada palavra pela frequência no chamado e pela raridade no conjunto. Os dados são 53.279 chamados reais, em 11 categorias, cedidos pelo Aché e pela Bayer.
+É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Isso é feito por meio de um \textit{pipeline}, uma sequência de etapas que vai do chamado à categoria prevista e à sua explicação. O desempenho do BERTimbau é comparado ao de um modelo de referência (\textit{baseline}), um SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte) com TF-IDF (\textit{Term Frequency--Inverse Document Frequency} -- Frequência do Termo--Inverso da Frequência nos Documentos), classificador tradicional que pesa cada palavra pela frequência no chamado e pela raridade no conjunto. Os dados são 53.279 chamados reais, em 11 categorias, cedidos pela Empresa B e pela Empresa A.
 
 % ---------------------------------------------------------------
 \section{Formulação do problema}
@@ -362,7 +362,7 @@ Sistemas de \textit{help desk}, também denominados sistemas de suporte técnico
 
 A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável para que o prazo de resolução estabelecido no SLA seja cumprido. O não cumprimento desses prazos impacta diretamente a produtividade organizacional e a satisfação dos usuários.
 
-Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail}, telefone ou \textit{chat}, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e, conforme ela, priorizado e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo. Nos dados deste trabalho, cada chamado traz a descrição completa e uma categoria, e os da Bayer trazem também uma descrição curta (Seção~\ref{subsubsec:dataset_finetuning}). A etapa de classificação é a que este trabalho busca automatizar e explicar.
+Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail}, telefone ou \textit{chat}, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e, conforme ela, priorizado e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo. Nos dados deste trabalho, cada chamado traz a descrição completa e uma categoria, e os da Empresa A trazem também uma descrição curta (Seção~\ref{subsubsec:dataset_finetuning}). A etapa de classificação é a que este trabalho busca automatizar e explicar.
 
 Boa parte dessa organização vem do ITIL (\textit{Information Technology Infrastructure Library} -- Biblioteca de Infraestrutura de Tecnologia da Informação), um conjunto de boas práticas de gerenciamento de serviços de TI amplamente adotado \cite{axelos2019}. O ITIL distingue o incidente, uma interrupção não planejada de um serviço ou redução de sua qualidade, da requisição de serviço, um pedido do usuário que inicia uma ação de serviço acordada como parte normal da entrega do serviço \cite{axelos2019}. Essa é a distinção que a equipe de suporte do estudo de \citeonline{zemp2021} recusou automatizar (Seção~\ref{subsubsec:helpdesk_caixapreta}).
 
@@ -1456,7 +1456,7 @@ A hipótese de pesquisa, formulada na Seção~\ref{sec:hipotese_pesquisa}, é ex
 A abordagem proposta segue as etapas abaixo, em ordem cronológica. O cenário A usa um modelo à parte, o SVM. Nos cenários B a D o modelo é sempre o mesmo BERTimbau, treinado uma única vez no cenário B; os cenários C e D apenas acrescentam, uma etapa de cada vez, a explicação das suas decisões e o grafo (Tabela~\ref{tab:cenarios}):
 
 \begin{enumerate}
-    \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados da Bayer em português e harmonização das categorias;
+    \item \textbf{Preparação dos dados}: anonimização dos chamados cedidos pelas empresas, filtragem dos chamados da Empresa A em português e harmonização das categorias;
 
     \item \textbf{Divisão dos dados}: divisão estratificada pela categoria e agrupada pelo texto do chamado em treino, validação e teste, com semente fixa e índices salvos, 
     de modo que os cenários comparados usem os mesmos conjuntos;
@@ -1875,8 +1875,7 @@ explicação de um chamado digitado pelo \textit{pipeline} completo.
 \label{subsubsec:autorizacao_dados}
 
 Os dados utilizados neste trabalho são chamados reais de suporte
-técnico cedidos por duas empresas do setor farmacêutico: Aché
-Laboratórios Farmacêuticos e Bayer S.A. Os autores solicitaram o
+técnico cedidos por duas empresas do setor farmacêutico: Empresa B e Empresa A. Os autores solicitaram o
 acesso por e-mail, explicando o objetivo acadêmico do trabalho, quais
 informações seriam necessárias e como os registros seriam tratados.
 
@@ -1886,8 +1885,8 @@ As autorizações de uso foram concedidas pelas duas empresas por e-mail.
 Os autores se comprometeram a usar os chamados apenas neste trabalho e a
 anonimizá-los antes de qualquer etapa de processamento. Essas mensagens
 são o registro da autorização concedida e da finalidade acadêmica do uso, e estão
-reproduzidas nos Anexos~\ref{an:autorizacao_ache}
-e~\ref{an:autorizacao_bayer}.
+reproduzidas nos Anexos~\ref{an:autorizacao_empresa_b}
+e~\ref{an:autorizacao_empresa_a}.
 
 A anonimização, além de cumprir esse compromisso, alinha o trabalho ao
 tratamento que a Lei Geral de Proteção de Dados Pessoais (LGPD, Lei
@@ -1902,7 +1901,7 @@ portanto, apenas uma escolha metodológica.
 \subsubsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
-O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Bayer Brasil e do Aché, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Bayer tinha 191.350 chamados, abertos de janeiro de 2021 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo do Aché tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Aché: 6.949; Bayer: 46.330), em 11 classes, entre elas a classe OUTROS.
+O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Empresa A e da Empresa B, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Empresa A tinha 191.350 chamados, abertos de maio de 2020 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Empresa B tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Empresa B: 6.949; Empresa A: 46.330), em 11 classes, entre elas a classe OUTROS.
 
 As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
 
@@ -1926,13 +1925,13 @@ As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
     SERVIDORES & Chamados sobre servidores & 40 \\
     CIBERSEGURANCA & Segurança da informação & 21 \\
     AQUISICAO\_TI & Compra e licenciamento (ex.: transferência de licença do \textit{Office}) & 16 \\
-    OUTROS & Categoria ``outros'' do sistema de aplicações da Bayer (CORE\_OTHER) & 12 \\
+    OUTROS & Categoria ``outros'' do sistema de aplicações da Empresa A (CORE\_OTHER) & 12 \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-A base da Bayer possui, além da descrição completa, uma descrição curta, que a base do Aché não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo no Aché, o que motivou o agrupamento descrito a seguir.
+A base da Empresa A possui, além da descrição completa, uma descrição curta, que a base da Empresa B não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Empresa B, o que motivou o agrupamento descrito a seguir.
 
 O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
 
@@ -1981,7 +1980,7 @@ No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{sub
 
 As explicações foram geradas em 01/11/2026, para o modelo final, sobre uma amostra de 98 chamados do conjunto de teste: 8 acertos de cada uma das 10 classes que tiveram acertos (80 chamados) e 18 erros do modelo. A classe OUTROS não teve acertos, e por isso a amostra não tem 11 $\times$ 8 acertos. Foi necessário usar uma amostra porque SHAP e LIME explicam uma predição por vez, e explicar os 5.293 chamados do teste levaria cerca de 24 horas.
 
-O LIME usou 500 amostras por explicação e semente 42. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 500 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado, o outro campo foi mantido, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram o protocolo da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46. A execução completa levou cerca de 39 minutos, em CPU, em um computador Apple.
+O LIME usou 500 amostras por explicação e semente 42. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 2.000 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado, o outro campo foi mantido, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram o protocolo da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46.
 
 \subsection{Cenário D: grafo de co-ocorrência}
 \label{subsec:cenario_d}
@@ -2047,10 +2046,10 @@ OUTROS & 12 & 0,000 & 0,000 & 0,0 & 0,0 a 0,0 \\
   \legend{Fonte: Elaborado pelos autores.\\ Nota: IC: intervalo de confiança por \textit{bootstrap} pareado; p.p.: pontos percentuais.}
 \end{table}
 
-A Tabela~\ref{tab:res_empresa} separa o teste por empresa. O F1-macro de cada empresa é calculado sobre as classes presentes em seus chamados (7 no Aché e 9 na Bayer). Os dois modelos têm desempenho muito maior no Aché, e a diferença a favor do BERTimbau é de 1,3 ponto no Aché, com intervalo que inclui o zero, e de 4,0 pontos na Bayer. Como a Bayer reúne 86\% dos chamados de teste, o resultado geral reflete sobretudo essa empresa. Os 716 chamados do Aché formam apenas 337 grupos de texto, e um desses textos, um roteiro de desligamento de colaborador, aparece em 298 chamados da classe ACESSOS\_E\_IDENTIDADE, todos classificados corretamente pelos dois modelos. 
-Sem esse grupo, restam 418 chamados do Aché, ainda nas mesmas 7 classes, e o F1-macro da empresa fica em 0,9014 (BERTimbau) e 0,8885 (SVM). A diferença continua de 1,3 ponto, o que mostra que esse grupo repetido não explica o resultado do Aché nem a diferença entre os modelos.
+A Tabela~\ref{tab:res_empresa} separa o teste por empresa. O F1-macro de cada empresa é calculado sobre as classes presentes em seus chamados (7 na Empresa B e 9 na Empresa A). Os dois modelos têm desempenho muito maior na Empresa B, e a diferença a favor do BERTimbau é de 1,3 ponto na Empresa B, com intervalo que inclui o zero, e de 4,0 pontos na Empresa A. Como a Empresa A reúne 86\% dos chamados de teste, o resultado geral reflete sobretudo essa empresa. Os 716 chamados da Empresa B formam apenas 337 grupos de texto, e um desses textos, um roteiro de desligamento de colaborador, aparece em 298 chamados da classe ACESSOS\_E\_IDENTIDADE, todos classificados corretamente pelos dois modelos. 
+Sem esse grupo, restam 418 chamados da Empresa B, ainda nas mesmas 7 classes, e o F1-macro da empresa fica em 0,9014 (BERTimbau) e 0,8885 (SVM). A diferença continua de 1,3 ponto, o que mostra que esse grupo repetido não explica o resultado da Empresa B nem a diferença entre os modelos.
 
-Parte da diferença entre as empresas pode vir da própria taxonomia: AQUISICAO\_TI e CIBERSEGURANCA só existem no Aché, e CONSULTA\_E\_ORIENTACAO, SOFTWARE, SOLICITACAO\_DE\_SERVICO e OUTROS só existem na Bayer; apenas cinco classes são comuns às duas empresas. Assim, os chamados do Aché pertencem a apenas 7 das 11 classes, duas delas exclusivas da empresa.
+Parte da diferença entre as empresas pode vir da própria taxonomia: AQUISICAO\_TI e CIBERSEGURANCA só existem na Empresa B, e CONSULTA\_E\_ORIENTACAO, SOFTWARE, SOLICITACAO\_DE\_SERVICO e OUTROS só existem na Empresa A; apenas cinco classes são comuns às duas empresas. Assim, os chamados da Empresa B pertencem a apenas 7 das 11 classes, duas delas exclusivas da empresa.
 
 \begin{table}[htb]
   \centering
@@ -2062,8 +2061,8 @@ Parte da diferença entre as empresas pode vir da própria taxonomia: AQUISICAO\
     \toprule
     Subconjunto & Chamados & Grupos & F1 BERTimbau & F1 SVM & Dif. (p.p.) & IC de 95\% (p.p.) \\
     \midrule
-    Aché & 716 & 337 & 0,911 & 0,897 & +1,3 & $-$3,1 a 5,9 \\
-    Bayer & 4.577 & 4.487 & 0,515 & 0,474 & +4,0 & 1,6 a 6,5 \\
+    Empresa B & 716 & 337 & 0,911 & 0,897 & +1,3 & $-$3,1 a 5,9 \\
+    Empresa A & 4.577 & 4.487 & 0,515 & 0,474 & +4,0 & 1,6 a 6,5 \\
     Total & 5.293 & 4.824 & 0,628 & 0,591 & +3,7 & 1,0 a 6,7 \\
     \bottomrule
   \end{tabular}
@@ -2084,7 +2083,7 @@ A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no 
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
 \label{subsec:res_xai}
-Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 616 segundos (cerca de 10 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11.
+Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, em um computador Apple, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 3.039 segundos (cerca de 51 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11.
 
 \subsubsection{Fidelidade}
 \label{subsubsec:res_fidelidade}
@@ -2101,24 +2100,25 @@ A Tabela~\ref{tab:res_fidelidade} traz a fidelidade dos dois métodos nos 98 cha
     Medida & Método & Explicação & Aleatório & Acima do acaso \\
     \midrule
     \textit{Comprehensiveness} (maior é melhor) & LIME & 0,542 & 0,192 & 94 de 98 \\
-     & SHAP & 0,526 & 0,182 & 96 de 98 \\
+     & SHAP & 0,546 & 0,189 & 96 de 98 \\
     \addlinespace
     \textit{Sufficiency} (menor é melhor) & LIME & 0,019 & 0,309 & 96 de 98 \\
-     & SHAP & 0,010 & 0,317 & 93 de 98 \\
+     & SHAP & 0,005 & 0,311 & 95 de 98 \\
     \addlinespace
     Tau-LOO (maior é melhor) & LIME & 0,412 & -- & 95 de 98 \\
-     & SHAP & 0,353 & -- & 95 de 98 \\
+     & SHAP & 0,361 & -- & 95 de 98 \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado. Cinco sorteios aleatórios por chamado, semente 42. ``Acima do acaso'': chamados em que a explicação supera o sorteio. No Tau-LOO não há linha de base aleatória, e a última coluna indica os chamados com valor positivo.}
 \end{table}
 
-Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,53 (SHAP), contra 0,19 e 0,18 ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,02 e 0,01), contra 0,31 e 0,32 com palavras sorteadas. As diferenças entre os métodos são pequenas: o LIME tem valores um pouco maiores na \textit{comprehensiveness} e no Tau-LOO (0,54 contra 0,53 e 0,41 contra 0,35), e o SHAP, uma queda menor na \textit{sufficiency} (0,010 contra 0,019). Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de $-0{,}015$ (intervalo de $-0{,}037$ a 0,006), e na \textit{sufficiency}, de $-0{,}008$ (intervalo de $-0{,}033$ a 0,012); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}059$ (intervalo de $-0{,}090$ a $-0{,}027$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra.
+Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,55 (SHAP), contra 0,19 nos dois ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,019 e 0,005), contra 0,31 nos dois com palavras sorteadas. As diferenças entre os métodos são pequenas: o SHAP tem valores um pouco melhores na \textit{comprehensiveness} (0,546 contra 0,542) e na \textit{sufficiency} (0,005 contra 0,019), e o LIME, um Tau-LOO maior (0,412 contra 0,361). % PENDENTE-2000: diferencas pareadas e ICs abaixo ainda sao da rodada de 500 (recalcular com fidelidade_shap_por_chamado.csv novo + CSV por chamado do LIME)
+Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de $-0{,}015$ (intervalo de $-0{,}037$ a 0,006), e na \textit{sufficiency}, de $-0{,}008$ (intervalo de $-0{,}033$ a 0,012); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}059$ (intervalo de $-0{,}090$ a $-0{,}027$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra.
 
 \subsubsection{Estabilidade}
 \label{subsubsec:res_estabilidade}
 
-A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, explicados 5 vezes cada, com as sementes 42 a 46 (Tabela~\ref{tab:res_estabilidade}). Em 3 desses chamados, todos os campos têm até 10 palavras e o SHAP foi calculado de forma exata, sem sorteio, de modo que a explicação é idêntica nas cinco repetições (estabilidade 1 por construção). Nos outros 9, ao menos um campo foi estimado por amostragem, com orçamento de 500 consultas, e o SHAP variou de uma repetição para outra.
+A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, explicados 5 vezes cada, com as sementes 42 a 46 (Tabela~\ref{tab:res_estabilidade}). Em 3 desses chamados, todos os campos têm até 10 palavras e o SHAP foi calculado de forma exata, sem sorteio, de modo que a explicação é idêntica nas cinco repetições (estabilidade 1 por construção). Nos outros 9, ao menos um campo foi estimado por amostragem, com orçamento de 2.000 consultas, e o SHAP variou de uma repetição para outra.
 
 \begin{table}[htb]
   \centering
@@ -2130,14 +2130,33 @@ A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, e
     Método & Chamados & Jaccard (acaso) & Spearman & Topo igual (acaso) \\
     \midrule
     LIME & 12 & 0,659 (0,213) & 0,774 & 0,950 (0,062) \\
-    SHAP, todos & 12 & 0,638 (0,213) & 0,736 & 0,758 (0,062) \\
-    SHAP, só amostragem & 9 & 0,517 (0,135) & 0,648 & 0,678 (0,043) \\
+    SHAP, todos & 12 & 0,725 (0,213) & 0,896 & 0,875 (0,062) \\
+    SHAP, só amostragem & 9 & 0,634 (0,135) & 0,861 & 0,833 (0,043) \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado. Jaccard: das 5 palavras mais relevantes entre as repetições. ``Topo igual'': fração dos pares de repetições com a mesma palavra no topo. Entre parênteses, o valor esperado ao acaso. ``Só amostragem'' exclui os 3 chamados em que o SHAP foi exato.}
 \end{table}
 
-Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% dos pares de repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,638 e a mesma palavra no topo em 76\% dos pares de repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,517 e 68\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,517 do SHAP, Spearman de 0,706 contra 0,648 e a mesma palavra no topo em 93\% dos pares de repetições contra 68\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 500 consultas, não foi mais estável que o LIME, e só o cálculo exato dá estabilidade total ao SHAP. Como cerca de 80\% das descrições completas do teste têm mais de 10 palavras, a maior parte dos chamados reais cairia no SHAP por amostragem, o que torna essa limitação relevante na prática. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo.
+Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% dos pares de repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,725 e a mesma palavra no topo em 88\% dos pares de repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,634 e 83\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,634 do SHAP, Spearman de 0,706 contra 0,861 e a mesma palavra no topo em 93\% dos pares de repetições contra 83\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 2.000 consultas, foi mais estável que o LIME no Jaccard e no Spearman e menos estável na mesma palavra no topo; só o cálculo exato dá estabilidade total ao SHAP. Como cerca de 80\% das descrições completas do teste têm mais de 10 palavras, a maior parte dos chamados reais cairia no SHAP por amostragem, o que torna essa limitação relevante na prática. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo.
+
+Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amostragem foi medida em 20 chamados com 500, 2.000 e 5.000 consultas por campo (Tabela~\ref{tab:res_orcamento}). A estabilidade aumentou com o orçamento nas três medidas. Adotou-se 2.000 consultas, que melhora bastante a estabilidade em relação a 500 com cerca de 2,5 vezes menos consultas ao modelo que 5.000.
+
+\begin{table}[htb]
+  \centering
+  \caption{Estabilidade do SHAP estimado por amostragem em 20 chamados, por orçamento de consultas}
+  \label{tab:res_orcamento}
+  \small
+  \begin{tabular}{rccc}
+    \toprule
+    Orçamento (consultas) & Jaccard (acaso) & Spearman & Topo igual (acaso) \\
+    \midrule
+    500 & 0,598 (0,131) & 0,684 & 0,815 (0,042) \\
+    2.000 & 0,719 (0,131) & 0,859 & 0,925 (0,042) \\
+    5.000 & 0,799 (0,131) & 0,920 & 0,970 (0,042) \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado, em 20 chamados com ao menos um campo estimado por amostragem, explicados 5 vezes cada. Jaccard: das 5 palavras mais relevantes entre as repetições. ``Topo igual'': fração dos pares de repetições com a mesma palavra no topo. Entre parênteses, o valor esperado ao acaso.}
+\end{table}
 
 \subsubsection{Concordância entre SHAP e LIME}
 \label{subsubsec:res_concordancia}
@@ -2162,6 +2181,7 @@ A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e 
   \legend{Fonte: Elaborado pelos autores.\\ Nota: O Jaccard considera apenas os 96 chamados com mais de 5 palavras.}
 \end{table}
 
+% PENDENTE-2000: concordancia SHAP x LIME (tabelas e 71%) ainda e da rodada de 500; recalcular com shap_explicacoes.csv novo
 Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 70 dos 98 chamados (71\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,757. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte.
 
 A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálculo do SHAP e por acerto do modelo. A concordância é maior nos 27 chamados em que o SHAP foi calculado de forma exata (Spearman de 0,864) do que nos 71 em que houve amostragem (0,643). Os chamados do primeiro grupo são os mais curtos, então os dados não separam o efeito do método de cálculo do efeito do tamanho do texto. Em todos os chamados, a correlação entre o número de palavras e a concordância de Spearman é de $-0{,}67$ ($p < 0{,}001$): quanto mais palavras, menos os dois métodos concordam. Já entre acertos e erros do modelo, a concordância é praticamente a mesma (Spearman de 0,704 nos dois grupos), com amostra de erros pequena (18 chamados).
@@ -2199,9 +2219,9 @@ Para responder aos objetivos específicos 3 e 4, o grafo foi avaliado por rastre
     \toprule
     Caso & Chamado & Classe real $\rightarrow$ prevista & Conf. & Nós/arestas \\
     \midrule
-    1 & ache\_ticket\_001118 & AQUISICAO\_TI $\rightarrow$ igual & 0,91 & 16/42 \\
-    2 & bayer\_ticket\_001351 & OUTROS $\rightarrow$ SUPORTE\_E\_EQUIPAMENTOS & 0,42 & 4/6 \\
-    3 & bayer\_ticket\_016056 & SOLICITACAO\_DE\_SERVICO $\rightarrow$ igual & 0,83 & 10/25 \\
+    1 & empresa\_b\_ticket\_001118 & AQUISICAO\_TI $\rightarrow$ igual & 0,91 & 16/42 \\
+    2 & empresa\_a\_ticket\_001351 & OUTROS $\rightarrow$ SUPORTE\_E\_EQUIPAMENTOS & 0,42 & 4/6 \\
+    3 & empresa\_a\_ticket\_016056 & SOLICITACAO\_DE\_SERVICO $\rightarrow$ igual & 0,83 & 10/25 \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.}
@@ -2212,39 +2232,39 @@ Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavr
 No caso 1, o chamado pede a transferência de uma licença do pacote \textit{Office} para outra pessoa. As duas palavras de maior peso a favor da classe são as mesmas nos dois métodos, \textit{licença} (SHAP de 0,476; LIME de 0,447) e \textit{office} (0,151 e 0,138), e são o vocabulário esperado para a aquisição de \textit{software}. O grafo mostra \textit{licença} como o maior nó, ligado a \textit{office} e \textit{pacote}.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 1 (ache\_ticket\_001118), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 1 (empresa\_b\_ticket\_001118), com pesos SHAP}
     \label{fig:grafo_caso1}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso1_ache_001118.png}
+    \includegraphics[width=\textwidth]{imagens/grafo_caso1_empresa_b_001118.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-No caso 2, o chamado tem uma única frase, sobre a instalação de duas impressoras, e a categoria real é OUTROS; o modelo previu SUPORTE\_E\_EQUIPAMENTOS com confiança de 0,42. O grafo tem apenas 4 nós. A palavra de maior peso, \textit{Rena}, a marca de uma das impressoras, pesa contra a classe prevista (SHAP de $-$0,248; LIME de $-$0,290), assim como \textit{impressoras} ($-$0,101 e $-$0,077), enquanto o marcador de anonimização \textit{[PERSON]} pesa a favor (0,124 e 0,144). A explicação mostra que a decisão se apoiou em muito pouca evidência e que um marcador de anonimização influenciou a previsão, o que um analista pode questionar. Vale notar que, na taxonomia harmonizada, os chamados de impressora da Bayer (PRINT\_FAX) pertencem a SUPORTE\_E\_EQUIPAMENTOS, e a classe OUTROS vem apenas da categoria CORE\_OTHER. Assim, a previsão do modelo está de acordo com a taxonomia, e o erro pode refletir um rótulo original pouco informativo; a explicação ajuda justamente a levantar essa dúvida.
+No caso 2, o chamado tem uma única frase, sobre a instalação de duas impressoras, e a categoria real é OUTROS; o modelo previu SUPORTE\_E\_EQUIPAMENTOS com confiança de 0,42. O grafo tem apenas 4 nós. A palavra de maior peso, \textit{Rena}, a marca de uma das impressoras, pesa contra a classe prevista (SHAP de $-$0,248; LIME de $-$0,290), assim como \textit{impressoras} ($-$0,101 e $-$0,077), enquanto o marcador de anonimização \textit{[PERSON]} pesa a favor (0,124 e 0,144). A explicação mostra que a decisão se apoiou em muito pouca evidência e que um marcador de anonimização influenciou a previsão, o que um analista pode questionar. Vale notar que, na taxonomia harmonizada, os chamados de impressora da Empresa A (PRINT\_FAX) pertencem a SUPORTE\_E\_EQUIPAMENTOS, e a classe OUTROS vem apenas da categoria CORE\_OTHER. Assim, a previsão do modelo está de acordo com a taxonomia, e o erro pode refletir um rótulo original pouco informativo; a explicação ajuda justamente a levantar essa dúvida.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 2 (bayer\_ticket\_001351), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 2 (empresa\_a\_ticket\_001351), com pesos SHAP}
     \label{fig:grafo_caso2}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso2_bayer_001351.png}
+    \includegraphics[width=\textwidth]{imagens/grafo_caso2_empresa_a_001351.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concordam na palavra de maior peso, \textit{Favor} (SHAP de 0,322; LIME de 0,346), típica de um pedido de serviço. Nas demais palavras, porém, divergem: \textit{limpeza} tem peso de 0,165 no SHAP e de apenas 0,002 no LIME. O grafo, construído com os pesos do SHAP, e o do LIME, portanto, destacam conjuntos diferentes de palavras além da primeira, o que o analista pode verificar alternando o método na interface.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 3 (bayer\_ticket\_016056), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 3 (empresa\_a\_ticket\_016056), com pesos SHAP}
     \label{fig:grafo_caso3}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso3_bayer_016056.png}
+    \includegraphics[width=\textwidth]{imagens/grafo_caso3_empresa_a_016056.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 \subsection{Análise crítica e comparação}
-\textbf{Classificação.} O BERTimbau superou o \textit{baseline} SVM em 3,7 pontos percentuais de F1-macro, abaixo da meta de 5 pontos estabelecida inicialmente. Os dados mostram que o ganho existe, mas não que ele atinja o critério, pois o intervalo de confiança inclui o 5. O ganho vem da revocação e se concentra em poucas classes (SOFTWARE e SOLICITACAO\_DE\_SERVICO, além de duas classes pequenas), enquanto na maior classe os dois modelos empatam. Há ainda dois cuidados de leitura: o resultado no Aché é pouco informativo, pois seus chamados formam poucos grupos de texto, e na validação um único texto repetido 491 vezes inflaria a diferença para 11,9 pontos. Por isso, o resultado mais seguro é o do teste, com os grupos de texto reamostrados juntos.
+\textbf{Classificação.} O BERTimbau superou o \textit{baseline} SVM em 3,7 pontos percentuais de F1-macro, abaixo da meta de 5 pontos estabelecida inicialmente. Os dados mostram que o ganho existe, mas não que ele atinja o critério, pois o intervalo de confiança inclui o 5. O ganho vem da revocação e se concentra em poucas classes (SOFTWARE e SOLICITACAO\_DE\_SERVICO, além de duas classes pequenas), enquanto na maior classe os dois modelos empatam. Há ainda dois cuidados de leitura: o resultado na Empresa B é pouco informativo, pois seus chamados formam poucos grupos de texto, e na validação um único texto repetido 491 vezes inflaria a diferença para 11,9 pontos. Por isso, o resultado mais seguro é o do teste, com os grupos de texto reamostrados juntos.
  
 \textbf{Fidelidade.} O SHAP e o LIME têm fidelidade bem acima do acaso, e a comparação chamado a chamado não distingue os métodos na \textit{comprehensiveness} nem na \textit{sufficiency}. Só no Tau-LOO há diferença, a favor do LIME (diferença média de $-$0,059 para o SHAP, com intervalo que exclui o zero). Isso difere do que se poderia esperar de um método com garantias teóricas como o SHAP, mas uma diferença em uma das três medidas não basta para afirmar que o LIME seja mais fiel.
  
-\textbf{Estabilidade.} \citeonline{salih2023} indicam que o SHAP tende a ser mais estável que o LIME. Neste trabalho, isso só vale quando o SHAP é calculado de forma exata, o que ocorre em textos curtos (até 10 palavras por campo), onde a explicação é idêntica em todas as repetições. Nos 9 chamados em que o SHAP foi estimado por amostragem, com orçamento de 500 consultas, o LIME foi mais estável (mesma palavra no topo em 93\% dos pares de repetições, contra 68\%). Uma explicação possível, que este trabalho não testou, é que 500 consultas são poucas para textos longos; o orçamento, portanto, é um parâmetro que troca tempo de processamento por estabilidade, e o resultado vale para o orçamento usado. A amostra de 12 chamados é pequena, e as conclusões são indicativas.
+\textbf{Estabilidade.} \citeonline{salih2023} indicam que o SHAP tende a ser mais estável que o LIME. Neste trabalho, o SHAP é perfeitamente estável quando calculado de forma exata, o que ocorre em textos curtos (até 10 palavras por campo). Nos 9 chamados em que foi estimado por amostragem, com orçamento de 2.000 consultas, ficou mais estável que o LIME no Jaccard (0,634 contra 0,546) e no Spearman (0,861 contra 0,706), mas o LIME manteve a mesma palavra no topo com mais frequência (93\% dos pares de repetições, contra 83\%). O resultado depende do orçamento: com 500 consultas, o SHAP estimado era menos estável que o LIME nas três medidas, e a estabilidade continuou crescendo com 5.000 (Tabela~\ref{tab:res_orcamento}). O orçamento é, portanto, um parâmetro que troca tempo de processamento por estabilidade. A amostra de 12 chamados é pequena e não houve teste estatístico, então as conclusões são indicativas.
  
 \textbf{Concordância.} Os dois métodos concordam bem acima do acaso (a mesma palavra no topo em 71\% dos chamados), mas a concordância cai com o tamanho do texto. Assim, em chamados longos, a escolha do método muda de forma relevante quais palavras o analista vê como importantes.
  
@@ -2253,7 +2273,7 @@ No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concor
 \subsection{Discussão}
 A hipótese de pesquisa (Seção~\ref{sec:hipotese_pesquisa}) tem duas partes, e os resultados as sustentam de forma diferente. A primeira afirma que o grafo ponderado pelos valores SHAP e LIME contribui para a auditabilidade ao permitir rastrear os termos que levaram à categoria. Essa parte foi sustentada nos termos em que foi definida, a rastreabilidade, nos três casos aplicados. Como a auditabilidade foi medida por rastreabilidade e não em um teste com analistas, o resultado mostra que o caminho da decisão pode ser reconstruído, e não que um analista o reconstrua com facilidade. As outras duas dimensões da definição de auditabilidade (Seção~\ref{subsec:auditabilidade}), a fidelidade e a estabilidade, foram medidas nas explicações do cenário C (Seção~\ref{subsec:res_xai}).
  
-A segunda parte afirma que o SHAP e o LIME produzem explicações com fidelidade e estabilidade distintas. Na fidelidade, a diferença é pequena e só aparece em uma das três medidas, a favor do LIME. Na estabilidade, a diferença depende de como o SHAP é calculado: ele é perfeitamente estável quando exato e menos estável que o LIME quando estimado por amostragem com 500 consultas. A parte é, portanto, sustentada de forma condicional, e o resultado não sustenta a ideia de que um método seja melhor em todos os casos.
+A segunda parte afirma que o SHAP e o LIME produzem explicações com fidelidade e estabilidade distintas. Na fidelidade, a diferença é pequena e só aparece em uma das três medidas, a favor do LIME. Na estabilidade, a diferença depende de como o SHAP é calculado: ele é perfeitamente estável quando exato e, quando estimado por amostragem com 2.000 consultas, mais estável que o LIME no Jaccard e no Spearman, mas menos na mesma palavra no topo. A parte é, portanto, sustentada de forma condicional, e o resultado não sustenta a ideia de que um método seja melhor em todos os casos.
  
 Em relação aos objetivos específicos, o ganho do BERTimbau sobre o \textit{baseline} foi analisado (3,7 pontos, abaixo do critério de 5), e SHAP e LIME foram comparados em fidelidade, estabilidade e concordância. Quanto à consistência semântica das explicações, o objetivo foi atendido apenas de forma qualitativa, nos casos: no caso 1, as palavras de maior peso (\textit{licença} e \textit{office}) são o vocabulário esperado para a classe, e no caso 2 a explicação mostra uma previsão apoiada em muito pouca evidência. \citeonline{razma2026} observam que o \textit{fine-tuning} de um modelo como o BERT pode destacar termos coerentes com o significado do chamado; os casos analisados aqui mostram que isso ocorre em alguns chamados, mas não em todos.
  
@@ -2273,7 +2293,7 @@ Para respondê-la, os chamados de duas empresas (53.279 chamados, em 11 categori
 \begin{enumerate}
     \item \textbf{Ganho do BERTimbau sobre o \textit{baseline}.} O objetivo foi atendido: o BERTimbau obteve F1-macro de 0,628 contra 0,591 do SVM, uma diferença de 3,7 pontos percentuais, abaixo da meta de 5 pontos estabelecida inicialmente. O ganho existe, mas os dados não mostram que atinja o critério, e ele se concentra em poucas classes.
 
-    \item \textbf{Comparação entre SHAP e LIME.} O objetivo foi atendido: em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata, mas menos estável que o LIME quando estimado por amostragem com 500 consultas. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
+    \item \textbf{Comparação entre SHAP e LIME.} O objetivo foi atendido: em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata e, quando estimado por amostragem com 2.000 consultas, mais estável que o LIME no Jaccard e no Spearman, mas menos na mesma palavra no topo. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
 
     \item \textbf{Auditabilidade pelo grafo.} O objetivo foi atendido nos três casos aplicados: cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME, o que corresponde à auditabilidade nos termos em que foi definida, a rastreabilidade. Não se mediu, porém, se analistas conseguem acompanhar a decisão a partir do grafo.
 
@@ -2298,15 +2318,15 @@ As contribuições deste trabalho para a área são as seguintes.
 \section{Limitações e trabalhos futuros}
 Este trabalho tem limitações que delimitam o alcance de seus resultados.
 
-Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Bayer reúne 86\% do conjunto de teste. Os chamados do Aché cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado no Aché traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha.
+Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Empresa A reúne 86\% do conjunto de teste. Os chamados da Empresa B cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Empresa B traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha.
 
-Além disso, dos 189.909 chamados da Bayer que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico. A revisão manual do filtro de idioma (30 chamados mantidos e 30 descartados) não foi concluída.
+Além disso, dos 189.909 chamados da Empresa A que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico. A revisão manual do filtro de idioma (30 chamados mantidos e 30 descartados) não foi concluída.
 
 Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo. A confiança exibida pela interface é a probabilidade máxima da \textit{softmax} e não foi calibrada.
 
 Quanto à escolha do modelo, o trabalho usou o BERTimbau, um modelo de 2020, e não avaliou modelos generalistas mais recentes, os LLMs (\textit{Large Language Models} -- Modelos de Linguagem de Grande Porte), nem abordagens com recuperação de contexto (RAG, \textit{Retrieval-Augmented Generation} -- Geração Aumentada por Recuperação) ou explicações em texto geradas pelo próprio modelo, como as de CoT (\textit{Chain-of-Thought} -- Cadeia de Raciocínio). O BERTimbau foi mantido por ser específico para o português e por permitir calcular, em máquinas locais, as centenas de consultas ao modelo que o SHAP e o LIME exigem por explicação; com um LLM, esse custo seria bem maior. Já as explicações em texto de um LLM teriam de ter sua fidelidade ao processo de decisão avaliada com medidas como as usadas aqui.
 
-Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 500 consultas, o mesmo número de amostras do LIME; orçamentos maiores podem alterar a estabilidade medida. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, as medidas de fidelidade foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e por isso seus valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
+Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 2.000 consultas, enquanto o LIME usou 500 amostras, de modo que a comparação de estabilidade não é entre métodos de mesmo custo; o teste com 500, 2.000 e 5.000 consultas mostrou que a estabilidade do SHAP aumenta com o orçamento. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, as medidas de fidelidade foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e por isso seus valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
 
 Quanto ao grafo, a auditabilidade foi avaliada pela rastreabilidade, em casos aplicados, e não em um teste com analistas de TI. O trabalho, portanto, mostra que cada nó e cada aresta podem ser levados de volta ao chamado, mas não que analistas conseguem, na prática, acompanhar a decisão do classificador a partir do grafo.
 
@@ -2360,41 +2380,41 @@ O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (
 \begin{anexosenv}
 \partanexos
 
-\chapter{Autorização de uso de dados: Aché Laboratórios Farmacêuticos}
-\label{an:autorizacao_ache}
+\chapter{Autorização de uso de dados: Empresa B}
+\label{an:autorizacao_empresa_b}
 
-Troca de e-mails em que o Aché Laboratórios Farmacêuticos, por meio de sua equipe de suporte de TI e do prestador do serviço, concorda em compartilhar a base de chamados de suporte técnico para fins acadêmicos neste trabalho. Nomes, endereços de e-mail, telefones e assinaturas dos participantes foram ocultados, mantendo-se a data, o assunto e o conteúdo da conversa. As mensagens aparecem em ordem cronológica: o pedido dos autores e a concordância da empresa (Figura~\ref{fig:autorizacao_ache_1}) e o envio da base de chamados (Figura~\ref{fig:autorizacao_ache_2}).
+Troca de e-mails em que a Empresa B, por meio de sua equipe de suporte de TI e do prestador do serviço, concorda em compartilhar a base de chamados de suporte técnico para fins acadêmicos neste trabalho. Nomes, endereços de e-mail, telefones e assinaturas dos participantes foram ocultados, mantendo-se a data, o assunto e o conteúdo da conversa. As mensagens aparecem em ordem cronológica: o pedido dos autores e a concordância da empresa (Figura~\ref{fig:autorizacao_empresa_b_1}) e o envio da base de chamados (Figura~\ref{fig:autorizacao_empresa_b_2}).
 
 \begin{figure}[H]
-    \caption{Autorização de uso de dados concedida pelo Aché Laboratórios Farmacêuticos (1 de 2): pedido e concordância}
-    \label{fig:autorizacao_ache_1}
+    \caption{Autorização de uso de dados concedida pela Empresa B (1 de 2): pedido e concordância}
+    \label{fig:autorizacao_empresa_b_1}
     \centering
-    \includegraphics[width=0.9\textwidth]{imagens/autorizacao_ache_1.png}
+    \includegraphics[width=0.9\textwidth]{imagens/autorizacao_empresa_b_1.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026).}
 \end{figure}
 
 \begin{figure}[H]
-    \caption{Autorização de uso de dados concedida pelo Aché Laboratórios Farmacêuticos (2 de 2): acompanhamento e envio da base}
-    \label{fig:autorizacao_ache_2}
+    \caption{Autorização de uso de dados concedida pela Empresa B (2 de 2): acompanhamento e envio da base}
+    \label{fig:autorizacao_empresa_b_2}
     \centering
-    \includegraphics[width=0.9\textwidth,height=0.75\textheight,keepaspectratio]{imagens/autorizacao_ache_2.png}
+    \includegraphics[width=0.9\textwidth,height=0.75\textheight,keepaspectratio]{imagens/autorizacao_empresa_b_2.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026).}
 \end{figure}
 
-\chapter{Autorização de uso de dados: Bayer S.A.}
-\label{an:autorizacao_bayer}
+\chapter{Autorização de uso de dados: Empresa A}
+\label{an:autorizacao_empresa_a}
 
-Mensagem de e-mail em que a Bayer S.A. autoriza o uso de chamados de
+Mensagem de e-mail em que a Empresa A autoriza o uso de chamados de
 suporte técnico para fins acadêmicos neste trabalho, mediante
 anonimização dos registros. Nomes, e-mails, ramais e assinaturas dos
 remetentes foram removidos da imagem, mantendo-se apenas o conteúdo da
-autorização e a identificação da empresa.
+autorização.
 
 \begin{figure}[H]
-    \caption{Autorização de uso de dados concedida pela Bayer S.A.}
-    \label{fig:autorizacao_bayer}
+    \caption{Autorização de uso de dados concedida pela Empresa A}
+    \label{fig:autorizacao_empresa_a}
     \centering
-    \includegraphics[width=0.85\textwidth]{imagens/autorizacao_bayer.png}
+    \includegraphics[width=0.85\textwidth]{imagens/autorizacao_empresa_a.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026).}
 \end{figure}
 
