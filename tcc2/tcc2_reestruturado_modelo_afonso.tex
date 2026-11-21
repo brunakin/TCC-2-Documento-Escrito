@@ -1434,7 +1434,7 @@ Diante das lacunas identificadas: ausência de XAI em sistemas de classificaçã
 \chapter{Desenvolvimento}
 \label{cap:desenvolvimento}
 
-Este capítulo descreve como a pesquisa foi conduzida e o que foi construído e medido. Apresenta a metodologia da pesquisa (Seção~\ref{sec:metodologia_pesquisa}), os detalhes da implementação, incluindo a modelagem, a arquitetura e os dados (Seção~\ref{sec:implementacao}), os experimentos (Seção~\ref{sec:experimentos}) e os resultados com a sua análise (Seção~\ref{sec:resultados}). O cronograma das atividades está no Apêndice~\ref{ap:cronograma}.
+Este capítulo descreve como a pesquisa foi conduzida e o que foi construído e medido. Apresenta a metodologia da pesquisa (Seção~\ref{sec:metodologia_pesquisa}), os detalhes da implementação, incluindo a modelagem, a arquitetura e os dados (Seção~\ref{sec:implementacao}), os experimentos (Seção~\ref{sec:experimentos}) e os resultados com a sua análise (Seção~\ref{sec:resultados}). O cronograma das atividades está no Apêndice~\ref{ap:cronograma}, e a correspondência entre as categorias originais e a taxonomia harmonizada, no Apêndice~\ref{ap:correspondencia_categorias}.
 
 
 % ---------------------------------------------------------------
@@ -1524,11 +1524,11 @@ O projeto foi desenvolvido em Python. A Tabela~\ref{tab:ferramentas} resume as b
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-O treinamento dos modelos usou Python 3.13.2, \textit{PyTorch} 2.6.0 (CUDA, \textit{Compute Unified Device Architecture} -- Arquitetura Unificada de Dispositivos de Computação, versão 12.4), \textit{Transformers} 5.17.0 e \textit{scikit-learn} 1.9.1. A versão do SHAP utilizada foi a 0.54.1, e a do LIME, a 0.2.0.1.
+O ambiente de treinamento usou Python 3.13.2, \textit{PyTorch} 2.6.0 (CUDA, \textit{Compute Unified Device Architecture} -- Arquitetura Unificada de Dispositivos de Computação, versão 12.4), \textit{Transformers} 5.17.0, \textit{scikit-learn} 1.9.1, \textit{pandas} 3.0.6 e \textit{NumPy} 2.5.3. A versão do SHAP utilizada foi a 0.54.1, e a do LIME, a 0.2.0.1.
 
 O \textit{baseline} SVM com TF-IDF foi escolhido por ser a referência clássica em classificação de texto e permitir medir o ganho do modelo neural.
 
-O \textit{fine-tuning} do BERTimbau foi executado em uma placa de vídeo (GPU, \textit{Graphics Processing Unit} -- Unidade de Processamento Gráfico) NVIDIA GTX 1650. A GTX 1650 tem 4 GB de memória, e o treino usou precisão mista (\textit{fp16}). O treino levou cerca de 12 horas (tempo aproximado, pois a duração exata não foi registrada).
+O \textit{fine-tuning} do BERTimbau foi executado em uma placa de vídeo (GPU, \textit{Graphics Processing Unit} -- Unidade de Processamento Gráfico) NVIDIA GTX 1650. A GTX 1650 tem 4 GB de memória, e o treino usou precisão mista (\textit{fp16}). O treino começou em 04/10/2026, levou 14 horas e 31 minutos e terminou em 05/10/2026, conforme o registro do próprio treinamento.
 
 Já a execução do SHAP e do LIME foi feita em CPU (\textit{Central Processing Unit} -- Unidade Central de Processamento), em um MacBook Pro com chip Apple M4.
 
@@ -1885,8 +1885,8 @@ As autorizações de uso foram concedidas pelas duas empresas por e-mail.
 Os autores se comprometeram a usar os chamados apenas neste trabalho e a
 anonimizá-los antes de qualquer etapa de processamento. Essas mensagens
 são o registro da autorização concedida e da finalidade acadêmica do uso, e estão
-reproduzidas nos Anexos~\ref{an:autorizacao_empresa_b}
-e~\ref{an:autorizacao_empresa_a}.
+reproduzidas nos Anexos~\ref{an:autorizacao_empresa_a}
+e~\ref{an:autorizacao_empresa_b}.
 
 A anonimização, além de cumprir esse compromisso, alinha o trabalho ao
 tratamento que a Lei Geral de Proteção de Dados Pessoais (LGPD, Lei
@@ -1901,7 +1901,9 @@ portanto, apenas uma escolha metodológica.
 \subsubsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
-O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Empresa A e da Empresa B, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Empresa A tinha 191.350 chamados, abertos de maio de 2020 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Empresa B tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Empresa B: 6.949; Empresa A: 46.330), em 11 classes, entre elas a classe OUTROS.
+O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Empresa A e da Empresa B, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Empresa A tinha 191.350 chamados, abertos de maio de 2020 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Empresa B tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única (Apêndice~\ref{ap:correspondencia_categorias}), e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Empresa B: 6.949; Empresa A: 46.330), em 11 classes, entre elas a classe OUTROS.
+
+Na base da Empresa A, a anonimização foi feita antes de qualquer outro processamento, em duas camadas aplicadas à descrição curta e à descrição completa. A primeira, por expressões regulares, substituiu por marcadores os endereços de \textit{e-mail}, os endereços web, os números de chamado, os caminhos de arquivo, os endereços IP, os CPFs, os telefones, os identificadores de usuário e os nomes das empresas. A segunda usou o reconhecimento de entidades nomeadas do modelo \textit{pt\_core\_news\_md}, da biblioteca \textit{spaCy}, para substituir nomes de pessoas, de organizações e de locais, com uma lista de exceções para nomes de produtos e sistemas que fazem parte do vocabulário técnico, como SAP, Outlook e VPN. O número original de cada chamado foi descartado e trocado por um identificador sequencial. Na base final usada no treino, a varredura de sanidade da anonimização encontrou 24 ocorrências residuais de padrão telefônico rotulado na descrição completa (0 no resumo), que podem incluir falsos positivos, como números de patrimônio depois de ``Tel:''.
 
 As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
 
@@ -1935,7 +1937,7 @@ A base da Empresa A possui, além da descrição completa, uma descrição curta
 
 O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
 
-O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classificação textual. A entrada do modelo é o par formado pela descrição curta e pela descrição completa, limitado a 256 \textit{tokens}; cerca de 10,2\% dos pares ultrapassam esse limite. O treino usou 3 épocas, \textit{batch} de 16, taxa de aprendizado de $2 \times 10^{-5}$ e semente 42. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro.
+O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classificação textual. A entrada do modelo é o par formado pela descrição curta e pela descrição completa, limitado a 256 \textit{tokens}; cerca de 10,2\% dos pares ultrapassam esse limite. O treino usou 3 épocas, \textit{batch} de 16, taxa de aprendizado de $2 \times 10^{-5}$ e semente 42. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro. Uma tentativa posterior com pesos por classe, que não foi adotada, é descrita na Seção~\ref{subsec:res_melhoria}.
 
 
 % ---------------------------------------------------------------
@@ -1992,7 +1994,7 @@ Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela 
 \section{Resultados e análises}
 \label{sec:resultados}
 
-Esta seção apresenta os resultados dos cenários A a D e, em seguida, os analisa e os discute à luz da revisão bibliográfica e da hipótese de pesquisa.
+Esta seção apresenta os resultados dos cenários A a D, incluindo a tentativa de melhoria do classificador, e, em seguida, os analisa e os discute à luz da revisão bibliográfica e da hipótese de pesquisa.
 
 \subsection{Desempenho da classificação (cenários A e B)}
 \label{subsec:res_classificacao}
@@ -2080,6 +2082,55 @@ A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no 
     \includegraphics[width=0.9\textwidth]{imagens/matriz_confusao_teste.png}
     \legend{Fonte: Elaborado pelos autores.\\ Nota: Cada linha soma 100\% dos chamados da classe real; por isso a matriz não é simétrica, e as células acima e abaixo da diagonal mostram erros diferentes.}
 \end{figure}
+
+\subsection{Tentativa de melhoria do classificador (C1 e S1)}
+\label{subsec:res_melhoria}
+
+Depois do treino de referência, o grupo avaliou se pesos de classe na função de perda melhorariam o desempenho nas classes pequenas. Para que a escolha não fosse influenciada pelos resultados, o protocolo foi declarado em 21/10/2026, antes de qualquer execução, em um documento de experimentos declarados. O candidato C1 manteve toda a configuração do ajuste fino (Seção~\ref{subsubsec:dataset_finetuning}) e a mesma divisão dos dados, mudando apenas a perda: cada classe $c$ recebeu um peso proporcional a $1/\sqrt{n_c}$, normalizado para que o peso médio por exemplo de treino seja 1,
+
+\begin{equation}
+w_c = \frac{\tilde w_c}{\frac{1}{N}\sum_{i=1}^{N} \tilde w_{y_i}}, \qquad
+\tilde w_c = \frac{1}{\sqrt{n_c}}
+\label{eq:pesos-c1}
+\end{equation}
+em que $n_c$ é o número de chamados da classe $c$ no treino e $N$ é o total de chamados de treino. A perda passa a ser $\mathcal{L} = -\frac{1}{N}\sum_i w_{y_i} \log p(y_i \mid x_i)$.
+
+A seleção usaria apenas a validação corrigida, que retira o bloco de 491 chamados com o mesmo texto (Seção~\ref{subsec:res_classificacao}), sem abrir o conjunto de teste. O C1 seria aceito somente se três condições valessem ao mesmo tempo, sobre as sementes 42, 43 e 44:
+
+\begin{enumerate}
+  \item a média do F1-macro das três sementes ser ao menos 2 pontos maior que a do modelo de referência;
+  \item cada semente, sozinha, ficar acima da referência;
+  \item a diferença entre a média das três sementes e a referência ser positiva em ao menos 90\% das 2.000 reamostragens do \textit{bootstrap} pareado por grupo.
+\end{enumerate}
+
+Foi declarada também uma regra de parada: se uma semente ficasse igual ou abaixo da referência, a condição 2 já estaria descumprida, e as demais sementes seriam dispensadas. Para o SVM, foi declarada a variação S1, com pesos de classe balanceados (parâmetro \texttt{class\_weight} igual a \texttt{"balanced"}).
+
+A Tabela~\ref{tab:res_melhoria} traz o resultado na validação corrigida (4.803 chamados em 4.536 grupos, 11 classes). Os valores têm quatro casas decimais para que as diferenças possam ser conferidas.
+
+\begin{table}[htb]
+  \centering
+  \caption{Candidatos de melhoria na validação corrigida}
+  \label{tab:res_melhoria}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.4cm}ccccc}
+    \toprule
+    Candidato & Referência & F1 cand. & F1 ref. & Dif. (p.p.) & IC 95\% (p.p.) & Ganho $>0$ \\
+    \midrule
+    C1 (BERTimbau, semente 42) & BERTimbau de referência & 0,5772 & 0,5906 & $-$1,3 & $-$3,0 a $+$0,3 & 5\% \\
+    S1 (SVM balanceado) & SVM original & 0,5577 & 0,5552 & $+$0,3 & $-$2,0 a $+$2,7 & 55\% \\
+    \bottomrule
+  \end{tabular}
+  \legend{Fonte: Elaborado pelos autores.\\ Nota: F1: F1-macro; cand.: candidato; ref.: referência; IC: intervalo de confiança por \textit{bootstrap} pareado por grupo; p.p.: pontos percentuais; Ganho $>0$: fração das 2.000 reamostragens com diferença positiva.}
+\end{table}
+
+O C1 foi treinado com a semente 42 na GTX 1650 (8.007 passos de atualização), em execução iniciada em 21/10/2026. Na validação inteira, obteve F1-macro de 0,6197 (acurácia de 0,7106), contra 0,6303 da referência. Na validação corrigida, ficou 1,3 ponto abaixo da referência, e a diferença foi positiva em apenas 5\% das reamostragens; em relação ao SVM original, ficou 2,2 pontos acima (intervalo de 95\% de $-$0,5 a $+$4,9). A condição 2 falhou. Em 26/10/2026, quando o intervalo foi calculado, as sementes 43 e 44 foram dispensadas pela regra de parada, e o conjunto de teste não foi aberto para o C1.
+
+O S1 foi executado em 21/10/2026 (cerca de 2 minutos, sem uso do teste). Obteve F1-macro de 0,5170 na validação inteira (acurácia de 0,6128) e de 0,5577 na validação corrigida, 0,3 ponto acima do SVM original, com intervalo que inclui o zero e diferença positiva em 55\% das reamostragens. Como o ganho não foi comprovado, o S1 não foi aprovado, e o SVM original continuou sendo a referência do cenário A.
+
+Nenhum dos dois candidatos foi aprovado. Em 26/10/2026, o grupo decidiu manter como modelo final o BERTimbau treinado de 04/10 a 05/10/2026, usado em todos os resultados, nas explicações e na interface, e o modelo foi congelado em 28/10/2026.
+
+A escolha do escopo combinado (Empresa A e Empresa B) para essa tentativa foi feita depois de observados os resultados de teste do modelo de referência e de um modelo treinado só com chamados da Empresa A; por isso, o resultado da tentativa é relatado como complementar. O modelo só com a Empresa A foi treinado com outra divisão dos dados, e apenas 468 chamados estão no teste dos dois, o que impede uma comparação pareada entre eles; essa comparação não foi feita.
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
 \label{subsec:res_xai}
@@ -2318,11 +2369,11 @@ As contribuições deste trabalho para a área são as seguintes.
 \section{Limitações e trabalhos futuros}
 Este trabalho tem limitações que delimitam o alcance de seus resultados.
 
-Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Empresa A reúne 86\% do conjunto de teste. Os chamados da Empresa B cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Empresa B traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha.
+Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Empresa A reúne 86\% do conjunto de teste. Os chamados da Empresa B cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Empresa B traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha. Além disso, a varredura de sanidade da anonimização encontrou, na base final, 24 ocorrências residuais de padrão telefônico rotulado na descrição (0 no resumo), que podem incluir falsos positivos; a anonimização, portanto, não pode ser considerada perfeita.
 
 Além disso, dos 189.909 chamados da Empresa A que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico. A revisão manual do filtro de idioma (30 chamados mantidos e 30 descartados) não foi concluída.
 
-Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo. A confiança exibida pela interface é a probabilidade máxima da \textit{softmax} e não foi calibrada.
+Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. A tentativa de melhoria com pesos de classe (Seção~\ref{subsec:res_melhoria}) não superou a referência e foi relatada como complementar, pois o escopo escolhido para ela foi definido depois de observados resultados de teste. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo. A confiança exibida pela interface é a probabilidade máxima da \textit{softmax} e não foi calibrada.
 
 Quanto à escolha do modelo, o trabalho usou o BERTimbau, um modelo de 2020, e não avaliou modelos generalistas mais recentes, os LLMs (\textit{Large Language Models} -- Modelos de Linguagem de Grande Porte), nem abordagens com recuperação de contexto (RAG, \textit{Retrieval-Augmented Generation} -- Geração Aumentada por Recuperação) ou explicações em texto geradas pelo próprio modelo, como as de CoT (\textit{Chain-of-Thought} -- Cadeia de Raciocínio). O BERTimbau foi mantido por ser específico para o português e por permitir calcular, em máquinas locais, as centenas de consultas ao modelo que o SHAP e o LIME exigem por explicação; com um LLM, esse custo seria bem maior. Já as explicações em texto de um LLM teriam de ter sua fidelidade ao processo de decisão avaliada com medidas como as usadas aqui.
 
@@ -2362,7 +2413,7 @@ O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (
     \toprule
     Fase & Período & Status \\
     \midrule
-    1. Dados e modelo & setembro a 04/10/2026 & Concluída (modelo final treinado em 04/10) \\
+    1. Dados e modelo & setembro a 05/10/2026 & Concluída (modelo final treinado de 04/10 a 05/10) \\
     2. XAI e grafo & outubro a 01/11/2026 & Concluída (rodada oficial do SHAP e do LIME em 01/11) \\
     3. Sistema e interface & até 05/11/2026 & Concluída (prova de conceito funcionando em 05/11) \\
     4. Escrita do documento & 02/11 a 07/11/2026 & Concluída (capítulos 1 a 4 redigidos) \\
@@ -2372,6 +2423,98 @@ O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Em relação ao plano inicial, a interface passou a ser servida com \textit{Flask}, em vez de \textit{FastAPI}.}
 \end{table}
 
+\chapter{Correspondência entre as categorias originais e a taxonomia harmonizada}
+\label{ap:correspondencia_categorias}
+
+A Tabela~\ref{tab:correspondencia_categorias} lista as 54 categorias do arquivo de correspondência usado na harmonização (45 da Empresa A e 9 da Empresa B) e a classe da taxonomia harmonizada (Seção~\ref{subsubsec:dataset_finetuning}) a que cada uma foi associada. A classe RECURSOS\_HUMANOS, exclusiva da Empresa B, tem 39 chamados e ficou fora do treino por ter menos de 100 exemplos; por isso o modelo tem 11 classes. O nome de uma empresa que aparecia em uma categoria da Empresa A foi substituído por [ORG].
+
+{\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{longtable}{p{5.5cm}p{1.7cm}p{7.5cm}}
+  \caption{Correspondência entre as categorias originais e a taxonomia harmonizada}
+  \label{tab:correspondencia_categorias} \\
+  \toprule
+  Classe harmonizada & Empresa & Categoria original \\
+  \midrule
+  \endfirsthead
+  \multicolumn{3}{l}{\textit{(continuação da Tabela~\ref{tab:correspondencia_categorias})}} \\
+  \toprule
+  Classe harmonizada & Empresa & Categoria original \\
+  \midrule
+  \endhead
+  \midrule
+  \multicolumn{3}{r}{\textit{(continua na próxima página)}} \\
+  \endfoot
+  \bottomrule
+  \multicolumn{3}{l}{Fonte: Elaborado pelos autores.} \\
+  \endlastfoot
+    ACESSOS\_E\_IDENTIDADE & Empresa A & PASSWORD\_RESET \\
+     & Empresa A & USER\_MANAGEMENT \\
+     & Empresa A & IMCM\_USER\_MANAGEMENT\_REQUESTS \\
+     & Empresa A & FILE\_FOLDER \\
+     & Empresa A & WORKPLACE\_TOOLS \\
+     & Empresa A & WORKSPACEONE \\
+     & Empresa A & ISC\_Identity \\
+     & Empresa A & ISC\_Access \\
+     & Empresa B & RS - Acessos, senhas \& perfis \\
+    \midrule
+    CONSULTA\_E\_ORIENTACAO & Empresa A & INQUIRY\_HELP \\
+    \midrule
+    OUTROS & Empresa A & CORE\_OTHER \\
+    \midrule
+    REDES\_E\_COMUNICACOES & Empresa A & NETWORK \\
+     & Empresa A & VOICE\_VIDEO\_MOBILITY \\
+     & Empresa A & VIDEO\_CONFERENCING\_STREAMING \\
+     & Empresa B & IN - Redes e Comunicações \\
+    \midrule
+    SERVIDORES & Empresa A & SERVER \\
+     & Empresa A & INFRASTRUCTURE \\
+     & Empresa A & SMART AWS (Amazon Web Services) \\
+     & Empresa B & IN - Administração e Operação de Servidores \\
+    \midrule
+    SISTEMAS\_E\_APLICACOES & Empresa A & APPLICATIONS \\
+     & Empresa A & CS\_IP21 \\
+     & Empresa A & IMCM\_DATA\_ISSUE \\
+     & Empresa A & IMCM\_DATA\_UPLOAD\_REQUEST \\
+     & Empresa A & IMCM\_SYNC\_ISSUE \\
+     & Empresa A & INTEGRATION\_[ORG] \\
+     & Empresa A & ORDER\_TO\_CASH\_APPLICATIONS \\
+     & Empresa A & OUTLOOK\_SKYPE \\
+     & Empresa A & OneMES \\
+     & Empresa A & OneMES\_History \\
+     & Empresa A & PRODUCT\_SUPPLY\_APPLICATIONS \\
+     & Empresa A & SAP\_PLATFORM\_SERVICE\_LINE \\
+     & Empresa A & SOURCE\_TO\_PAY\_APPLICATIONS \\
+     & Empresa A & IMCM\_CONTENT \\
+     & Empresa A & BI \\
+     & Empresa A & SHAREPOINT \\
+     & Empresa A & ACCOUNTING\_APPLICATIONS \\
+     & Empresa A & SERVICENOW \\
+     & Empresa A & Interface \\
+     & Empresa A & WEB\_APPLICATION \\
+     & Empresa A & Global\_Data\_Assets \\
+     & Empresa A & EVENT\_MANAGEMENT \\
+     & Empresa A & BI\_BASIS \\
+     & Empresa A & EDM \\
+     & Empresa A & DEVOPS\_PLATFORM \\
+     & Empresa B & RS-TI-SISTEMA \\
+     & Empresa B & IN-TI-SISTEMA \\
+    \midrule
+    SOFTWARE & Empresa A & SOFTWARE \\
+    \midrule
+    SOLICITACAO\_DE\_SERVICO & Empresa A & SERVICE\_REQUEST \\
+    \midrule
+    SUPORTE\_E\_EQUIPAMENTOS & Empresa A & PC\_HARDWARE \\
+     & Empresa A & PRINT\_FAX \\
+     & Empresa B & Serviços e Suporte TI \\
+    \midrule
+    AQUISICAO\_TI & Empresa B & Aquisição de TI \\
+    \midrule
+    CIBERSEGURANCA & Empresa B & RS-TI-SEGINFO-CIBER \\
+    \midrule
+    RECURSOS\_HUMANOS & Empresa B & RH - Recursos Humanos \\
+\end{longtable}
+}
+
 \end{apendicesenv}
 
 % ---------------------------------------------------------------
@@ -2379,27 +2522,6 @@ O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (
 % ---------------------------------------------------------------
 \begin{anexosenv}
 \partanexos
-
-\chapter{Autorização de uso de dados: Empresa B}
-\label{an:autorizacao_empresa_b}
-
-Troca de e-mails em que a Empresa B, por meio de sua equipe de suporte de TI e do prestador do serviço, concorda em compartilhar a base de chamados de suporte técnico para fins acadêmicos neste trabalho. Nomes, endereços de e-mail, telefones e assinaturas dos participantes foram ocultados, mantendo-se a data, o assunto e o conteúdo da conversa. As mensagens aparecem em ordem cronológica: o pedido dos autores e a concordância da empresa (Figura~\ref{fig:autorizacao_empresa_b_1}) e o envio da base de chamados (Figura~\ref{fig:autorizacao_empresa_b_2}).
-
-\begin{figure}[H]
-    \caption{Autorização de uso de dados concedida pela Empresa B (1 de 2): pedido e concordância}
-    \label{fig:autorizacao_empresa_b_1}
-    \centering
-    \includegraphics[width=0.9\textwidth]{imagens/autorizacao_empresa_b_1.png}
-    \legend{Fonte: Correspondência recebida pelos autores (2026).}
-\end{figure}
-
-\begin{figure}[H]
-    \caption{Autorização de uso de dados concedida pela Empresa B (2 de 2): acompanhamento e envio da base}
-    \label{fig:autorizacao_empresa_b_2}
-    \centering
-    \includegraphics[width=0.9\textwidth,height=0.75\textheight,keepaspectratio]{imagens/autorizacao_empresa_b_2.png}
-    \legend{Fonte: Correspondência recebida pelos autores (2026).}
-\end{figure}
 
 \chapter{Autorização de uso de dados: Empresa A}
 \label{an:autorizacao_empresa_a}
@@ -2419,6 +2541,27 @@ Troca de e-mails em que a Empresa A, por meio de sua equipe de suporte de TI, au
     \label{fig:autorizacao_empresa_a_2}
     \centering
     \includegraphics[width=0.9\textwidth]{imagens/autorizacao_empresa_a_2.png}
+    \legend{Fonte: Correspondência recebida pelos autores (2026).}
+\end{figure}
+
+\chapter{Autorização de uso de dados: Empresa B}
+\label{an:autorizacao_empresa_b}
+
+Troca de e-mails em que a Empresa B, por meio de sua equipe de suporte de TI e do prestador do serviço, concorda em compartilhar a base de chamados de suporte técnico para fins acadêmicos neste trabalho. Nomes, endereços de e-mail, telefones e assinaturas dos participantes foram ocultados, mantendo-se a data, o assunto e o conteúdo da conversa. As mensagens aparecem em ordem cronológica: o pedido dos autores e a concordância da empresa (Figura~\ref{fig:autorizacao_empresa_b_1}) e o envio da base de chamados (Figura~\ref{fig:autorizacao_empresa_b_2}).
+
+\begin{figure}[H]
+    \caption{Autorização de uso de dados concedida pela Empresa B (1 de 2): pedido e concordância}
+    \label{fig:autorizacao_empresa_b_1}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/autorizacao_empresa_b_1.png}
+    \legend{Fonte: Correspondência recebida pelos autores (2026).}
+\end{figure}
+
+\begin{figure}[H]
+    \caption{Autorização de uso de dados concedida pela Empresa B (2 de 2): acompanhamento e envio da base}
+    \label{fig:autorizacao_empresa_b_2}
+    \centering
+    \includegraphics[width=0.9\textwidth,height=0.75\textheight,keepaspectratio]{imagens/autorizacao_empresa_b_2.png}
     \legend{Fonte: Correspondência recebida pelos autores (2026).}
 \end{figure}
 
