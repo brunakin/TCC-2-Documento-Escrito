@@ -485,7 +485,7 @@ P_{\mathrm{macro}} = \frac{1}{K} \sum_{c=1}^{K} P_c, \qquad
 R_{\mathrm{macro}} = \frac{1}{K} \sum_{c=1}^{K} R_c
 \label{eq:macro}
 \end{equation}
-Uma categoria sem nenhum acerto, como OUTROS no teste deste trabalho, tem $F1_c = 0$ e reduz o F1-macro na mesma proporção que qualquer outra categoria.
+Uma categoria sem nenhum acerto tem $F1_c = 0$ e reduz o F1-macro na mesma proporção que qualquer outra categoria.
 
 \subsubsection{Abordagens de aprendizado de máquina para classificação automática de chamados}
 \label{subsec:helpdesk_ml}
@@ -2017,7 +2017,7 @@ Para responder ao objetivo específico 1, a Tabela~\ref{tab:res_teste} apresenta
 
 A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença foi positiva em 99,8\% das reamostragens, mas a estimativa pontual fica abaixo da meta de 5 pontos estabelecida inicialmente (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: em cerca de 21\% das reamostragens, a diferença atingiu ao menos 5 pontos.
 
-A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por cerca de 96\% da diferença de 3,7 pontos no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste.
+A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por cerca de 96\% da diferença de 3,7 pontos no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste. Como o F1-macro dá o mesmo peso a todas as classes, o F1 nulo nessa classe reduz a média.
 
 \begin{table}[htb]
   \centering
@@ -2256,7 +2256,7 @@ A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálc
 \subsection{Grafo de co-ocorrência (cenário D)}
 \label{subsec:res_casos}
 
-Para responder aos objetivos específicos 3 e 4, o grafo foi avaliado por rastreabilidade em três chamados da amostra de 98, escolhidos para cobrir situações diferentes: um acerto com vocabulário típico da classe (caso 1), um erro do modelo (caso 2) e um acerto em que os dois métodos divergem nas palavras secundárias (caso 3). A Tabela~\ref{tab:res_casos} resume os três, e as Figuras~\ref{fig:grafo_caso1}, \ref{fig:grafo_caso2} e~\ref{fig:grafo_caso3} mostram os grafos na interface.
+Para responder aos objetivos específicos 3 e 4, o grafo foi avaliado por rastreabilidade em três chamados da amostra de 98, escolhidos para cobrir situações diferentes: um acerto com vocabulário típico da classe (caso 1), um erro do modelo (caso 2) e um acerto em que os dois métodos divergem nas palavras secundárias (caso 3). A Tabela~\ref{tab:res_casos} resume os três, e as Figuras~\ref{fig:grafo_caso1}, \ref{fig:grafo_caso2} e~\ref{fig:grafo_caso3} mostram os grafos na interface, cada um com os pesos do SHAP e do LIME.
 
 \begin{table}[htb]
   \centering
@@ -2280,30 +2280,39 @@ Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavr
 No caso 1, o chamado pede a transferência de uma licença do pacote \textit{Office} para outra pessoa. As duas palavras de maior peso a favor da classe são as mesmas nos dois métodos, \textit{licença} (SHAP de 0,476; LIME de 0,447) e \textit{office} (0,151 e 0,138), e são o vocabulário esperado para a aquisição de \textit{software}. O grafo mostra \textit{licença} como o maior nó, ligado a \textit{office} e \textit{pacote}.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 1 (empresa\_b\_ticket\_001118), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 1 (empresa\_b\_ticket\_001118): (a) pesos SHAP; (b) pesos LIME}
     \label{fig:grafo_caso1}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso1_empresa_b_001118.png}
+    \textbf{(a) SHAP}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso1_empresa_b_001118.png}\\[8pt]
+    \textbf{(b) LIME}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso1_empresa_b_001118_lime.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 No caso 2, o chamado tem uma única frase, sobre a instalação de duas impressoras, e a categoria real é OUTROS; o modelo previu SUPORTE\_E\_EQUIPAMENTOS com confiança de 0,42. O grafo tem apenas 4 nós. A palavra de maior peso, \textit{Rena}, a marca de uma das impressoras, pesa contra a classe prevista (SHAP de $-$0,248; LIME de $-$0,290), assim como \textit{impressoras} ($-$0,101 e $-$0,077), enquanto o marcador de anonimização \textit{[PERSON]} pesa a favor (0,124 e 0,144). A explicação mostra que a decisão se apoiou em muito pouca evidência e que um marcador de anonimização influenciou a previsão, o que um analista pode questionar. Vale notar que, na taxonomia harmonizada, os chamados de impressora da Empresa A (PRINT\_FAX) pertencem a SUPORTE\_E\_EQUIPAMENTOS, e a classe OUTROS vem apenas da categoria CORE\_OTHER. Assim, a previsão do modelo está de acordo com a taxonomia, e o erro pode refletir um rótulo original pouco informativo; a explicação ajuda justamente a levantar essa dúvida.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 2 (empresa\_a\_ticket\_001351), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 2 (empresa\_a\_ticket\_001351): (a) pesos SHAP; (b) pesos LIME}
     \label{fig:grafo_caso2}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso2_empresa_a_001351.png}
+    \textbf{(a) SHAP}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso2_empresa_a_001351.png}\\[8pt]
+    \textbf{(b) LIME}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso2_empresa_a_001351_lime.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concordam na palavra de maior peso, \textit{Favor} (SHAP de 0,322; LIME de 0,346), típica de um pedido de serviço. Nas demais palavras, porém, divergem: \textit{limpeza} tem peso de 0,165 no SHAP e de apenas 0,002 no LIME. O grafo, construído com os pesos do SHAP, e o do LIME, portanto, destacam conjuntos diferentes de palavras além da primeira, o que o analista pode verificar alternando o método na interface.
 
 \begin{figure}[H]
-    \caption{Grafo de co-ocorrência do caso 3 (empresa\_a\_ticket\_016056), com pesos SHAP}
+    \caption{Grafo de co-ocorrência do caso 3 (empresa\_a\_ticket\_016056): (a) pesos SHAP; (b) pesos LIME}
     \label{fig:grafo_caso3}
     \centering
-    \includegraphics[width=\textwidth]{imagens/grafo_caso3_empresa_a_016056.png}
+    \textbf{(a) SHAP}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso3_empresa_a_016056.png}\\[8pt]
+    \textbf{(b) LIME}\\[2pt]
+    \includegraphics[width=\textwidth]{imagens/grafo_caso3_empresa_a_016056_lime.png}
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
