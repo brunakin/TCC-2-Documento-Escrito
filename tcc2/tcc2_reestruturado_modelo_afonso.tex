@@ -664,8 +664,6 @@ O modelo inteiro é ajustado minimizando a entropia cruzada sobre os $N$ chamado
 \end{equation}
 A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança exibida na interface é $\max_c p(c \mid x)$.
 
-Neste trabalho, essa representação é usada para classificar o chamado de TI em uma das categorias predefinidas, e os valores SHAP e LIME (importância que dois métodos de explicação atribuem a cada palavra) são calculados sobre as palavras de entrada para identificar quais contribuíram mais para a predição.
-
 \subsubsection{BERTimbau: BERT para o português brasileiro}
 \label{subsec:bertimbau}
 
@@ -838,7 +836,7 @@ R^2 = 1 - \frac{\sum_{z} \pi_x(z)\,\big(f(z) - g(z')\big)^2}{\sum_{z} \pi_x(z)\,
 \label{eq:lime-r2}
 \end{equation}
 
-em que $\bar f$ é a média ponderada de $f(z)$. Neste trabalho, $|\mathcal{Z}| = 500$ perturbações por explicação, $\sigma = 25$ (valor padrão da biblioteca, não alterado) e semente-base 42.
+em que $\bar f$ é a média ponderada de $f(z)$.
 
 A Figura~\ref{fig:lime_exemplo} mostra o resultado desse processo para um chamado fictício: o painel superior esquerdo traz a probabilidade que o modelo atribui a cada categoria; o inferior esquerdo, o peso que o LIME atribui a cada palavra para a categoria prevista; e o da direita, o texto com as palavras destacadas, em azul quando favorecem a categoria prevista e em laranja quando pesam contra ela.
 
@@ -863,8 +861,6 @@ pré-processamento: ao revelar que \textit{stopwords}, palavras muito
 frequentes e de pouco conteúdo informativo, como artigos e preposições 
 (``de'', ``o'', ``para''), recebem pesos desproporcionalmente altos 
 nas explicações, o LIME evidenciou a necessidade de sua remoção.
-
-Neste trabalho, ao contrário, as \textit{stopwords} não foram removidas da entrada do modelo, porque o BERTimbau usa as palavras funcionais como contexto; elas foram removidas apenas na construção do grafo (Seção~\ref{subsec:cenario_d}).
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Vantagens e limitações}
@@ -1111,7 +1107,6 @@ natural da pesquisa.
 \subsection{Grafos de co-ocorrência como representação estrutural de texto}
 
 Um grafo de co-ocorrência é uma estrutura $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$, adaptada de \citeonline{yao2019} com a inclusão das funções de peso dos nós $f_{\text{shap}}$ e $f_{\text{lime}}$, proposta deste trabalho. 
-Neste trabalho, essa estrutura foi utilizada como camada de visualização das explicações XAI: os pesos dos nós foram determinados pelos valores SHAP e LIME de cada palavra, e os pesos das arestas, pela frequência de co-ocorrência, produzindo uma representação visual que combina estrutura relacional do texto com relevância explicativa do modelo.
 
 \subsubsection{Fundamentos de grafos aplicados a texto}
 \label{subsec:grafos_fundamentos}
@@ -1198,8 +1193,6 @@ A PMI de um par de palavras $a$ e $b$ é
 \end{equation}
 onde $p(a,b)$ é a fração de janelas em que $a$ e $b$ aparecem juntos, e $p(a)$ e $p(b)$ são as frações de janelas em que cada um aparece. A frequência de co-ocorrência é, portanto, normalizada pelas frequências individuais das palavras: um par só recebe PMI alta se aparecer junto mais do que o esperado se os termos fossem independentes.
 
-No presente trabalho, os pesos das arestas foram determinados pelo número de co-ocorrências do par dentro da janela deslizante (frequência bruta, sem normalização), enquanto os pesos dos \textit{nós}, que constituem o elemento central da proposta, foram determinados pelos valores SHAP e LIME de cada palavra, calculados sobre as predições do BERTimbau, o que permite comparar visualmente a importância atribuída por cada método. Essa distinção entre ponderação de arestas (estrutura relacional) e ponderação de nós (relevância explicativa) é o diferencial da camada de visualização proposta.
-
 \subsubsection{\textit{TextGCN}: formalização do grafo de co-ocorrência}
 \label{subsec:textgcn}
 
@@ -1225,7 +1218,7 @@ H^{(l+1)} = \sigma\!\left( \tilde{D}^{-\frac{1}{2}} \tilde{A}\, \tilde{D}^{-\fra
 
 em que $A$ é a matriz de adjacência do grafo, $I$ a identidade (laços próprios), $\tilde D$ a matriz diagonal de graus de $\tilde A$, $H^{(l)}$ as representações dos nós na camada $l$, $W^{(l)}$ os pesos aprendidos e $\sigma$ uma função de ativação \cite{yao2019}.
 
-No contexto deste trabalho, a relevância do \textit{TextGCN} é fundamentalmente teórica: ele formaliza matematicamente a estrutura do grafo de co-ocorrência e demonstra sua utilidade para classificação de texto. O presente trabalho não implementou GCN: o grafo de co-ocorrência foi utilizado exclusivamente como estrutura de visualização das explicações XAI, e não como componente do modelo de classificação.
+A relevância do \textit{TextGCN} é fundamentalmente teórica: ele formaliza matematicamente a estrutura do grafo de co-ocorrência e demonstra sua utilidade para classificação de texto.
 
 \subsubsection{Combinação de BERT com grafos de co-ocorrência}
 \label{subsec:bert_grafo}
@@ -1991,7 +1984,7 @@ O LIME usou 500 amostras por explicação, largura do núcleo $\sigma = 25$ (pad
 \subsection{Cenário D: grafo de co-ocorrência}
 \label{subsec:cenario_d}
 
-Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela deslizante de tamanho $w = 4$. As \textit{stopwords} foram removidas apenas nessa etapa, e não da entrada do modelo. As janelas ficam dentro de cada campo (descrição curta e descrição completa) e não passam de um campo para o outro, e palavras que diferem só pela caixa, como ``Impressora'' e ``impressora'', viram o mesmo nó. O peso de cada aresta é o número de janelas que contêm o par de palavras, sem depender da distância entre elas dentro da janela; um par conta uma vez por janela, e cada janela gera no máximo $\binom{4}{2} = 6$ arestas (menos, se houver palavra repetida). O peso de cada nó é o módulo da soma dos pesos que o SHAP ou o LIME atribuiu à palavra (Equações~\ref{eq:aresta} e~\ref{eq:no}). O grafo foi avaliado por rastreabilidade, em casos aplicados (Seção~\ref{subsec:criterios_validacao}).
+Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela deslizante de tamanho $w = 4$. As \textit{stopwords} foram removidas apenas nessa etapa, e não da entrada do modelo, porque o BERTimbau usa as palavras funcionais como contexto. As janelas ficam dentro de cada campo (descrição curta e descrição completa) e não passam de um campo para o outro, e palavras que diferem só pela caixa, como ``Impressora'' e ``impressora'', viram o mesmo nó. O peso de cada aresta é o número de janelas que contêm o par de palavras (frequência bruta, sem normalização), sem depender da distância entre elas dentro da janela; um par conta uma vez por janela, e cada janela gera no máximo $\binom{4}{2} = 6$ arestas (menos, se houver palavra repetida). O peso de cada nó é o módulo da soma dos pesos que o SHAP ou o LIME atribuiu à palavra (Equações~\ref{eq:aresta} e~\ref{eq:no}). O grafo foi avaliado por rastreabilidade, em casos aplicados (Seção~\ref{subsec:criterios_validacao}). O trabalho não implementou GCN: o grafo de co-ocorrência foi utilizado exclusivamente como estrutura de visualização das explicações, e não como componente do modelo de classificação.
 
 
 % ---------------------------------------------------------------
