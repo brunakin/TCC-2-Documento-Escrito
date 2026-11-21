@@ -838,7 +838,7 @@ R^2 = 1 - \frac{\sum_{z} \pi_x(z)\,\big(f(z) - g(z')\big)^2}{\sum_{z} \pi_x(z)\,
 \label{eq:lime-r2}
 \end{equation}
 
-em que $\bar f$ é a média ponderada de $f(z)$. Neste trabalho, $|\mathcal{Z}| = 500$ perturbações por explicação, semente 42.
+em que $\bar f$ é a média ponderada de $f(z)$. Neste trabalho, $|\mathcal{Z}| = 500$ perturbações por explicação, $\sigma = 25$ (valor padrão da biblioteca, não alterado) e semente-base 42.
 
 A Figura~\ref{fig:lime_exemplo} mostra o resultado desse processo para um chamado fictício: o painel superior esquerdo traz a probabilidade que o modelo atribui a cada categoria; o inferior esquerdo, o peso que o LIME atribui a cada palavra para a categoria prevista; e o da direita, o texto com as palavras destacadas, em azul quando favorecem a categoria prevista e em laranja quando pesam contra ela.
 
@@ -902,7 +902,7 @@ para o contexto de modelos de aprendizado de máquina: cada
 o quanto ela contribuiu para a predição, considerando todas as 
 possíveis ordens em que as \textit{features} poderiam ser incluídas.
 
-Seja $F$ o conjunto das palavras distintas do campo explicado e $f_S(x_S)$ a probabilidade da classe prevista quando só as palavras de $S \subseteq F$ estão presentes (as demais são mascaradas, e o outro campo fica fixo). O valor de Shapley da palavra $i$ é \cite{lundberg2017}:
+Seja $F$ o conjunto das palavras distintas do campo explicado e $f_S(x_S)$ a probabilidade da classe prevista quando só as palavras de $S \subseteq F$ estão presentes (as demais são apagadas do texto, e não trocadas por um símbolo como \texttt{[MASK]}, e o outro campo fica fixo, com o texto original). O valor de Shapley da palavra $i$ é \cite{lundberg2017}:
 
 \begin{equation}
 \phi_i = \sum_{S \subseteq F \setminus \{i\}}
@@ -1007,7 +1007,7 @@ M = \left\lfloor \frac{2000}{2\,|F| + 1} \right\rfloor, \qquad |F| = 30 \;\Right
 \label{eq:orcamento}
 \end{equation}
 
-o que explica a variação entre repetições observada na Seção~\ref{subsubsec:res_estabilidade}. O \textit{KernelSHAP} \cite{lundberg2017} é outra forma de estimar esses valores, mas não foi usado.
+o que explica a variação entre repetições observada na Seção~\ref{subsubsec:res_estabilidade}. O \textit{KernelSHAP} \cite{lundberg2017} é outra forma de estimar esses valores, mas não foi adotado: como a amostragem de permutações já estima os mesmos valores de Shapley, o grupo decidiu não incluir um segundo estimador, por não haver vantagem que justificasse sua adoção.
 
 Neste trabalho, as explicações são calculadas por palavra (sequência de letras e números, separada por espaços ou pontuação), e não por \textit{token} do BERTimbau; o termo \textit{token} é reservado à saída do tokenizador. O SHAP foi calculado com a biblioteca \textit{shap}, tratando cada palavra distinta do campo como uma \textit{feature} e a probabilidade da classe predita como o valor a ser explicado.  O resultado é um valor por palavra: valores SHAP positivos contribuem para a classe predita e valores negativos contribuem contra ela. Esses valores são utilizados como pesos dos nós no grafo de co-ocorrência, em conjunto com os valores LIME, permitindo comparação visual entre os dois métodos de explicabilidade.
 
@@ -1618,7 +1618,7 @@ O Jaccard e a palavra do topo são comparados ao valor esperado ao acaso, pois e
   \item \textbf{Consistência semântica:} análise qualitativa, nos casos aplicados, de se os termos destacados pelo SHAP e pelo LIME correspondem ao vocabulário técnico esperado para a categoria predita.
 \end{itemize}
 
-\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e aos pesos do SHAP e do LIME. Na prática, a verificação tem duas partes: (i) para cada nó, confere-se que a palavra aparece no texto do chamado e que seu peso corresponde ao valor atribuído pelo SHAP e pelo LIME; (ii) para cada aresta, confere-se que as duas palavras aparecem juntas na janela de 4 palavras e que seu peso é o número de vezes em que isso ocorre, valor que pode ser recalculado a partir do texto.
+\textbf{Grafo de co-ocorrência.} A auditabilidade do grafo é avaliada pela sua rastreabilidade: cada nó e cada aresta pode ser levado de volta ao chamado original, à janela de palavras que o gerou e aos pesos do SHAP e do LIME. Na prática, a verificação tem duas partes: (i) para cada nó, confere-se que a palavra aparece no texto do chamado e que seu peso corresponde ao valor atribuído pelo SHAP e pelo LIME; (ii) para cada aresta, confere-se que as duas palavras aparecem juntas na janela de 4 palavras e que seu peso é o número de janelas em que isso ocorre, valor que pode ser recalculado a partir do texto.
 
 % ---------------------------------------------------------------
 \section{Detalhes da implementação}
@@ -1721,7 +1721,7 @@ para tornar o processo decisório do modelo auditável:
     relações entre as palavras do chamado, onde o tamanho de 
 cada nó é proporcional à importância do termo (módulo do valor SHAP ou 
 LIME, conforme o método escolhido em um seletor da interface), e a 
-espessura das conexões indica a frequência de co-ocorrência entre as palavras;
+espessura de cada conexão cresce com o peso da aresta, dividido pelo maior peso do chamado;
     
     \item \textbf{Estatísticas}: painel que apresenta numericamente 
     a importância individual de cada palavra calculada pelos 
@@ -1759,7 +1759,7 @@ Os protótipos desenvolvidos tiveram como principal objetivo orientar a disposi�
     \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-A Figura~\ref{fig:interface_final} mostra a interface final com um chamado inventado, digitado apenas para ilustração: a interface exibe a categoria prevista e a confiança, e o grafo de co-ocorrência, com nós em azul (a favor da classe prevista) e laranja (contra), o seletor entre SHAP e LIME e a lista de chamados recentes.
+A Figura~\ref{fig:interface_final} mostra a interface final com um chamado inventado, digitado apenas para ilustração: a interface exibe a categoria prevista e a confiança, e o grafo de co-ocorrência, com nós em azul (a favor da classe prevista) e laranja (contra), o seletor entre SHAP e LIME e a lista de chamados recentes. A intensidade de cada cor (alta, média ou baixa) é definida pelos tercis dos valores do próprio chamado, e os nós laranja têm borda tracejada.
 \begin{figure}[H]
     \caption{Interface final: classificação de um chamado digitado e grafo de co-ocorrência}
     \label{fig:interface_final}
@@ -1793,7 +1793,7 @@ O fluxo geral de funcionamento da aplicação segue as seguintes etapas (Figura~
 
     \item \textbf{Cálculo de explicabilidade}: sobre o mesmo texto de entrada, são calculados os valores SHAP e as importâncias LIME. Cada palavra recebe um valor numérico que representa sua contribuição para a predição: valores positivos indicam contribuição para a classe predita, e valores negativos indicam contribuição contrária.
 
-    \item \textbf{Construção do grafo de co-ocorrência}: as palavras do chamado são representadas como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de palavras que co-ocorrem dentro de uma janela deslizante de tamanho $w = 4$, com pesos proporcionais à frequência de co-ocorrência. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior; as palavras com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON (\textit{JavaScript Object Notation} -- Notação de Objetos JavaScript), com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
+    \item \textbf{Construção do grafo de co-ocorrência}: as palavras do chamado são representadas como nós de um grafo $G = (V, E, W, f_{\text{shap}}, f_{\text{lime}})$. As arestas conectam pares de palavras que co-ocorrem dentro de uma janela deslizante de tamanho $w = 4$, com peso igual ao número de janelas que contêm o par. Os pesos dos \textbf{nós} são determinados pelos valores SHAP e LIME calculados na etapa anterior; as palavras com maior importância, segundo o método selecionado (SHAP ou LIME), geram nós visualmente maiores na interface. O grafo é serializado em JSON (\textit{JavaScript Object Notation} -- Notação de Objetos JavaScript), com os campos \texttt{tokens} (nós) e \texttt{arestas}, e enviado ao \textit{frontend}.
 
     \item \textbf{Apresentação ao analista}: a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, as palavras destacadas por cor (azul, a favor da classe prevista; laranja, contra) e os valores SHAP e LIME comparativos.
 \end{enumerate}
@@ -1903,7 +1903,11 @@ portanto, apenas uma escolha metodológica.
 
 O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Empresa A e da Empresa B, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Empresa A tinha 191.350 chamados, abertos de maio de 2020 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Empresa B tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única (Apêndice~\ref{ap:correspondencia_categorias}), e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Empresa B: 6.949; Empresa A: 46.330), em 11 classes, entre elas a classe OUTROS.
 
-Na base da Empresa A, a anonimização foi feita antes de qualquer outro processamento, em duas camadas aplicadas à descrição curta e à descrição completa. A primeira, por expressões regulares, substituiu por marcadores os endereços de \textit{e-mail}, os endereços web, os números de chamado, os caminhos de arquivo, os endereços IP, os CPFs, os telefones, os identificadores de usuário e os nomes das empresas. A segunda usou o reconhecimento de entidades nomeadas do modelo \textit{pt\_core\_news\_md}, da biblioteca \textit{spaCy}, para substituir nomes de pessoas, de organizações e de locais, com uma lista de exceções para nomes de produtos e sistemas que fazem parte do vocabulário técnico, como SAP, Outlook e VPN. O número original de cada chamado foi descartado e trocado por um identificador sequencial. Na base final usada no treino, a varredura de sanidade da anonimização encontrou 24 ocorrências residuais de padrão telefônico rotulado na descrição completa (0 no resumo), que podem incluir falsos positivos, como números de patrimônio depois de ``Tel:''.
+Na base da Empresa A, a anonimização foi feita antes de qualquer outro processamento, em duas camadas aplicadas à descrição curta e à descrição completa. A primeira, por expressões regulares, substituiu por marcadores os endereços de \textit{e-mail}, os endereços web, os números de chamado, os caminhos de arquivo, os endereços IP, os CPFs, os telefones, os identificadores de usuário e os nomes das empresas. A segunda usou o reconhecimento de entidades nomeadas do modelo \textit{pt\_core\_news\_md}, da biblioteca \textit{spaCy}, para substituir nomes de pessoas, de organizações e de locais, com uma lista de exceções para nomes de produtos e sistemas que fazem parte do vocabulário técnico, como SAP, Outlook e VPN. O número original de cada chamado foi descartado e trocado por um identificador sequencial.
+
+Na base da Empresa B, a anonimização foi feita em duas etapas. Primeiro, um \textit{script} tratou os registros que seguiam uma estrutura regular. Os dados que o \textit{script} não alcançou foram revisados manualmente, e as informações sensíveis encontradas foram substituídas pelas mesmas máscaras já definidas para a anonimização automática.
+
+Na base final usada no treino, a varredura de sanidade da anonimização encontrou 24 ocorrências residuais de padrão telefônico rotulado na descrição completa (0 no resumo), que podem incluir falsos positivos, como números de patrimônio depois de ``Tel:''.
 
 As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
 
@@ -1982,12 +1986,12 @@ No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{sub
 
 As explicações foram geradas em 01/11/2026, para o modelo final, sobre uma amostra de 98 chamados do conjunto de teste: 8 acertos de cada uma das 10 classes que tiveram acertos (80 chamados) e 18 erros do modelo. A classe OUTROS não teve acertos, e por isso a amostra não tem 11 $\times$ 8 acertos. Foi necessário usar uma amostra porque SHAP e LIME explicam uma predição por vez, e explicar os 5.293 chamados do teste levaria cerca de 24 horas.
 
-O LIME usou 500 amostras por explicação e semente 42. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 2.000 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado, o outro campo foi mantido, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram a metodologia da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46.
+O LIME usou 500 amostras por explicação, largura do núcleo $\sigma = 25$ (padrão da biblioteca, não alterado) e peso para todas as palavras do campo, e não para um número fixo delas; a semente-base foi 42, derivada para cada chamado e campo. O campo explicado é perturbado e o outro campo fica com o texto original. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 2.000 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado (e não trocadas por \texttt{[MASK]}), o outro campo foi mantido com o texto original, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram a metodologia da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46.
 
 \subsection{Cenário D: grafo de co-ocorrência}
 \label{subsec:cenario_d}
 
-Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela deslizante de tamanho $w = 4$. As \textit{stopwords} foram removidas apenas nessa etapa, e não da entrada do modelo. O peso de cada aresta é o número de co-ocorrências do par de palavras na janela, e o peso de cada nó é o módulo da soma dos pesos que o SHAP ou o LIME atribuiu à palavra (Equações~\ref{eq:aresta} e~\ref{eq:no}). O grafo foi avaliado por rastreabilidade, em casos aplicados (Seção~\ref{subsec:criterios_validacao}).
+Para cada chamado explicado, construiu-se um grafo de co-ocorrência com janela deslizante de tamanho $w = 4$. As \textit{stopwords} foram removidas apenas nessa etapa, e não da entrada do modelo. As janelas ficam dentro de cada campo (descrição curta e descrição completa) e não passam de um campo para o outro, e palavras que diferem só pela caixa, como ``Impressora'' e ``impressora'', viram o mesmo nó. O peso de cada aresta é o número de janelas que contêm o par de palavras, sem depender da distância entre elas dentro da janela; um par conta uma vez por janela, e cada janela gera no máximo $\binom{4}{2} = 6$ arestas (menos, se houver palavra repetida). O peso de cada nó é o módulo da soma dos pesos que o SHAP ou o LIME atribuiu à palavra (Equações~\ref{eq:aresta} e~\ref{eq:no}). O grafo foi avaliado por rastreabilidade, em casos aplicados (Seção~\ref{subsec:criterios_validacao}).
 
 
 % ---------------------------------------------------------------
@@ -2278,7 +2282,7 @@ Para responder aos objetivos específicos 3 e 4, o grafo foi avaliado por rastre
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavra que aparece no texto do chamado, com o campo em que ocorre e os pesos do SHAP e do LIME; cada aresta liga dois nós existentes e tem como peso o número de vezes que o par co-ocorre na janela deslizante de 4 palavras, valor que pode ser recalculado a partir do texto.
+Nos três casos, a rastreabilidade se cumpriu. Cada nó corresponde a uma palavra que aparece no texto do chamado, com o campo em que ocorre e os pesos do SHAP e do LIME; cada aresta liga dois nós existentes e tem como peso o número de janelas de 4 palavras em que o par aparece, valor que pode ser recalculado a partir do texto.
 
 No caso 1, o chamado pede a transferência de uma licença do pacote \textit{Office} para outra pessoa. As duas palavras de maior peso a favor da classe são as mesmas nos dois métodos, \textit{licença} (SHAP de 0,476; LIME de 0,447) e \textit{office} (0,151 e 0,138), e são o vocabulário esperado para a aquisição de \textit{software}. O grafo mostra \textit{licença} como o maior nó, ligado a \textit{office} e \textit{pacote}.
 
