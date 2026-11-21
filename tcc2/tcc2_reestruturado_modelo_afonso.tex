@@ -699,10 +699,6 @@ A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT
   \legend{Fonte: Adaptado de \citeonline{souza2020}.\\ Nota: A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
 \end{table}
 
-Para o presente trabalho, a escolha do BERTimbau em detrimento do mBERT é motivada por dois fatores. Primeiro, os chamados de suporte analisados estão em português brasileiro, idioma para o qual o BERTimbau possui representações mais ricas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente de sua versão em inglês, e o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
-
-O BERTimbau foi mantido como modelo deste trabalho, dado que os chamados analisados estão em português brasileiro, já que a base foi filtrada por idioma (Seção~\ref{subsubsec:dataset_finetuning}). A avaliação de modelos multilíngues ou mais recentes fica indicada como trabalho futuro.
-
 \subsubsection{\textit{Fine-tuning} de BERT para classificação de chamados de TI}
 \label{subsec:bert_tickets}
 
@@ -873,7 +869,7 @@ depender de amostragem aleatória de perturbações, execuções diferentes
 do LIME sobre a mesma instância podem produzir explicações distintas, 
 especialmente quando há colinearidade entre as \textit{features}, 
 ou seja, quando algumas características extraídas do texto são muito 
-parecidas ou carregam informações semelhantes \cite{salih2023}. Fixar a semente aleatória torna a explicação reprodutível, mas não estável: com outra semente, a explicação pode mudar. Por isso, neste trabalho a estabilidade foi medida repetindo cada explicação com sementes diferentes (Seção~\ref{subsubsec:res_estabilidade}).
+parecidas ou carregam informações semelhantes \cite{salih2023}. Fixar a semente aleatória torna a explicação reprodutível, mas não estável: com outra semente, a explicação pode mudar.
 
 \subsubsection{SHAP: \textit{SHapley Additive exPlanations}}
 \label{subsec:shap}
@@ -969,7 +965,7 @@ A formulação baseada em valores de Shapley garante ao SHAP propriedades matem�
 \label{eq:eficiencia}
 \end{equation}
 
-A soma dos valores é a diferença entre a predição para o chamado, $f(x)$, e o valor-base $\phi_0 = f_\varnothing(x_\varnothing)$. Neste trabalho, $\phi_0$ é a probabilidade da classe prevista com o campo explicado inteiramente mascarado e o outro campo fixo, e não a predição média sobre o conjunto de dados.
+A soma dos valores é a diferença entre a predição para o chamado, $f(x)$, e o valor-base $\phi_0 = f_\varnothing(x_\varnothing)$. Os valores SHAP positivos contribuem para a classe predita e os negativos contribuem contra ela. Aqui, $\phi_0$ é a probabilidade da classe prevista sem nenhuma palavra do campo explicado e com o outro campo fixo, e não a predição média sobre o conjunto de dados.
 
 \textbf{Simetria:} se $f_{S \cup \{i\}}(x_{S \cup \{i\}}) = f_{S \cup \{j\}}(x_{S \cup \{j\}})$ para todo $S$ sem $i$ e $j$, então $\phi_i = \phi_j$.
 
@@ -1005,8 +1001,6 @@ M = \left\lfloor \frac{2000}{2\,|F| + 1} \right\rfloor, \qquad |F| = 30 \;\Right
 
 o que explica a variação entre repetições observada na Seção~\ref{subsubsec:res_estabilidade}. O \textit{KernelSHAP} \cite{lundberg2017} é outra forma de estimar esses valores, mas não foi adotado: como a amostragem de permutações já estima os mesmos valores de Shapley, o grupo decidiu não incluir um segundo estimador, por não haver vantagem que justificasse sua adoção.
 
-Neste trabalho, as explicações são calculadas por palavra (sequência de letras e números, separada por espaços ou pontuação), e não por \textit{token} do BERTimbau; o termo \textit{token} é reservado à saída do tokenizador. O SHAP foi calculado com a biblioteca \textit{shap}, tratando cada palavra distinta do campo como uma \textit{feature} e a probabilidade da classe predita como o valor a ser explicado.  O resultado é um valor por palavra: valores SHAP positivos contribuem para a classe predita e valores negativos contribuem contra ela. Esses valores são utilizados como pesos dos nós no grafo de co-ocorrência, em conjunto com os valores LIME, permitindo comparação visual entre os dois métodos de explicabilidade.
-
 \subsubsection{Comparação entre SHAP e LIME}
 \label{subsec:shap_lime}
 
@@ -1022,7 +1016,7 @@ Os autores concluem que SHAP é preferível quando a consistência e a fundament
 \subsubsubsection{Custo computacional}
 \label{subsubsec:comparacao_custo}
 
-O custo do LIME é fixo: 500 perturbações por explicação. O do SHAP depende do número de palavras: exato até 10 palavras (até 1.024 avaliações) e limitado a 2.000 avaliações acima disso. Nos chamados de teste deste trabalho, a mediana é de 35 palavras por chamado (descrição curta e descrição completa juntas), a média é de 59,3 e 10\% dos chamados passam de 147 palavras. A descrição curta tem mediana de 5 palavras, mas 80\% das descrições completas têm mais de 10 palavras, ou seja, a maior parte dos chamados exigiria o SHAP por amostragem.
+O custo do LIME é fixo, definido pelo número de perturbações. O do SHAP cresce com o número de palavras: o cálculo exato exige $2^n$ avaliações para $n$ palavras (1.024 para 10 palavras) e, acima de certo tamanho, é preciso estimar por amostragem, com um orçamento de avaliações definido.
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Justificativa para uso conjunto neste trabalho}
 \label{subsubsec:comparacao_justificativa}
@@ -1894,6 +1888,8 @@ portanto, apenas uma escolha metodológica.
 \subsubsection{\textit{Dataset} e \textit{fine-tuning}}
 \label{subsubsec:dataset_finetuning}
 
+A escolha do BERTimbau, e não do mBERT (\textit{BERT} multilíngue), deve-se a dois motivos. Primeiro, os chamados analisados estão em português brasileiro, pois a base foi filtrada por idioma (como descrito a seguir), e o BERTimbau possui representações mais ricas para esse idioma; na Tabela~\ref{tab:bertimbau_sota}, ele superou o mBERT nas quatro medidas. Segundo, os chamados utilizam terminologia técnica de TI em português, que pode diferir substancialmente da versão em inglês, e o BERTimbau, pré-treinado em corpus nacional, tem maior probabilidade de ter encontrado esse vocabulário durante o pré-treinamento.
+
 O modelo BERTimbau, em sua versão \textit{base}, foi ajustado com chamados reais da Empresa A e da Empresa B, obtidos mediante autorização concedida por e-mail e anonimização dos registros. O arquivo da Empresa A tinha 191.350 chamados, abertos de maio de 2020 a agosto de 2026; após a remoção de duplicatas pelo número do chamado, o descarte de chamados sem categoria ou de categorias com menos de 100 chamados e a anonimização, restaram 189.909, dos quais 46.584 estavam em português e foram mantidos por um filtro de idioma. O arquivo da Empresa B tinha 9.317 chamados, todos de abril de 2026; após o descarte das categorias com menos de 100 chamados (restaram 8.758), dos chamados sem descrição (715) e de 326 cópias de uma mensagem automática de abertura por e-mail, todas da categoria de cibersegurança, restaram 7.717. As categorias das duas empresas foram harmonizadas em uma taxonomia única (Apêndice~\ref{ap:correspondencia_categorias}), e o conjunto combinado, com 54.301 chamados, passou ainda pelo descarte da classe com menos de 100 chamados (Recursos Humanos, 39 chamados) e pela remoção de 983 chamados, em 75 grupos de textos idênticos com categorias divergentes. Os resultados foram 53.279 chamados (Empresa B: 6.949; Empresa A: 46.330), em 11 classes, entre elas a classe OUTROS.
 
 Na base da Empresa A, a anonimização foi feita antes de qualquer outro processamento, em duas camadas aplicadas à descrição curta e à descrição completa. A primeira, por expressões regulares, substituiu por marcadores os endereços de \textit{e-mail}, os endereços web, os números de chamado, os caminhos de arquivo, os endereços IP, os CPFs, os telefones, os identificadores de usuário e os nomes das empresas. A segunda usou o reconhecimento de entidades nomeadas do modelo \textit{pt\_core\_news\_md}, da biblioteca \textit{spaCy}, para substituir nomes de pessoas, de organizações e de locais, com uma lista de exceções para nomes de produtos e sistemas que fazem parte do vocabulário técnico, como SAP, Outlook e VPN. O número original de cada chamado foi descartado e trocado por um identificador sequencial.
@@ -1979,7 +1975,9 @@ No cenário B, o BERTimbau foi ajustado com a configuração da Seção~\ref{sub
 
 As explicações foram geradas em 01/11/2026, para o modelo final, sobre uma amostra de 98 chamados do conjunto de teste: 8 acertos de cada uma das 10 classes que tiveram acertos (80 chamados) e 18 erros do modelo. A classe OUTROS não teve acertos, e por isso a amostra não tem 11 $\times$ 8 acertos. Foi necessário usar uma amostra porque SHAP e LIME explicam uma predição por vez, e explicar os 5.293 chamados do teste levaria cerca de 24 horas.
 
-O LIME usou 500 amostras por explicação, largura do núcleo $\sigma = 25$ (padrão da biblioteca, não alterado) e peso para todas as palavras do campo, e não para um número fixo delas; a semente-base foi 42, derivada para cada chamado e campo. O campo explicado é perturbado e o outro campo fica com o texto original. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 2.000 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado (e não trocadas por \texttt{[MASK]}), o outro campo foi mantido com o texto original, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram a metodologia da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46.
+As explicações foram calculadas por palavra (sequência de letras e números, separada por espaços ou pontuação), e não por \textit{token} do BERTimbau; o termo \textit{token} é reservado à saída do tokenizador. No SHAP, cada palavra distinta do campo foi tratada como uma \textit{feature} (biblioteca \textit{shap}) e a probabilidade da classe predita foi o valor explicado. O LIME usou 500 amostras por explicação, largura do núcleo $\sigma = 25$ (padrão da biblioteca, não alterado) e peso para todas as palavras do campo, e não para um número fixo delas; a semente-base foi 42, derivada para cada chamado e campo. O campo explicado é perturbado e o outro campo fica com o texto original. O SHAP (versão 0.54.1) foi calculado de forma exata nos campos de até 10 palavras (87 campos); acima disso, foi estimado por amostragem, com orçamento de 2.000 consultas ao modelo (79 campos). No SHAP, as palavras ausentes foram apagadas do texto do campo explicado (e não trocadas por \texttt{[MASK]}), o outro campo foi mantido com o texto original, e o valor de referência é a probabilidade com o campo explicado sem nenhuma palavra. A fidelidade e a estabilidade seguiram a metodologia da Seção~\ref{subsec:criterios_validacao}; para a estabilidade, 12 chamados foram explicados 5 vezes cada. As cinco repetições de estabilidade usaram as sementes 42 a 46.
+
+No conjunto de teste, a mediana é de 35 palavras por chamado (descrição curta e descrição completa juntas), a média é de 59,3 e 10\% dos chamados passam de 147 palavras. A descrição curta tem mediana de 5 palavras, mas 80\% das descrições completas têm mais de 10 palavras, ou seja, a maior parte dos chamados exigiria o SHAP por amostragem.
 
 \subsection{Cenário D: grafo de co-ocorrência}
 \label{subsec:cenario_d}
