@@ -2069,7 +2069,7 @@ A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no 
 \subsection{Tentativa de melhoria do classificador (C1 e S1)}
 \label{subsec:res_melhoria}
 
-Depois do treino de referência, o grupo avaliou se pesos de classe na função de perda melhorariam o desempenho nas classes pequenas. Para que a escolha não fosse influenciada pelos resultados, o protocolo foi declarado em 21/10/2026, antes de qualquer execução, em um documento de experimentos declarados. O candidato C1 manteve toda a configuração do ajuste fino (Seção~\ref{subsubsec:dataset_finetuning}) e a mesma divisão dos dados, mudando apenas a perda: cada classe $c$ recebeu um peso proporcional a $1/\sqrt{n_c}$, normalizado para que o peso médio por exemplo de treino seja 1,
+Depois do treino de referência, o grupo avaliou se pesos de classe na função de perda melhorariam o desempenho nas classes pequenas. Para que a escolha não fosse influenciada pelos resultados, o plano do experimento foi declarado em 21/10/2026, antes de qualquer execução, em um documento de experimentos declarados. O candidato C1 manteve toda a configuração do ajuste fino (Seção~\ref{subsubsec:dataset_finetuning}) e a mesma divisão dos dados, mudando apenas a perda: cada classe $c$ recebeu um peso proporcional a $1/\sqrt{n_c}$, normalizado para que o peso médio por exemplo de treino seja 1,
 
 \begin{equation}
 w_c = \frac{\tilde w_c}{\frac{1}{N}\sum_{i=1}^{N} \tilde w_{y_i}}, \qquad
