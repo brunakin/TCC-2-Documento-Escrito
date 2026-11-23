@@ -362,7 +362,7 @@ Sistemas de \textit{help desk}, também denominados sistemas de suporte técnico
 
 A importância desses sistemas para a continuidade operacional das organizações é amplamente reconhecida na literatura. \citeonline{razma2026} destacam que empresas modernas geram milhares de chamados de suporte mensalmente, e que cada chamado deve ser corretamente categorizado e encaminhado à equipe responsável. Segundo \citeonline{paramesh2022}, a classificação errada atrasa a resolução e reduz a satisfação do cliente.
 
-Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail} ou telefone, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo. Nos dados deste trabalho, cada chamado traz a descrição completa e uma categoria, e os da Empresa A trazem também uma descrição curta (Seção~\ref{subsubsec:dataset_finetuning}). A etapa de classificação é a que este trabalho busca automatizar e explicar.
+Na prática, um chamado percorre um ciclo. O usuário o abre por um portal, \textit{e-mail} ou telefone, descrevendo o problema; o sistema registra a descrição, a data e o solicitante; o chamado é então classificado em uma categoria e encaminhado à equipe responsável \cite{zemp2021}; por fim, a equipe resolve e encerra o chamado, enquanto o sistema acompanha o prazo do SLA durante todo o processo.
 
 Boa parte dessa organização vem do ITIL (\textit{Information Technology Infrastructure Library} -- Biblioteca de Infraestrutura de Tecnologia da Informação), um conjunto de boas práticas de gerenciamento de serviços de TI amplamente adotado \cite{axelos2019}. O ITIL distingue o incidente, uma interrupção não planejada de um serviço ou redução de sua qualidade, da requisição de serviço, um pedido do usuário que inicia uma ação de serviço acordada como parte normal da entrega do serviço \cite{axelos2019}. Essa é a distinção que a equipe de suporte do estudo de \citeonline{zemp2021} recusou automatizar (Seção~\ref{subsubsec:helpdesk_caixapreta}).
 
@@ -375,7 +375,7 @@ Chamados categorizados incorretamente são encaminhados para equipes que não po
 % ---------------------------------------------------------------
 \subsection{Processamento de Linguagem Natural para classificação de texto}
 
-Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto deste trabalho, PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários.
+Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto da classificação de chamados, o PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários.
 
 \subsubsection{Representações vetoriais de texto}
 \label{subsec:pln_representacoes}
@@ -521,7 +521,7 @@ A literatura sobre classificação automática de chamados de suporte em portugu
 % ---------------------------------------------------------------
 \subsection{O modelo BERT e suas variantes}
 
-Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é um modelo desta família, pré-treinado sobre texto sem rótulos e adaptado a tarefas como a classificação de texto por \textit{fine-tuning}. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro, sendo o modelo adotado neste trabalho.
+Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é um modelo desta família, pré-treinado sobre texto sem rótulos e adaptado a tarefas como a classificação de texto por \textit{fine-tuning}. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro.
 
 \subsubsection{Arquitetura \textit{Transformer} e mecanismo de atenção}
 \label{subsec:bert_transformer}
@@ -716,7 +716,7 @@ de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao 
 % ---------------------------------------------------------------
 \subsection{Inteligência Artificial Explicável (XAI)}
 
-Inteligência Artificial Explicável (XAI, do inglês \textit{Explainable Artificial Intelligence}) refere-se ao conjunto de métodos que tornam mais compreensíveis e transparentes os modelos de aprendizado de máquina do tipo caixa-preta \cite{salih2023}. Dois métodos \textit{post-hoc} foram utilizados neste trabalho: LIME \cite{ribeiro2016} e SHAP \cite{lundberg2017}.
+Inteligência Artificial Explicável (XAI, do inglês \textit{Explainable Artificial Intelligence}) refere-se ao conjunto de métodos que tornam mais compreensíveis e transparentes os modelos de aprendizado de máquina do tipo caixa-preta \cite{salih2023}. O LIME \cite{ribeiro2016} e o SHAP \cite{lundberg2017} são dois métodos \textit{post-hoc} de XAI.
 
 \subsubsection{Definição e motivação}
 \label{subsec:xai_definicao}
@@ -996,7 +996,7 @@ o que explica a variação entre repetições observada na Seção~\ref{subsubse
 
 \citeonline{salih2023} realizaram uma análise comparativa entre SHAP e LIME, discutindo suas propriedades e seu comportamento em um estudo de caso de classificação com dados tabulares. Em termos de estabilidade, os autores avaliam a lista de variáveis informativas entre diferentes modelos e mostram que os dois métodos são fortemente afetados pelo modelo adotado e pela colinearidade entre as \textit{features}. Quanto à estabilidade entre execuções repetidas, espera-se que o SHAP, por ser baseado em uma formulação matemática única com garantias teóricas \cite{lundberg2017}, seja menos sensível à aleatoriedade do processo de amostragem, enquanto o LIME, por depender de perturbações aleatórias e de um ajuste local \cite{ribeiro2016}, pode produzir explicações distintas para a mesma instância em execuções diferentes.
 
-Com base nessas propriedades, espera-se que o SHAP seja preferível quando a consistência e a fundamentação teórica das explicações são prioritárias, enquanto o LIME possa ser preferível quando a velocidade de geração das explicações é mais importante do que a estabilidade. Essa expectativa é examinada nos dados deste trabalho na Seção~\ref{subsubsec:res_estabilidade}.
+Com base nessas propriedades, espera-se que o SHAP seja preferível quando a consistência e a fundamentação teórica das explicações são prioritárias, enquanto o LIME possa ser preferível quando a velocidade de geração das explicações é mais importante do que a estabilidade. Essa expectativa é examinada na Seção~\ref{subsubsec:res_estabilidade}.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Custo computacional}
@@ -1044,7 +1044,7 @@ melhorando a qualidade do modelo como um todo.
 
 \citeonline{razma2026} aplicaram o LIME à regressão logística com \textit{TF-IDF} e ao mBERT \textit{fine-tuned}, e o SHAP à regressão logística, em um ambiente ITSM corporativo real. Os resultados qualitativos das explicações foram bem distintos: o modelo linear tendia a destacar palavras-chave literais com alta frequência no corpus, enquanto o BERT destacava termos semanticamente coerentes com o significado do chamado.
 
-Essa diferença qualitativa, observada por \citeonline{razma2026} com o mBERT, motiva verificar se o BERTimbau, combinado com SHAP e LIME, também destaca termos coerentes com a categoria, o que este trabalho examina nos casos aplicados (Seção~\ref{subsec:res_casos}).
+Essa diferença qualitativa, observada por \citeonline{razma2026} com o mBERT, motiva verificar se o BERTimbau, combinado com SHAP e LIME, também destaca termos coerentes com a categoria, o que é examinado nos casos aplicados (Seção~\ref{subsec:res_casos}).
 
 \subsubsection{Auditabilidade}
 \label{subsec:auditabilidade}
