@@ -122,7 +122,7 @@ Kayke Ahrens Biscegli}
 % ---------------------------------------------------------------
 \begin{resumo}
 O objetivo deste trabalho é investigar como a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência a um \textit{pipeline} de classificação com BERTimbau contribui para a auditabilidade do processo decisório, comparando a qualidade das explicações dos dois métodos, utilizando chamados de suporte técnico em português brasileiro. A motivação é que classificadores baseados em \textit{transformers} não revelam por que atribuíram uma categoria a um chamado, o que dificulta a auditoria de suas decisões. Os dados reúnem chamados anonimizados cedidos por duas empresas do setor farmacêutico, a Empresa A e a Empresa B, em um total de 53.279 chamados em 11 categorias, divididos em treino, validação e teste de modo que textos repetidos fiquem no mesmo conjunto. Foram comparados quatro cenários, que acrescentam um componente por vez: um \textit{baseline} SVM com TF-IDF, o \textit{fine-tuning} do BERTimbau, as explicações SHAP e LIME, e o grafo de co-ocorrência ponderado por essas explicações. Em uma amostra de 98 chamados do conjunto de teste, o SHAP e o LIME foram avaliados quanto à fidelidade, à estabilidade e à concordância entre si, e a rastreabilidade do grafo, tomada como critério de auditabilidade, foi examinada em casos aplicados. O BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste. O \textit{baseline} SVM com TF-IDF obteve F1-macro de 0,591; a diferença do BERTimbau foi de 3,7 pontos percentuais (intervalo de confiança de 95\%: 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente.
-Nos 98 chamados, SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 71\% dos chamados; só o Tau-LOO distinguiu os métodos, a favor do LIME, e, nos chamados em que o SHAP precisou ser estimado por amostragem (2.000 consultas), ele foi mais estável que o LIME no Jaccard e no Spearman, mas menos estável na mesma palavra no topo (83\% dos pares de repetições, contra 93\% do LIME nos mesmos chamados).
+Nos 98 chamados, SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 69\% dos chamados; só o Tau-LOO distinguiu os métodos, a favor do LIME, e, nos chamados em que o SHAP precisou ser estimado por amostragem (2.000 consultas), ele foi mais estável que o LIME no Jaccard e no Spearman, mas menos estável na mesma palavra no topo (83\% dos pares de repetições, contra 93\% do LIME nos mesmos chamados).
 Nos três casos aplicados, cada nó e cada aresta do grafo pôde ser levado ao chamado e aos pesos do SHAP e do LIME, e o grafo expôs, por exemplo, que um erro do modelo se apoiou em muito pouca evidência.
 Os resultados foram integrados a uma interface \textit{web} que classifica um chamado digitado, exibe o grafo de co-ocorrência e permite alternar entre os pesos do SHAP e do LIME; a interface é uma prova de conceito e não foi avaliada junto a analistas de TI.
 
@@ -135,7 +135,7 @@ Os resultados foram integrados a uma interface \textit{web} que classifica um ch
 \begin{resumo}[Abstract]
 \begin{otherlanguage*}{english}
 The objective of this work is to investigate how adding an explainability layer based on SHAP, LIME and co-occurrence graphs to a BERTimbau classification \textit{pipeline} contributes to the auditability of the decision process, comparing the quality of the explanations produced by the two methods, using technical support tickets in Brazilian Portuguese. The motivation is that \textit{transformer}-based classifiers do not reveal why they assigned a category to a ticket, which makes it hard to audit their decisions. The data comprise anonymized tickets provided by two companies in the pharmaceutical sector, Company A and Company B, totaling 53,279 tickets in 11 categories, split into training, validation and test sets so that repeated texts remain in the same set. Four scenarios were compared, each adding one component: a \textit{baseline} SVM with TF-IDF, the \textit{fine-tuning} of BERTimbau, the SHAP and LIME explanations, and the co-occurrence graph weighted by those explanations. On a sample of 98 tickets from the test set, SHAP and LIME were evaluated for faithfulness, stability and agreement with each other, and the traceability of the graph, taken as the criterion of auditability, was examined in applied cases. BERTimbau achieved a macro F1 of 0.628 and an accuracy of 0.724 on the test set. The TF-IDF SVM \textit{baseline} achieved a macro F1 of 0.591; the difference in favor of BERTimbau was 3.7 percentage points (95\% confidence interval: 1.0 to 6.7), below the 5-point target set initially.
-On the 98 tickets, SHAP and LIME showed faithfulness well above chance and pointed to the same top word in 71\% of tickets; only Tau-LOO separated the methods, favoring LIME, and, in the tickets where SHAP had to be estimated by sampling (2,000 queries), it was more stable than LIME in Jaccard and Spearman but less stable in the same top word (83\% of repetition pairs, versus 93\% for LIME on the same tickets).
+On the 98 tickets, SHAP and LIME showed faithfulness well above chance and pointed to the same top word in 69\% of tickets; only Tau-LOO separated the methods, favoring LIME, and, in the tickets where SHAP had to be estimated by sampling (2,000 queries), it was more stable than LIME in Jaccard and Spearman but less stable in the same top word (83\% of repetition pairs, versus 93\% for LIME on the same tickets).
 In the three applied cases, every node and edge of the graph could be traced back to the ticket and to the SHAP and LIME weights, and the graph showed, for example, that a model error relied on very little evidence.
 The results were integrated into a web interface that classifies a typed ticket, displays the co-occurrence graph and allows switching between SHAP and LIME weights; the interface is a proof of concept and was not evaluated with IT analysts.
 
@@ -391,7 +391,7 @@ Formalmente, o peso de um termo $t$ em um documento $d$ é
 \mathrm{TF\text{-}IDF}(t,d) = \mathrm{tf}(t,d) \cdot \log \frac{N}{\mathrm{df}(t)}
 \label{eq:tfidf}
 \end{equation}
-em que $\mathrm{tf}(t,d)$ é o número de vezes que o termo $t$ aparece no documento $d$, $N$ é o total de documentos do corpus e $\mathrm{df}(t)$ é o número de documentos que contêm $t$. Por exemplo, em um corpus hipotético de 1.000 chamados, um termo que aparece em 10 deles (como ``VPN'', de \textit{Virtual Private Network} -- Rede Privada Virtual) tem $\log_{10}(1000/10) = 2$, enquanto um que aparece em 500 (como ``acesso'') tem $\log_{10}(1000/500) \approx 0{,}3$: o termo raro pesa mais.
+em que $\mathrm{tf}(t,d)$ é o número de vezes que o termo $t$ aparece no documento $d$, $N$ é o total de documentos do corpus e $\mathrm{df}(t)$ é o número de documentos que contêm $t$. Por exemplo, em um corpus hipotético de 1.000 chamados, um termo que aparece em 10 deles (como ``VPN'', de \textit{Virtual Private Network} -- Rede Privada Virtual) tem $\log_{10}(1000/10) = 2$, enquanto um que aparece em 500 (como ``acesso'') tem $\log_{10}(1000/500) \approx 0{,}3$: o termo raro pesa mais. O logaritmo deste exemplo está em base 10. Na implementação, o scikit-learn usa o logaritmo natural, com a suavização da Equação~\ref{eq:tfidf-sklearn}. % CONFERIDO: o exemplo e log10; o TfidfVectorizer usa ln.
 
 Apesar de sua simplicidade, o \textit{TF-IDF} ainda é amplamente utilizado como \textit{baseline} em tarefas de classificação de texto, especialmente quando combinado com o SVM, um algoritmo que classifica textos encontrando a melhor separação possível entre as categorias, e apresenta desempenho competitivo em domínios com vocabulário técnico específico e baixa polissemia, ou seja, onde as palavras raramente mudam de sentido dependendo do contexto \cite{wahba2023}. Sua principal limitação é a incapacidade de capturar relações semânticas entre termos: palavras sinônimas ou semanticamente relacionadas são tratadas como completamente distintas.
 
@@ -825,14 +825,15 @@ A função de perda da Equação~\ref{eq:lime} é o erro quadrático ponderado p
 \label{eq:lime-nucleo}
 \end{equation}
 
-em que $f(z)$ é a probabilidade da classe prevista para a perturbação $z$, $\mathcal{Z}$ é o conjunto de perturbações sorteadas, $D$ é a distância do cosseno entre os vetores de presença de palavras de $x$ e $z$, e $\sigma$ é a largura do núcleo \cite{ribeiro2016}. Na biblioteca \textit{lime}, a distância do cosseno é multiplicada por 100, o peso de cada perturbação, usado no ajuste e no $R^2$, é $\sqrt{\pi_x(z)}$, e o ajuste é feito por regressão \textit{ridge}, que acrescenta $\lambda \sum_j w_j^2$ à perda, e os coeficientes $w_j$ são os pesos das palavras. A qualidade do ajuste local é medida pelo $R^2$ ponderado:
+em que $f(z)$ é a probabilidade da classe prevista para a perturbação $z$, $\mathcal{Z}$ é o conjunto de perturbações sorteadas, $D$ é a distância do cosseno entre os vetores de presença de palavras de $x$ e $z$, e $\sigma$ é a largura do núcleo \cite{ribeiro2016}. Na biblioteca \textit{lime}, a distância do cosseno é multiplicada por 100, o peso de cada perturbação, usado no ajuste e no $R^2$, é $\sqrt{\pi_x(z)}$, e o ajuste é feito por regressão \textit{ridge}, que acrescenta $\lambda \sum_j w_j^2$ à perda, e os coeficientes $w_j$ são os pesos das palavras. A qualidade do ajuste local é medida pelo $R^2$ ponderado por esse mesmo peso:
 
 \begin{equation}
-R^2 = 1 - \frac{\sum_{z} \pi_x(z)\,\big(f(z) - g(z')\big)^2}{\sum_{z} \pi_x(z)\,\big(f(z) - \bar f\big)^2}
+w_z = \sqrt{\pi_x(z)}, \qquad
+R^2 = 1 - \frac{\sum_{z} w_z\,\big(f(z) - g(z')\big)^2}{\sum_{z} w_z\,\big(f(z) - \bar f\big)^2}
 \label{eq:lime-r2}
 \end{equation}
 
-em que $\bar f$ é a média ponderada de $f(z)$.
+em que $\bar f$ é a média de $f(z)$ ponderada por $w_z$. % CONFERIDO: no lime, o peso do ajuste e do R2 e a raiz de pi_x(z), nao pi_x(z).
 
 A Figura~\ref{fig:lime_exemplo} mostra o resultado desse processo para um chamado fictício: o painel superior esquerdo traz a probabilidade que o modelo atribui a cada categoria; o inferior esquerdo, o peso que o LIME atribui a cada palavra para a categoria prevista; e o da direita, o texto com as palavras destacadas, em azul quando favorecem a categoria prevista e em laranja quando pesam contra ela.
 
@@ -984,15 +985,15 @@ O cálculo exato pela Equação~\ref{eq:shapley} exige avaliar o modelo em todos
 \label{eq:custo-shap}
 \end{equation}
 
-e o número dobra a cada palavra a mais. Por isso, nos campos com mais de 10 palavras distintas, o valor foi estimado por amostragem de $M$ permutações sorteadas, na forma amostral da Equação~\ref{eq:shapley-perm}:
+e o número dobra a cada palavra a mais. Por isso, nos campos com mais de 10 palavras distintas, o valor foi estimado pelo explicador de permutações da biblioteca \textit{shap}. Sorteiam-se $M$ permutações e cada uma é percorrida nos dois sentidos; a média é sobre as $2M$ ordens: % CONFERIDO: shap.explainers.Permutation, cada permutacao nos dois sentidos, divisao por 2M. Orcamento 2.000 em shap_chamados.py.
 
 \begin{equation}
-\hat{\phi}_i = \frac{1}{M} \sum_{m=1}^{M}
-\left[ f_{P_i^{m} \cup \{i\}}(x_{P_i^{m} \cup \{i\}}) - f_{P_i^{m}}(x_{P_i^{m}}) \right]
+\hat{\phi}_i = \frac{1}{2M} \sum_{m=1}^{M}
+\left[ \Delta_i^{\rightarrow}(m) + \Delta_i^{\leftarrow}(m) \right]
 \label{eq:shap-amostragem}
 \end{equation}
 
-em que $P_i^{m}$ é o conjunto das palavras que vêm antes de $i$ na permutação $m$. O orçamento foi de 2.000 avaliações do modelo por campo. Como cada permutação, percorrida nos dois sentidos, custa $2|F| + 1$ avaliações, o número de permutações é:
+em que $\Delta_i^{\rightarrow}(m)$ é a contribuição da palavra $i$ na ordem sorteada e $\Delta_i^{\leftarrow}(m)$ é a contribuição na ordem inversa. O orçamento foi de 2.000 avaliações do modelo por campo. Como cada permutação, percorrida nos dois sentidos, custa $2|F| + 1$ avaliações, o número de permutações é:
 
 \begin{equation}
 M = \left\lfloor \frac{2000}{2\,|F| + 1} \right\rfloor, \qquad |F| = 30 \;\Rightarrow\; M = 32
@@ -1518,7 +1519,7 @@ O desempenho dos classificadores (cenários A e B) é medido no conjunto de test
 
 O sucesso da solução é avaliado sob duas perspectivas complementares.
 
-\textbf{Desempenho da classificação.} O critério definido no Trabalho de Conclusão de Curso I (TCC1) é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\% obtido por \textit{bootstrap} pareado por grupo (Equações~\ref{eq:bootstrap} e~\ref{eq:ic}), em que os chamados com texto idêntico são reamostrados juntos, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação.
+\textbf{Desempenho da classificação.} O critério definido no Trabalho de Conclusão de Curso I (TCC1) é que o BERTimbau supere o \textit{baseline} SVM com TF-IDF (cenário A) em pelo menos 5 pontos percentuais de F1-macro. A diferença é calculada no conjunto de teste, com intervalo de confiança de 95\% obtido pelo método dos percentis do \textit{bootstrap} \cite{efron1993}, pareado por grupo (Equações~\ref{eq:bootstrap} e~\ref{eq:ic}), em que os chamados com texto idêntico são reamostrados juntos, e é reportada como resultado do estudo, seja ela maior ou menor que o critério. Os mesmos cálculos são repetidos no conjunto de validação. % CONFERIDO: citacao efron1993 no bibliografia.bib, ISBN 0-412-04231-2 e doi.org/10.1201/9780429246593.
 
 Os chamados de teste com texto idêntico formam um grupo ($G = 4.824$ grupos). Em cada reamostragem $b = 1, \dots, B$, com $B = 2.000$ e semente 42, sorteiam-se com reposição $G$ grupos, e os dois modelos são avaliados no mesmo conjunto sorteado:
 
@@ -1565,10 +1566,10 @@ O Tau-LOO (maior é melhor) compara o peso $\phi_i$ de cada palavra $i$ com o ef
 \end{equation}
 
 \begin{equation}
-\tau_{\mathrm{Kendall}} = \frac{n_c - n_d}{\binom{n}{2}}
+\tau_{\mathrm{Kendall}} = \frac{n_c - n_d}{\sqrt{(n_c + n_d + t_x)(n_c + n_d + t_y)}}
 \label{eq:kendall}
 \end{equation}
-em que $F$ é o conjunto de palavras do campo, $n = |F|$, e $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante nas duas listas. As duas primeiras são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. As medidas foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado.
+em que $F$ é o conjunto de palavras do campo, $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante, e $t_x$ e $t_y$ são os pares empatados em apenas uma das duas listas. É o tau-b, padrão de \texttt{scipy.stats.kendalltau}, que desconta os empates; o tau-a, que divide só por $\binom{n}{2}$, não foi usado. As duas primeiras medidas são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. A \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado. % CONFERIDO: metricas_xai.py usa scipy.stats.kendalltau, que e tau-b.
   \item \textbf{Estabilidade:} mede se a explicação se mantém ao repetir o método sobre o mesmo chamado. Repete-se cada explicação cinco vezes, com sementes diferentes, em chamados com ao menos oito palavras distintas, e comparam-se as repetições duas a duas com três medidas. A primeira é a similaridade de Jaccard entre as cinco palavras de maior peso (em módulo) de cada repetição: o número de palavras em comum dividido pelo número de palavras distintas nos dois conjuntos, que vai de 0 (nenhuma em comum) a 1 (conjuntos idênticos). Por exemplo, os conjuntos \{senha, acessar, VPN, trocar, consigo\} e \{senha, acessar, VPN, login, erro\} têm 3 palavras em comum entre 7 distintas, e Jaccard de $3/7 \approx 0{,}43$. Para dois conjuntos $A$ e $B$:
 
 \begin{equation}
@@ -2076,7 +2077,14 @@ w_c = \frac{\tilde w_c}{\frac{1}{N}\sum_{i=1}^{N} \tilde w_{y_i}}, \qquad
 \tilde w_c = \frac{1}{\sqrt{n_c}}
 \label{eq:pesos-c1}
 \end{equation}
-em que $n_c$ é o número de chamados da classe $c$ no treino e $N$ é o total de chamados de treino. A perda passa a ser $\mathcal{L} = -\frac{1}{N}\sum_i w_{y_i} \log p(y_i \mid x_i)$.
+em que $n_c$ é o número de chamados da classe $c$ no treino e $N$ é o total de chamados de treino. No treino, essa perda é calculada a cada lote $B$, no padrão do PyTorch quando a entropia cruzada recebe um peso por classe:
+
+\begin{equation}
+\mathcal{L}_B = -\frac{\sum_{i \in B} w_{y_i} \log p(y_i \mid x_i)}{\sum_{i \in B} w_{y_i}}
+\label{eq:perda-c1}
+\end{equation}
+
+Como o denominador é a soma dos pesos do próprio lote, a normalização da Equação~\ref{eq:pesos-c1} fixa a escala dos pesos e não altera o valor da perda. % CONFERIDO: finetune_bertimbau.py usa cross_entropy com peso por classe; o PyTorch divide pela soma dos pesos do lote.
 
 A seleção usaria apenas a validação corrigida, que retira o bloco de 491 chamados com o mesmo texto (Seção~\ref{subsec:res_classificacao}), sem abrir o conjunto de teste. O C1 seria aceito somente se três condições valessem ao mesmo tempo, sobre as sementes 42, 43 e 44:
 
@@ -2146,8 +2154,8 @@ A Tabela~\ref{tab:res_fidelidade} traz a fidelidade dos dois métodos nos 98 cha
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado. Cinco sorteios aleatórios por chamado, semente 42. ``Acima do acaso'': chamados em que a explicação supera o sorteio. No Tau-LOO não há linha de base aleatória, e a última coluna indica os chamados com valor positivo.}
 \end{table}
 
-Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,55 (SHAP), contra 0,19 nos dois ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,019 e 0,005), contra 0,31 nos dois com palavras sorteadas. As diferenças entre os métodos são pequenas: o SHAP tem valores um pouco melhores na \textit{comprehensiveness} (0,546 contra 0,542) e na \textit{sufficiency} (0,005 contra 0,019), e o LIME, um Tau-LOO maior (0,412 contra 0,361). % PENDENTE-2000: diferencas pareadas e ICs abaixo ainda sao da rodada de 500 (recalcular com fidelidade_shap_por_chamado.csv novo + CSV por chamado do LIME)
-Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de $-0{,}015$ (intervalo de $-0{,}037$ a 0,006), e na \textit{sufficiency}, de $-0{,}008$ (intervalo de $-0{,}033$ a 0,012); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}059$ (intervalo de $-0{,}090$ a $-0{,}027$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra.
+Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,55 (SHAP), contra 0,19 nos dois ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,019 e 0,005), contra 0,31 nos dois com palavras sorteadas. As diferenças entre os métodos são pequenas: o SHAP tem valores um pouco melhores na \textit{comprehensiveness} (0,546 contra 0,542) e na \textit{sufficiency} (0,005 contra 0,019), e o LIME, um Tau-LOO maior (0,412 contra 0,361).
+Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de 0,004 (intervalo de $-0{,}020$ a 0,028), e na \textit{sufficiency}, de $-0{,}014$ (intervalo de $-0{,}037$ a 0,004); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}051$ (intervalo de $-0{,}081$ a $-0{,}020$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra. % CONFERIDO: diferencas pareadas com fidelidade_shap_por_chamado.csv (SHAP, 2.000) e fidelidade_por_chamado.csv (LIME, 500); bootstrap de 5.000, semente 42.
 
 \subsubsection{Estabilidade}
 \label{subsubsec:res_estabilidade}
@@ -2173,7 +2181,7 @@ A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, e
 
 Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% dos pares de repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,725 e a mesma palavra no topo em 88\% dos pares de repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,634 e 83\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,634 do SHAP, Spearman de 0,706 contra 0,861 e a mesma palavra no topo em 93\% dos pares de repetições contra 83\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 2.000 consultas, foi mais estável que o LIME no Jaccard e no Spearman e menos estável na mesma palavra no topo; só o cálculo exato dá estabilidade total ao SHAP. Como cerca de 80\% das descrições completas do teste têm mais de 10 palavras, a maior parte dos chamados reais cairia no SHAP por amostragem, o que torna essa limitação relevante na prática. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo.
 
-Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amostragem foi medida em 20 chamados com 500, 2.000 e 5.000 consultas por campo (Tabela~\ref{tab:res_orcamento}). A estabilidade aumentou com o orçamento nas três medidas. Adotou-se 2.000 consultas, que melhora bastante a estabilidade em relação a 500 com cerca de 2,5 vezes menos consultas ao modelo que 5.000.
+Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amostragem foi medida em 20 chamados com 500, 2.000 e 5.000 consultas por campo (Tabela~\ref{tab:res_orcamento}). A estabilidade aumentou com o orçamento nas três medidas. Adotou-se 2.000 consultas, que melhora bastante a estabilidade em relação a 500 com cerca de 2,5 vezes menos consultas ao modelo que 5.000. % CONFERIDO: estabilidade dos 12 chamados em orcamento_2000/estabilidade/estabilidade_shap_resumo.json (0,725; 0,896; 0,875 e, so amostragem, 0,634; 0,861; 0,833). Orcamentos de 20 chamados: 500 = 0,598; 0,684; 0,815; 2.000 = 0,719; 0,859; 0,925; 5.000 = 0,799; 0,920; 0,970.
 
 \begin{table}[htb]
   \centering
@@ -2195,7 +2203,7 @@ Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amos
 \subsubsection{Concordância entre SHAP e LIME}
 \label{subsubsec:res_concordancia}
 
-A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e o LIME apontaram como importantes para a classe prevista. Como os pesos estão em escalas diferentes (probabilidade no SHAP, coeficiente do modelo linear local no LIME), a comparação usa a ordem e o sinal das palavras, e não o valor dos pesos. A Tabela~\ref{tab:res_concordancia} mostra o resultado, ao lado do valor esperado ao acaso.
+A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e o LIME apontaram como importantes para a classe prevista. Como os pesos estão em escalas diferentes (probabilidade no SHAP, coeficiente do modelo linear local no LIME), a comparação usa a ordem e o sinal das palavras, e não o valor dos pesos. A palavra do topo e as cinco mais relevantes são as de maior peso em módulo. A Tabela~\ref{tab:res_concordancia} mostra o resultado, ao lado do valor esperado ao acaso.
 
 \begin{table}[htb]
   \centering
@@ -2206,19 +2214,18 @@ A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e 
     \toprule
     Medida & Resultado & Ao acaso & Chamados acima do acaso \\
     \midrule
-    Correlação de Spearman entre os pesos (média) & 0,704 & 0,000 & 98 de 98 \\
-    Jaccard das 5 palavras mais relevantes (média) & 0,575 & 0,226 & 91 de 96 \\
-    Mesma palavra no topo (fração de chamados) & 0,714 (70 de 98) & 0,068 & -- \\
-    Palavras com o mesmo sinal (média) & 0,792 & 0,500 & 97 de 98 \\
+    Correlação de Spearman entre os pesos (média) & 0,735 & 0,000 & 98 de 98 \\
+    Jaccard das 5 palavras mais relevantes (média) & 0,585 & 0,226 & 91 de 96 \\
+    Mesma palavra no topo (fração de chamados) & 0,694 (68 de 98) & 0,068 & -- \\
+    Palavras com o mesmo sinal (média) & 0,805 & 0,500 & 93 de 98 \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: O Jaccard considera apenas os 96 chamados com mais de 5 palavras.}
 \end{table}
 
-% PENDENTE-2000: concordancia SHAP x LIME (tabelas e 71%) ainda e da rodada de 500; recalcular com shap_explicacoes.csv novo
-Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 70 dos 98 chamados (71\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,757. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte.
+Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 68 dos 98 chamados (69\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,803. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte.
 
-A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálculo do SHAP e por acerto do modelo. A concordância é maior nos 27 chamados em que o SHAP foi calculado de forma exata (Spearman de 0,864) do que nos 71 em que houve amostragem (0,643). Os chamados do primeiro grupo são os mais curtos, então os dados não separam o efeito do método de cálculo do efeito do tamanho do texto. Em todos os chamados, a correlação entre o número de palavras e a concordância de Spearman é de $-0{,}67$ ($p < 0{,}001$): quanto mais palavras, menos os dois métodos concordam. Já entre acertos e erros do modelo, a concordância é praticamente a mesma (Spearman de 0,704 nos dois grupos), com amostra de erros pequena (18 chamados).
+A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálculo do SHAP e por acerto do modelo. A concordância é maior nos 27 chamados em que o SHAP foi calculado de forma exata (Spearman de 0,856) do que nos 71 em que houve amostragem (0,689). Os chamados do primeiro grupo são os mais curtos, então os dados não separam o efeito do método de cálculo do efeito do tamanho do texto. Em todos os chamados, a correlação entre o número de palavras e a concordância de Spearman é de $-0{,}60$ ($p < 0{,}001$): quanto mais palavras, menos os dois métodos concordam. Já entre acertos e erros do modelo, a concordância fica próxima (Spearman de 0,733 nos acertos e de 0,746 nos erros), com amostra de erros pequena (18 chamados). % CONFERIDO: concordancia_shap_lime.py escolhe topo e 5 palavras pelo maior peso em modulo; Spearman so nas palavras comuns, com sinal. Recalculado com shap_explicacoes.csv (2.000) e lime_explicacoes.csv (500): 68 de 98 no topo.
 
 \begin{table}[htb]
   \centering
@@ -2229,11 +2236,11 @@ A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálc
     \toprule
     Subconjunto & Chamados & Spearman & Jaccard & Mesmo topo & Mesmo sinal \\
     \midrule
-    Todos & 98 & 0,704 & 0,575 & 0,714 & 0,792 \\
-    SHAP exato & 27 & 0,864 & 0,762 & 0,741 & 0,899 \\
-    SHAP por amostragem & 71 & 0,643 & 0,509 & 0,704 & 0,752 \\
-    Acertos do modelo & 80 & 0,704 & 0,583 & 0,700 & 0,788 \\
-    Erros do modelo & 18 & 0,704 & 0,535 & 0,778 & 0,815 \\
+    Todos & 98 & 0,735 & 0,585 & 0,694 & 0,805 \\
+    SHAP exato & 27 & 0,856 & 0,752 & 0,704 & 0,900 \\
+    SHAP por amostragem & 71 & 0,689 & 0,526 & 0,690 & 0,769 \\
+    Acertos do modelo & 80 & 0,733 & 0,593 & 0,688 & 0,802 \\
+    Erros do modelo & 18 & 0,746 & 0,549 & 0,722 & 0,819 \\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado; ``Mesmo topo'' é a fração de chamados com a mesma palavra no topo. O Jaccard considera apenas chamados com mais de 5 palavras (25 no SHAP exato, 71 na amostragem, 79 nos acertos e 17 nos erros).}
@@ -2305,11 +2312,11 @@ No caso 3, o chamado pede a limpeza de um \textit{rack}. Os dois métodos concor
 \subsection{Análise crítica e comparação}
 \textbf{Classificação.} O BERTimbau superou o \textit{baseline} SVM em 3,7 pontos percentuais de F1-macro, abaixo da meta de 5 pontos estabelecida inicialmente. Os dados mostram que o ganho existe, mas não que ele atinja o critério, pois o intervalo de confiança inclui o 5. O ganho vem da revocação e se concentra em poucas classes (SOFTWARE e SOLICITACAO\_DE\_SERVICO, além de duas classes pequenas), enquanto na maior classe os dois modelos empatam. Há ainda dois cuidados de leitura: o resultado na Empresa B é pouco informativo, pois seus chamados formam poucos grupos de texto, e na validação um único texto repetido 491 vezes inflaria a diferença para 11,9 pontos. Por isso, o resultado mais seguro é o do teste, com os grupos de texto reamostrados juntos. Os valores de F1-macro de outros trabalhos de classificação de chamados (Seção~\ref{sec:trabalhos_relacionados}) não são diretamente comparáveis com os deste, pois as bases, as categorias e os cenários diferem.
  
-\textbf{Fidelidade.} O SHAP e o LIME têm fidelidade bem acima do acaso, e a comparação chamado a chamado não distingue os métodos na \textit{comprehensiveness} nem na \textit{sufficiency}. Só no Tau-LOO há diferença, a favor do LIME (diferença média de $-$0,059 para o SHAP, com intervalo que exclui o zero). Isso difere do que se poderia esperar de um método com garantias teóricas como o SHAP, mas uma diferença em uma das três medidas não basta para afirmar que o LIME seja mais fiel.
+\textbf{Fidelidade.} O SHAP e o LIME têm fidelidade bem acima do acaso, e a comparação chamado a chamado não distingue os métodos na \textit{comprehensiveness} nem na \textit{sufficiency}. Só no Tau-LOO há diferença, a favor do LIME (diferença média de $-$0,051 para o SHAP, com intervalo que exclui o zero). Isso difere do que se poderia esperar de um método com garantias teóricas como o SHAP, mas uma diferença em uma das três medidas não basta para afirmar que o LIME seja mais fiel.
  
 \textbf{Estabilidade.} \citeonline{salih2023} indicam que o SHAP tende a ser mais estável que o LIME. Neste trabalho, o SHAP é perfeitamente estável quando calculado de forma exata, o que ocorre em textos curtos (até 10 palavras por campo). Nos 9 chamados em que foi estimado por amostragem, com orçamento de 2.000 consultas, ficou mais estável que o LIME no Jaccard (0,634 contra 0,546) e no Spearman (0,861 contra 0,706), mas o LIME manteve a mesma palavra no topo com mais frequência (93\% dos pares de repetições, contra 83\%). O resultado depende do orçamento: com 500 consultas, o SHAP estimado era menos estável que o LIME nas três medidas, e a estabilidade continuou crescendo com 5.000 (Tabela~\ref{tab:res_orcamento}). O orçamento é, portanto, um parâmetro que troca tempo de processamento por estabilidade. A amostra de 12 chamados é pequena e não houve teste estatístico, então as conclusões são indicativas.
  
-\textbf{Concordância.} Os dois métodos concordam bem acima do acaso (a mesma palavra no topo em 71\% dos chamados), mas a concordância cai com o tamanho do texto. Assim, em chamados longos, a escolha do método muda de forma relevante quais palavras o analista vê como importantes.
+\textbf{Concordância.} Os dois métodos concordam bem acima do acaso (a mesma palavra no topo em 69\% dos chamados), mas a concordância cai com o tamanho do texto. Assim, em chamados longos, a escolha do método muda de forma relevante quais palavras o analista vê como importantes.
  
 \textbf{Grafo.} Nos três casos aplicados, a rastreabilidade se cumpriu: cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME. Os casos também mostraram o uso prático da explicação: no caso 2, ela expôs que um erro do modelo se apoiou em muito pouca evidência e em um marcador de anonimização, e no caso 3, que os dois métodos concordam na palavra de maior peso, mas destacam palavras diferentes depois dela. A limitação é que três casos, escolhidos para ilustrar situações diferentes, mostram que o grafo é rastreável, mas não que ele melhore a decisão de um analista.
 
@@ -2336,7 +2343,7 @@ Para respondê-la, os chamados de duas empresas (53.279 chamados, em 11 categori
 \begin{enumerate}
     \item \textbf{Ganho do BERTimbau sobre o \textit{baseline}.} O objetivo foi atendido: o BERTimbau obteve F1-macro de 0,628 contra 0,591 do SVM, uma diferença de 3,7 pontos percentuais, abaixo da meta de 5 pontos estabelecida inicialmente. O ganho existe, mas os dados não mostram que atinja o critério, e ele se concentra em poucas classes.
 
-    \item \textbf{Comparação entre SHAP e LIME.} O objetivo foi atendido: em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata e, quando estimado por amostragem com 2.000 consultas, mais estável que o LIME no Jaccard e no Spearman, mas menos na mesma palavra no topo. Os dois apontaram a mesma palavra no topo em 71\% dos chamados, e a concordância caiu com o tamanho do texto.
+    \item \textbf{Comparação entre SHAP e LIME.} O objetivo foi atendido: em 98 chamados, os dois métodos tiveram fidelidade bem acima do acaso e não se distinguiram na \textit{comprehensiveness} nem na \textit{sufficiency}; só o Tau-LOO foi maior no LIME. Na estabilidade, o SHAP foi perfeito quando calculado de forma exata e, quando estimado por amostragem com 2.000 consultas, mais estável que o LIME no Jaccard e no Spearman, mas menos na mesma palavra no topo. Os dois apontaram a mesma palavra no topo em 69\% dos chamados, e a concordância caiu com o tamanho do texto.
 
     \item \textbf{Auditabilidade pelo grafo.} O objetivo foi atendido nos três casos aplicados: cada nó e cada aresta puderam ser levados ao chamado e aos pesos do SHAP e do LIME, o que corresponde à auditabilidade nos termos em que foi definida, a rastreabilidade. Não se mediu, porém, se analistas conseguem acompanhar a decisão a partir do grafo.
 
@@ -2363,13 +2370,13 @@ Este trabalho tem limitações que delimitam o alcance de seus resultados.
 
 Quanto aos dados, os chamados vêm de apenas duas empresas do setor farmacêutico, e a Empresa A reúne 86\% do conjunto de teste. Os chamados da Empresa B cobrem um único mês (abril de 2026) e têm muitos textos repetidos: os 716 chamados de teste dessa empresa formam apenas 337 grupos de texto, de modo que o resultado na Empresa B traz menos informação do que o número de chamados sugere. A classe OUTROS tem apenas 12 chamados no teste e nenhum foi acertado, então o desempenho nela não pôde ser avaliado de forma conclusiva. As categorias das duas empresas foram harmonizadas em uma taxonomia única, e os resultados dependem dessa escolha. Além disso, a varredura de sanidade da anonimização encontrou, na base final, 24 ocorrências residuais de padrão telefônico rotulado na descrição (0 no resumo), que podem incluir falsos positivos; a anonimização, portanto, não pode ser considerada perfeita.
 
-Além disso, dos 189.909 chamados da Empresa A que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico. A revisão manual do filtro de idioma (30 chamados mantidos e 30 descartados) não foi concluída.
+Além disso, dos 189.909 chamados da Empresa A que restaram após a limpeza, 143.325 não estavam em português e foram descartados pelo filtro de idioma, e não traduzidos; traduzi-los poderia ampliar a base, ao custo de introduzir ruído de tradução no vocabulário técnico. Uma amostra de 30 chamados mantidos e 30 descartados foi revisada manualmente, julgando o pedido do chamado e não os campos fixos do formulário: o filtro acertou os 30 mantidos e 25 dos 30 descartados (55 de 60). Os cinco desacordos são chamados cujo pedido está em português, em geral um título ou uma frase curta dentro de um formulário em inglês, e que o filtro descartou. Nenhum chamado em inglês foi mantido. % CONFERIDO: amostra de 60 em language_filter_review_sample.csv; 30/30 mantidos e 25/30 descartados. Os 5 erros sao descarte de pedido em portugues.
 
 Quanto à classificação, os resultados vêm de um único treinamento do BERTimbau (semente 42), sem repetição com outras sementes. A tentativa de melhoria com pesos de classe (Seção~\ref{subsec:res_melhoria}) não superou a referência e foi relatada como complementar, pois o escopo escolhido para ela foi definido depois de observados resultados de teste. O intervalo de confiança da diferença para o \textit{baseline} SVM (de 1,0 a 6,7 pontos) inclui tanto ganhos pequenos quanto o critério de 5 pontos, e cerca de 10,2\% dos pares de texto ultrapassam o limite de 256 \textit{tokens}, de modo que o trecho excedente não chega ao modelo. A confiança exibida pela interface é a probabilidade máxima da \textit{softmax} e não foi calibrada.
 
 Quanto à escolha do modelo, o trabalho usou o BERTimbau, um modelo de 2020, e não avaliou modelos generalistas mais recentes, os LLMs (\textit{Large Language Models} -- Modelos de Linguagem de Grande Porte), nem abordagens com recuperação de contexto (RAG, \textit{Retrieval-Augmented Generation} -- Geração Aumentada por Recuperação) ou explicações em texto geradas pelo próprio modelo, como as de CoT (\textit{Chain-of-Thought} -- Cadeia de Raciocínio). O BERTimbau foi mantido por ser específico para o português e por permitir calcular, em máquinas locais, as centenas de consultas ao modelo que o SHAP e o LIME exigem por explicação; com um LLM, esse custo seria bem maior. Já as explicações em texto de um LLM teriam de ter sua fidelidade ao processo de decisão avaliada com medidas como as usadas aqui.
 
-Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 2.000 consultas, enquanto o LIME usou 500 amostras, de modo que a comparação de estabilidade não é entre métodos de mesmo custo; o teste com 500, 2.000 e 5.000 consultas mostrou que a estabilidade do SHAP aumenta com o orçamento. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, as medidas de fidelidade foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e por isso seus valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
+Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 2.000 consultas, enquanto o LIME usou 500 amostras, de modo que a comparação de estabilidade não é entre métodos de mesmo custo; o teste com 500, 2.000 e 5.000 consultas mostrou que a estabilidade do SHAP aumenta com o orçamento. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, a \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e o Tau-LOO usa o tau-b de \texttt{scipy.stats.kendalltau}; por isso esses valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
 
 Quanto ao grafo, a auditabilidade foi avaliada pela rastreabilidade, em casos aplicados, e não em um teste com analistas de TI. O trabalho, portanto, mostra que cada nó e cada aresta podem ser levados de volta ao chamado, mas não que analistas conseguem, na prática, acompanhar a decisão do classificador a partir do grafo.
 
