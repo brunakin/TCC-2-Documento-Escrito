@@ -240,7 +240,9 @@ The results were integrated into a web interface that classifies a typed ticket,
 
 Os sistemas de \textit{help desk} das organizações recebem grandes volumes de chamados de suporte de Tecnologia da Informação (TI): empresas modernas geram milhares de chamados por mês \cite{razma2026} e cada um precisa ser lido, classificado em uma categoria e encaminhado à equipe responsável. Os dados deste trabalho, de duas empresas do setor farmacêutico, dão a dimensão: a Empresa B, com 9.317 chamados registrados em um único mês (abril de 2026), e a Empresa A, com 191.350 entre maio de 2020 e agosto de 2026. Quando essa triagem é manual, ela é difícil, sujeita a erros e exige muito conhecimento do domínio, e os chamados trazem jargão técnico e erros de ortografia \cite{zemp2021}.
 
-O custo de uma triagem ruim recai sobre toda a organização. Um chamado classificado na categoria errada vai para uma equipe sem competência para resolvê-lo, e o ciclo de reatribuições aumenta o tempo de resolução, desperdiça o tempo da equipe e reduz a satisfação do usuário \cite{paramesh2022}. Esse atraso pode comprometer o cumprimento do SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço), o prazo de resolução acordado com o usuário, com impacto na produtividade da organização e na satisfação dos usuários \cite{paramesh2022}. A triagem manual também depende do conhecimento de cada analista sobre as categorias da empresa \cite{paramesh2022}, conhecimento que pode se perder com a rotatividade.
+O custo de uma triagem ruim recai sobre toda a organização. Um chamado classificado na categoria errada vai para uma equipe sem competência para resolvê-lo, e o ciclo de reatribuições aumenta o tempo de resolução, desperdiça o tempo da equipe e reduz a satisfação do usuário \cite{paramesh2022}. Esse atraso interrompe o funcionamento normal do negócio, consome recursos das equipes e reduz a satisfação do cliente \cite{paramesh2022}. Em contextos organizacionais com prazos contratados, tal atraso também pode comprometer o cumprimento do SLA (\textit{Service Level Agreement} -- Acordo de Nível de Serviço). 
+
+A triagem manual também depende do conhecimento de cada analista sobre as categorias da empresa \cite{paramesh2022}. Esse conhecimento pode se perder com a rotatividade.
 
 Por isso, a classificação automática de chamados é estudada com Processamento de Linguagem Natural (PLN) e já chegou à prática: no estudo de \citeonline{zemp2021}, descrito na Seção~\ref{subsubsec:helpdesk_caixapreta}, uma CNN (\textit{Convolutional Neural Network} -- Rede Neural Convolucional) alcançou 92\% de acurácia de validação (proporção de chamados classificados corretamente). Os modelos mais recentes, baseados na arquitetura \textit{Transformer}, que relaciona cada palavra do texto a todas as outras, como o BERT (\textit{Bidirectional Encoder Representations from Transformers} -- Representações de Codificador Bidirecional a partir de Transformers), têm mais de cem milhões de parâmetros (110 milhões no BERT-base \cite{devlin2019}) e funcionam como caixas-pretas: produzem a categoria sem revelar quais palavras do chamado a determinaram. Sem essa informação, o analista não consegue conferir a decisão, nem o gestor identificar erros sistemáticos, e o bom desempenho sozinho não garante a adoção: no mesmo estudo, a equipe de suporte recusou a função que separava requisições de incidentes, mesmo com 93\% de acurácia de validação.
 
@@ -252,7 +254,9 @@ Neste contexto, explicabilidade é a capacidade de mostrar quais palavras do cha
 
 Essa informação serve a diferentes interessados. O analista pode verificar se os termos destacados fazem sentido para a categoria e decidir se confia na previsão \cite{ribeiro2016}. O gestor pode auditar o sistema e identificar erros sistemáticos, por exemplo uma categoria que o modelo decide por palavras irrelevantes. A equipe que mantém o modelo pode depurá-lo e melhorá-lo: no estudo de \citeonline{mustafa2025}, as explicações do LIME revelaram que palavras sem conteúdo informativo recebiam pesos altos, o que levou a ajustar o pré-processamento. E o usuário, indiretamente, se beneficia de chamados mais bem encaminhados.
 
-Mas uma explicação só ajuda se for confiável e legível, e há dois obstáculos. O primeiro é que o SHAP e o LIME podem divergir entre si, e o LIME ainda pode variar entre execuções, pois depende de amostragem aleatória \cite{ribeiro2016}, o que torna necessário medir a fidelidade (se a explicação reflete o que o modelo de fato usou) e a estabilidade (se ela se mantém ao repetir o cálculo) das explicações. A fidelidade é medida pela queda da confiança do modelo ao retirar as palavras destacadas (\textit{comprehensiveness}) ou ao manter apenas elas (\textit{sufficiency}) e pela correlação entre o peso de cada palavra e o efeito de retirá-la sozinha (Tau-LOO, de \textit{Leave-One-Out} -- Deixar Um de Fora). A estabilidade é medida repetindo a explicação e comparando as repetições. Além disso, avalia-se a consistência semântica, isto é, se as palavras destacadas fazem sentido para a categoria prevista: em um chamado que pede a transferência de uma licença do \textit{Office}, classificado como aquisição de TI, espera-se que ``licença'' e ``\textit{office}'' recebam peso alto; se as palavras de maior peso não tivessem relação com a categoria, a consistência seria baixa. O segundo é que uma lista de pesos por palavra mostra a importância de cada termo, mas não como eles se relacionam no texto. Um grafo de co-ocorrência, em que cada nó é uma palavra e cada aresta liga palavras que aparecem próximas \cite{yao2019}, pode apresentar as explicações de forma visual \cite{talebi2025} e rastreável. Quando é possível voltar do resultado ao chamado e conferir quais palavras e pesos o produziram, diz-se que a decisão é auditável (auditabilidade).
+Mas uma explicação só ajuda se for confiável e legível, e há dois obstáculos. O primeiro é que o SHAP e o LIME podem divergir entre si. O LIME depende de amostragem aleatória \cite{ribeiro2016}; embora os autores o descrevam como razoavelmente robusto ao ruído de amostragem, neste trabalho verifica-se se execuções diferentes produzem explicações distintas, o que torna necessário medir a fidelidade (se a explicação reflete o que o modelo de fato usou) e a estabilidade (se ela se mantém ao repetir o cálculo) das explicações. A fidelidade é medida pela queda da confiança do modelo ao retirar as palavras destacadas (\textit{comprehensiveness}) ou ao manter apenas elas (\textit{sufficiency}) e pela correlação entre o peso de cada palavra e o efeito de retirá-la sozinha (Tau-LOO, de \textit{Leave-One-Out} -- Deixar Um de Fora). A estabilidade é medida repetindo a explicação e comparando as repetições. Além disso, avalia-se a consistência semântica, isto é, se as palavras destacadas fazem sentido para a categoria prevista: em um chamado que pede a transferência de uma licença do \textit{Office}, classificado como aquisição de TI, espera-se que ``licença'' e ``\textit{office}'' recebam peso alto; se as palavras de maior peso não tivessem relação com a categoria, a consistência seria baixa. O segundo é que uma lista de pesos por palavra mostra a importância de cada termo, mas não como eles se relacionam no texto. Um grafo de co-ocorrência, em que cada nó é uma palavra e cada aresta liga palavras que aparecem próximas \cite{yao2019}, pode organizar visualmente as relações entre termos e, neste trabalho, ser combinado aos pesos de explicabilidade. Trabalhos próximos já usaram grafo de co-ocorrência em conjunto com LIME, comparando nós centrais do grafo aos termos destacados nas explicações locais \cite{talebi2025}.
+
+Quando é possível voltar do resultado ao chamado e conferir quais palavras e pesos o produziram, diz-se que a decisão é auditável (auditabilidade).
 
 Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% (média do F1, que combina precisão e revocação, calculada com o mesmo peso para cada categoria), em 226.438 chamados \cite{yokota2025}, e de 84,0\%, em chamados de um único tribunal \cite{carvalho2026}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
 
@@ -323,11 +327,11 @@ Os métodos SHAP e LIME, por sua vez, produzem explicações com fidelidade e es
 \section{Justificativa}
 \label{sec:justificativa}
 
-A triagem de chamados de TI é uma etapa de grande volume nas empresas: os dados deste trabalho, de duas empresas de um mesmo setor, somam dezenas de milhares de chamados (Seção~\ref{sec:contexto}) e cada um precisa ser lido, classificado e encaminhado. Feita manualmente, essa tarefa é lenta, depende da experiência de cada analista, que pode se perder com a rotatividade, e está sujeita a inconsistências \cite{paramesh2022}. Um chamado na categoria errada vai para uma equipe sem competência para resolvê-lo, o que gera reatribuições \cite{paramesh2022}, atrasa o atendimento e pode comprometer o cumprimento do SLA, como discutido na Introdução. A classificação automática com PLN e aprendizado de máquina já é estudada e usada na prática, o que mostra a relevância do problema e o ganho possível.
+A triagem de chamados de TI é uma etapa de grande volume nas empresas: os dados deste trabalho, de duas empresas de um mesmo setor, somam dezenas de milhares de chamados (Seção~\ref{sec:contexto}) e cada um precisa ser lido, classificado e encaminhado. Feita manualmente, essa tarefa é demorada e pode resultar em categorização errada, entre outros fatores pela falta de conhecimento do domínio e pela percepção errada da categoria do problema \cite{paramesh2022}. Além disso, depende da experiência de cada analista, que pode se perder com a rotatividade. Um chamado na categoria errada vai para uma equipe sem competência para resolvê-lo, o que gera reatribuições \cite{paramesh2022}, atrasa o atendimento e pode comprometer o cumprimento do SLA, como discutido na Introdução. A classificação automática com PLN e aprendizado de máquina já é estudada e usada na prática, o que mostra a relevância do problema e o ganho possível.
 
 No entanto, desempenho não basta para que um sistema de classificação seja adotado. Os modelos que melhor classificam, baseados em \textit{transformers}, funcionam como caixas-pretas: um analista ou auditor não consegue verificar por que um chamado foi para uma categoria, e o gestor não consegue identificar erros sistemáticos. O estudo de \citeonline{zemp2021}, descrito na Seção~\ref{subsubsec:helpdesk_caixapreta}, ilustra que o desempenho, sozinho, não garante a adoção: mesmo com 93\% de acurácia de validação, a equipe de suporte recusou uma das funções do sistema. Por isso, tornar a decisão verificável é um passo para que a classificação automática possa ser conferida e auditada por quem a utiliza.
 
-A área de XAI oferece métodos para isso, mas a qualidade das explicações ainda precisa ser examinada no contexto de chamados de TI. O LIME depende de amostragem aleatória e pode variar entre execuções \cite{ribeiro2016}, e os resultados do SHAP e do LIME dependem do modelo adotado e da colinearidade entre as \textit{features} \cite{salih2023}. Um estudo anterior com chamados de TI, por sua vez, os mostrou apenas em exemplos, sem medir fidelidade nem estabilidade \cite{razma2026}. Medir essas propriedades permite comparar os dois métodos com base em evidência, e não apenas em exemplos. Já a modelagem em grafos pode oferecer uma forma visual e estrutural de apresentar como as palavras do chamado se relacionam, além da lista de pesos por palavra.
+A área de XAI oferece métodos para isso, mas a qualidade das explicações ainda precisa ser examinada no contexto de chamados de TI. O LIME depende de amostragem aleatória \cite{ribeiro2016} e, por isso, neste trabalho verifica-se se a explicação varia entre execuções. Os resultados do SHAP e do LIME dependem do modelo adotado e da colinearidade entre as \textit{features} \cite{salih2023}. Um estudo anterior com chamados de TI, por sua vez, mostrou as explicações apenas em exemplos, sem medir fidelidade nem estabilidade \cite{razma2026}. Medir essas propriedades permite comparar os dois métodos com base em evidência, e não apenas em exemplos. Já a modelagem em grafos pode oferecer uma forma visual e estrutural de apresentar como as palavras do chamado se relacionam, além da lista de pesos por palavra.
 
 Há ainda uma lacuna para o português brasileiro. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% e de 84,0\%, sem aplicar modelos BERT com explicações \cite{yokota2025, carvalho2026}. Também não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de suporte. O vocabulário técnico e os erros de ortografia, comuns em chamados de suporte \cite{zemp2021}, tornam essa verificação em português ainda mais necessária.
 
@@ -548,7 +552,9 @@ por dois subcomponentes principais: o mecanismo de \textit{self-attention},
 que permite que cada \textit{token}, ou seja, cada unidade mínima de texto em que 
 o modelo divide a entrada, ``observe'' todos os outros da sequência, 
 e uma rede neural densa aplicada posição a posição (\textit{feed-forward 
-network}). O resultado de cada subcomponente passa por uma conexão residual seguida de normalização (\textit{layer normalization}) \cite{vaswani2017}, que estabiliza o treinamento. Vale destacar que modelos como o BERT utilizam apenas 
+network}). O resultado de cada subcomponente passa por uma conexão residual seguida de normalização (\textit{layer normalization}) \cite{vaswani2017}.
+
+Vale destacar que modelos como o BERT utilizam apenas 
 o bloco \textit{encoder}, pois seu objetivo é produzir representações 
 contextuais do texto de entrada, e não gerar novas sequências \cite{devlin2019}.
 
@@ -562,9 +568,7 @@ A Figura~\ref{fig:transformer} resume essa estrutura. O BERT utiliza apenas o bl
     \legend{Fonte: Elaborado pelos autores, com base em \citeonline{vaswani2017}.}
 \end{figure}
 
-A arquitetura \textit{Transformer}, proposta por \citeonline{vaswani2017}, 
-introduziu o mecanismo de \textit{self-attention} como alternativa às redes 
-recorrentes para processamento de sequências. As RNN (\textit{Recurrent Neural Network} -- Rede Neural Recorrente) são uma classe de redes neurais 
+A arquitetura \textit{Transformer}, proposta por \citeonline{vaswani2017}, apresentou o primeiro modelo de transdução baseado inteiramente em \textit{self-attention}, sem recorrência nem convolução alinhada à sequência, como alternativa às redes recorrentes. As RNN (\textit{Recurrent Neural Network} -- Rede Neural Recorrente) são uma classe de redes neurais 
 projetadas para processar dados sequenciais, nos quais o contexto e a ordem 
 temporal importam, processando os \textit{tokens} um por vez, da esquerda para 
 a direita. As LSTM (\textit{Long Short-Term Memory} -- Memória de Longo e Curto Prazo) são um tipo especializado 
@@ -678,7 +682,7 @@ A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança exibid
 \subsubsubsection{Corpus de pré-treinamento e diferenças em relação ao mBERT}
 \label{subsubsec:bertimbau_corpus}
 
-\citeonline{souza2020} desenvolveram o BERTimbau a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 335M parâmetros).
+\citeonline{souza2020} desenvolveram o BERTimbau a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 330M parâmetros).
 
 A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT Multilíngue) está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente \cite{pires2019}, o que tende a diluir a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
 
@@ -710,7 +714,9 @@ A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT
 \subsubsection{\textit{Fine-tuning} de BERT para classificação de chamados de TI}
 \label{subsec:bert_tickets}
 
-A aplicação de BERT e modelos derivados à classificação de chamados de TI tem demonstrado resultados expressivos na literatura recente. \citeonline{borges2024} realizou uma comparação sistemática entre BERT e algoritmos clássicos, SVM e \textit{Naive Bayes}, em tarefas de classificação de texto em português e inglês, utilizando quatro \textit{datasets} públicos. Os resultados confirmaram que o BERT supera consistentemente os modelos tradicionais em acurácia e F1, especialmente em tarefas multiclasse com nuances semânticas mais complexas, embora com custo computacional consideravelmente maior.
+A aplicação de BERT e modelos derivados à classificação de chamados de TI tem demonstrado resultados expressivos na literatura recente. \citeonline{borges2024} realizou uma comparação sistemática entre BERT e algoritmos clássicos, SVM e \textit{Naive Bayes}, em tarefas de classificação de texto em português e inglês, utilizando quatro \textit{datasets} públicos, nenhum deles de chamados de TI. 
+
+O BERT obteve, em geral, acurácia e F1 superiores, com vantagem mais clara em bases maiores e mais equilibradas; em bases menores, a diferença foi menos expressiva (na Fake.br, o BERTimbau, o \textit{Naive Bayes} e o SVM ficaram na faixa dos 60\%). O autor destaca ainda o custo computacional significativamente maior do BERT.
 
 \citeonline{zemp2021} comparou CNN, BiLSTM (\textit{Bidirectional Long Short-Term Memory} -- Memória de Longo e Curto Prazo Bidirecional) e RoBERTa (\textit{Robustly Optimized BERT Pretraining Approach} -- Abordagem de Pré-treinamento do BERT Robustamente Otimizada) em chamados reais de um banco (Seção~\ref{subsubsec:helpdesk_caixapreta}). A melhor CNN atingiu F1-macro de 0,75. Com o \textit{fine-tuning} simples, o DistilRoBERTa, versão reduzida do RoBERTa, ficou abaixo desse valor (0,72); somente após um pré-treinamento adicional do modelo de linguagem com os próprios chamados ele superou a CNN, por uma margem de 0,018.
 
@@ -720,7 +726,7 @@ especificamente para lidar com múltiplos idiomas simultaneamente,
 em um corpus de 87 mil chamados multilíngues de uma empresa 
 de manufatura. Os resultados confirmaram que \textit{transformers} 
 superam modelos clássicos em macro-F1, especialmente para classes 
-de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao mBERT e à regressão logística, e o SHAP à regressão logística, o que mostra ser viável explicar um BERT \textit{fine-tuned} com LIME sobre chamados reais de ITSM; eles afirmam que as explicações contribuem para a interpretabilidade e a confiança.
+de baixa frequência e semanticamente complexas. Os autores aplicaram o LIME ao mBERT e à regressão logística, e o SHAP à regressão logística, o que mostra ser viável explicar um BERT \textit{fine-tuned} com LIME sobre chamados reais de ITSM; eles afirmam que a comparação mostra como os modelos \textit{transformer} capturam relações semânticas mais sutis, o que favorece a interpretabilidade e a confiança.
 
 % ---------------------------------------------------------------
 \subsection{Inteligência Artificial Explicável (XAI)}
@@ -744,7 +750,9 @@ Em contextos como a triagem de chamados de TI, essa opacidade representa um prob
 \subsubsubsection{Confiança, explicabilidade e adoção em produção}
 \label{subsubsec:xai_confianca}
 
-No estudo de \citeonline{zemp2021}, a equipe de suporte recusou parte do sistema de classificação, como discutido na Seção~\ref{subsubsec:helpdesk_caixapreta}. \citeonline{razma2026} afirmam que as explicações LIME favorecem a interpretabilidade e a confiança no sistema, embora não tenham medido a reação dos operadores.
+No estudo de \citeonline{zemp2021}, a equipe de suporte recusou parte do sistema de classificação, como discutido na Seção~\ref{subsubsec:helpdesk_caixapreta}. 
+
+\citeonline{razma2026} ilustram, com LIME (e também SHAP), que o BERT atribui pesos mais contextuais aos termos do que a regressão logística e afirmam que essa comparação mostra como modelos \textit{transformer} capturam relações semânticas mais sutis, o que favorece a interpretabilidade e a confiança em sistemas de automação, embora não tenham medido a reação dos operadores.
 
 Essa ideia é consistente com a literatura de XAI mais ampla: as explicações
  ajudam os usuários a decidir se confiam em uma predição e a identificar modelos 
@@ -864,7 +872,7 @@ nas explicações, o LIME evidenciou a necessidade de sua remoção.
 
 A principal vantagem do LIME é sua generalidade: o método funciona com qualquer modelo e qualquer tipo de entrada sem necessidade de acesso ao interior do modelo. Isso o torna especialmente adequado para modelos de caixa-preta como o BERT, cujos mecanismos internos são de difícil interpretação direta.
 
-Sua principal limitação é a instabilidade das explicações. Por depender de amostragem aleatória de perturbações \cite{ribeiro2016}, execuções diferentes do LIME sobre a mesma instância podem produzir explicações distintas. A colinearidade entre as \textit{features}, ou seja, quando algumas características extraídas do texto são muito parecidas ou carregam informações semelhantes, também afeta os pesos atribuídos \cite{salih2023}. Fixar a semente aleatória torna a explicação reprodutível, mas não estável: com outra semente, a explicação pode mudar.
+Uma limitação a verificar é a estabilidade das explicações. O LIME gera as perturbações por amostragem aleatória \cite{ribeiro2016}. Embora os autores o descrevam como razoavelmente robusto ao ruído de amostragem, execuções diferentes sobre a mesma instância podem produzir explicações distintas. A colinearidade entre as \textit{features}, ou seja, quando algumas características extraídas do texto são muito parecidas ou carregam informações semelhantes, também afeta os pesos atribuídos \cite{salih2023}. Fixar a semente aleatória torna a explicação reprodutível, mas não garante a estabilidade: com outra semente, a explicação pode mudar.
 
 \subsubsection{SHAP: \textit{SHapley Additive exPlanations}}
 \label{subsec:shap}
@@ -1003,7 +1011,7 @@ o que explica a variação entre repetições observada na Seção~\ref{subsubse
 \subsubsubsection{Consistência e estabilidade das explicações}
 \label{subsubsec:comparacao_consistencia}
 
-\citeonline{salih2023} realizaram uma análise comparativa entre SHAP e LIME, discutindo suas propriedades e seu comportamento em um estudo de caso de classificação com dados tabulares. Em termos de estabilidade, os autores avaliam a lista de variáveis informativas entre diferentes modelos e mostram que os dois métodos são fortemente afetados pelo modelo adotado e pela colinearidade entre as \textit{features}. Quanto à estabilidade entre execuções repetidas, espera-se que o SHAP, por ser baseado em uma formulação matemática única com garantias teóricas \cite{lundberg2017}, seja menos sensível à aleatoriedade do processo de amostragem, enquanto o LIME, por depender de perturbações aleatórias e de um ajuste local \cite{ribeiro2016}, pode produzir explicações distintas para a mesma instância em execuções diferentes.
+\citeonline{salih2023} realizaram uma análise comparativa entre SHAP e LIME, discutindo suas propriedades e seu comportamento em um estudo de caso de classificação com dados tabulares. Em termos de estabilidade, os autores avaliam a lista de variáveis informativas entre diferentes modelos e mostram que os dois métodos são fortemente afetados pelo modelo adotado e pela colinearidade entre as \textit{features}. Quanto à estabilidade entre execuções repetidas, espera-se que o SHAP, por ser baseado em uma formulação matemática única com garantias teóricas \cite{lundberg2017}, seja menos sensível à aleatoriedade do processo de amostragem, enquanto o LIME depende de perturbações aleatórias e de um ajuste local \cite{ribeiro2016}, o que pode levar a explicações distintas para a mesma instância em execuções diferentes.
 
 Com base nessas propriedades, espera-se que o SHAP seja preferível quando a consistência e a fundamentação teórica das explicações são prioritárias, enquanto o LIME possa ser preferível quando a velocidade de geração das explicações é mais importante do que a estabilidade. Essa expectativa é examinada na Seção~\ref{subsubsec:res_estabilidade}.
 
@@ -1036,10 +1044,10 @@ e validação cruzada estratificada repetida: uma técnica que divide
 os dados em múltiplos subconjuntos para avaliar o modelo de forma 
 mais robusta, garantindo que todas as classes estejam representadas 
 em cada divisão. O modelo utilizado foi um híbrido de regressão 
-\textit{ridge} com regressão logística. O LIME foi utilizado para 
-validar a explicabilidade das classificações em seis domínios 
-distintos: medicina, esportes, entretenimento, política, tecnologia 
-e negócios. Após o ajuste do pré-processamento, a acurácia de alguns modelos individuais subiu de 0,43 para 0,64 (\textit{Linear Discriminant Analysis}) e de 0,51 para 0,59 (\textit{AdaBoost}), e o modelo híbrido atingiu até 99\% de acurácia, em um conjunto combinado de 2.494 textos.
+\textit{ridge} com regressão logística. O LIME foi utilizado para ilustrar a explicabilidade das
+classificações em um estudo de caso com texto médico; o
+conjunto de dados reúne textos de seis classes: medicina,
+esportes, entretenimento, política, tecnologia e negócios. Após o ajuste do pré-processamento, a acurácia de alguns modelos individuais subiu de 0,43 para 0,64 (\textit{Linear Discriminant Analysis}) e de 0,51 para 0,59 (\textit{AdaBoost}), e o modelo híbrido atingiu até 99\% de acurácia, em um conjunto combinado de 2.494 textos.
 
 O trabalho demonstra que a integração de XAI ao \textit{pipeline} 
 de classificação não é apenas uma camada de interpretabilidade 
@@ -1353,7 +1361,7 @@ Na avaliação com a equipe de suporte, a previsão do serviço afetado foi cons
 Em um ambiente ITSM corporativo multilíngue com mais de 87 mil chamados, \citeonline{razma2026} aplicaram LIME e 
 SHAP para gerar explicações das predições do modelo de regressão logística e, no caso do LIME, 
 também do mBERT, uma versão do BERT treinada simultaneamente 
-em mais de 100 idiomas, e afirmam que essas explicações contribuem para a 
+em mais de 100 idiomas, e afirmam que a comparação mostra como os modelos \textit{transformer} capturam relações semânticas mais sutis, o que favorece a 
 interpretabilidade e a confiança em sistemas de automação de ITSM multilíngues.
 
 % ---------------------------------------------------------------
@@ -1376,9 +1384,12 @@ Os trabalhos de \citeonline{yokota2025} e \citeonline{carvalho2026} evidenciam q
 \subsubsection{Custo-benefício do BERT sem camada de explicabilidade}
 \label{subsubsec:lacuna_wahba}
 
-\citeonline{wahba2023} questiona o uso de BERT para classificação de texto em domínios especializados, 
-argumentando que o custo computacional adicional não se justifica diante da pequena vantagem sobre 
-o SVM em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério 
+\citeonline{wahba2023} questiona se modelos de linguagem
+pré-treinados são a solução mais custo-eficiente para
+classificação de texto em domínios especializados,
+reportando que não observou ganhos significativos do BERT
+sobre o SVM linear e que o desempenho dos dois foi
+comparável em textos técnicos com baixa polissemia. Esse argumento permanece válido enquanto o único critério 
 de avaliação for a acurácia. O presente trabalho examina esse argumento medindo o ganho do BERTimbau sobre o SVM e investigando se a camada de XAI e grafo de co-ocorrência contribui para a auditabilidade do processo de classificação.
 
 % ---------------------------------------------------------------
@@ -2383,7 +2394,7 @@ O cronograma a seguir apresenta as fases do Trabalho de Conclusão de Curso II (
     2. XAI e grafo & outubro a 01/11/2026 & Concluída (rodada oficial do SHAP e do LIME em 01/11) \\
     3. Sistema e interface & até 05/11/2026 & Concluída (prova de conceito funcionando em 05/11) \\
     4. Escrita do documento & 02/11 a 07/11/2026 & Concluída (capítulos 1 a 4 redigidos) \\
-    5. Prévia e entrega & 10/11 e 24/11/2026 & Prévia da banca realizada; entrega final agendada\\
+    5. Prévia e entrega & 10/11 e 27/11/2026 & Prévia da banca realizada; entrega final agendada\\
     \bottomrule
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Em relação ao plano inicial, a interface passou a ser servida com \textit{Flask}, em vez de \textit{FastAPI}.}
