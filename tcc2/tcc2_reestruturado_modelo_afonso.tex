@@ -375,7 +375,15 @@ Chamados categorizados incorretamente são encaminhados para equipes que não po
 % ---------------------------------------------------------------
 \subsection{Processamento de Linguagem Natural para classificação de texto}
 
-Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto da classificação de chamados, o PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários.
+Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto da classificação de chamados, o PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários. A Figura~\ref{fig:fluxo_pln} resume esse fluxo.
+
+\begin{figure}[H]
+    \caption{Fluxo geral de PLN para a classificação de texto de chamados}
+    \label{fig:fluxo_pln}
+    \centering
+    \includegraphics[width=\textwidth]{imagens/fluxo_pln.png}
+    \legend{Fonte: Elaborado pelos autores.}
+\end{figure}
 
 \subsubsection{Representações vetoriais de texto}
 \label{subsec:pln_representacoes}
@@ -1734,7 +1742,17 @@ A camada de processamento é responsável pela execução das etapas de pré-pro
 
 Já a camada de dados é responsável pelo armazenamento das informações relacionadas aos chamados classificados e aos resultados gerados pelo sistema.
 
-O fluxo geral de funcionamento da aplicação segue as seguintes etapas (Figura~\ref{fig:arquitetura}):
+A Figura~\ref{fig:arquitetura} apresenta o diagrama de componentes da solução, com as três camadas e as interfaces entre elas.
+
+\begin{figure}[H]
+    \caption{Arquitetura da solução: diagrama de componentes UML}
+    \label{fig:arquitetura}
+    \centering
+    \includegraphics[width=0.82\textwidth]{imagens/uml_componentes.png}
+    \legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+O fluxo geral de funcionamento da aplicação segue as seguintes etapas:
 
 \begin{enumerate}
     \item \textbf{Entrada do modelo}: a descrição curta e a descrição completa do chamado, sem remoção de \textit{stopwords}, são passadas como um par de textos ao tokenizador do BERTimbau, que as converte em \textit{tokens} com seus respectivos IDs e máscaras de atenção. A remoção de \textit{stopwords} é usada apenas na construção do grafo.
@@ -1748,32 +1766,6 @@ O fluxo geral de funcionamento da aplicação segue as seguintes etapas (Figura~
     \item \textbf{Apresentação ao analista}: a interface recebe o JSON, renderiza o grafo e exibe a categoria predita, o índice de confiança, as palavras destacadas por cor (azul, a favor da classe prevista; laranja, contra) e os valores SHAP e LIME comparativos.
 \end{enumerate}
 
-\begin{figure}[H]
-    \caption{Arquitetura da solução: do chamado à interface}
-    \label{fig:arquitetura}
-    \centering
-    \begin{tikzpicture}[
-        caixa/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, text width=3.0cm, minimum height=1.1cm, inner sep=3pt},
-        seta/.style={->, >=stealth, thick}
-    ]
-        \node[caixa] (a) at (0,0) {Chamado\\(descrição curta e completa)};
-        \node[caixa] (b) at (3.9,0) {Tokenizador\\do BERTimbau};
-        \node[caixa] (c) at (7.8,0) {BERTimbau com \textit{fine-tuning}};
-        \node[caixa] (d) at (11.7,0) {Categoria prevista e probabilidades};
-        \node[caixa] (e) at (0,-2.3) {SHAP e LIME\\(peso de cada palavra)};
-        \node[caixa] (f) at (3.9,-2.3) {Grafo de\\co-ocorrência};
-        \node[caixa] (g) at (7.8,-2.3) {Arquivo JSON\\(nós e arestas)};
-        \node[caixa] (h) at (11.7,-2.3) {Interface \textit{React}};
-        \draw[seta] (a) -- (b);
-        \draw[seta] (b) -- (c);
-        \draw[seta] (c) -- (d);
-        \draw[seta] (d.south) -- ++(0,-0.575) -| (e.north);
-        \draw[seta] (e) -- (f);
-        \draw[seta] (f) -- (g);
-        \draw[seta] (g) -- (h);
-    \end{tikzpicture}
-    \legend{Fonte: Elaborado pelos autores.}
-\end{figure}
 
 \subsection{Tecnologias e ferramentas}
 

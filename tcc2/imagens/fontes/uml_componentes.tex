@@ -1,0 +1,61 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{preambulo}
+\newcommand{\st}[1]{{\scriptsize\itshape\color{azulescuro} #1}}
+\begin{document}
+\begin{tikzpicture}[
+    font=\footnotesize\color{cinzatexto},
+    comp/.style={draw=azulmedio, fill=white, line width=0.9pt, rounded corners=6pt, align=center, minimum height=1.45cm, inner sep=4pt, text width=3.5cm},
+    compl/.style={comp, draw=laranja},
+    layer/.style={dashed, line width=1pt, rounded corners=9pt, inner sep=7pt},
+    seta/.style={-{Stealth[length=2.6mm]}, line width=1.3pt, color=azulescuro},
+    rot/.style={font=\scriptsize\color{cinzatexto}, align=left, text width=5.4cm, anchor=west},
+    nome/.style={font=\footnotesize\bfseries\color{cinzatitulo}}
+]
+% ---------- camada de apresentação
+\node[comp, text width=6.4cm] (ui) at (0,1.9)
+  {\st{«component»}\\{\small\bfseries\color{cinzatitulo} Interface web}\\\scriptsize \textit{React}, \textit{Vite}, \textit{vis-network}\\[-1pt]\scriptsize formulário, categoria, grafo e histórico};
+% ---------- camada de processamento
+\node[comp] (tok) at (-2.6,-4.4) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} Tokenizador}\\\scriptsize do BERTimbau};
+\node[comp] (bert) at (2.6,-4.4) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} BERTimbau}\\\scriptsize com \textit{fine-tuning}};
+\node[compl] (shap) at (-2.6,-6.5) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} SHAP}\\\scriptsize importância das palavras};
+\node[compl] (lime) at (2.6,-6.5) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} LIME}\\\scriptsize importância das palavras};
+\node[compl, text width=4.6cm] (graf) at (0,-8.6) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} Construtor do grafo}\\\scriptsize co-ocorrência ponderada};
+\node[inner sep=0pt] (topsrv) at (0,-3.0) {};
+\node[inner sep=0pt, fit=(topsrv)(tok)(bert)(shap)(lime)(graf), inner xsep=13pt, inner ysep=10pt] (srv) {};
+\begin{scope}[on background layer]\draw[draw=azulescuro, fill=white, line width=1.1pt, rounded corners=7pt] (srv.south west) rectangle (srv.north east);\end{scope}
+\node[anchor=north west, align=left] at ($(srv.north west)+(0.2,-0.12)$) {\st{«component»}\\[-1pt]\footnotesize\bfseries\color{cinzatitulo} Serviço de classificação e explicação \normalfont(\textit{Flask})};
+% ---------- camada de dados
+\node[comp, text width=5.6cm] (dados) at (0,-13.0) {\st{«component»}\\{\small\bfseries\color{cinzatitulo} Histórico de chamados}\\\scriptsize chamados classificados\\e resultados (JSON)};
+% ---------- camadas
+\node[inner sep=0pt] (topui) at (0,3.1) {};
+\node[inner sep=0pt] (topdados) at (0,-12.0) {};
+\begin{scope}[on background layer]
+\node[layer, draw=azulmedio, fill=azulclaro, fit=(topui)(ui), inner xsep=36pt, inner ysep=7pt] (l1) {};
+\node[layer, draw=laranja, fill=laranjaclaro, fit=(srv), inner xsep=24pt, inner ysep=13pt] (l2) {};
+\node[layer, draw=azulmedio, fill=azulclaro, fit=(topdados)(dados), inner xsep=36pt, inner ysep=7pt] (l3) {};
+\end{scope}
+\node[anchor=north west, font=\scriptsize\bfseries\color{azulescuro}] at ($(l1.north west)+(0.2,-0.12)$) {CAMADA DE APRESENTAÇÃO};
+\node[anchor=north west, font=\scriptsize\bfseries\color{laranjaescuro}] at ($(l2.north west)+(0.2,-0.12)$) {CAMADA DE PROCESSAMENTO};
+\node[anchor=north west, font=\scriptsize\bfseries\color{azulescuro}] at ($(l3.north west)+(0.2,-0.12)$) {CAMADA DE DADOS};
+% ---------- fluxo interno
+\draw[seta] (tok) -- node[above, font=\scriptsize\itshape] {tokens} (bert);
+\draw[seta] (bert.south) -- (lime.north);
+\draw[seta] (bert.south west) -- (shap.north east);
+\draw[seta] (shap.south) -- ++(0,-0.4) -| ([xshift=-0.8cm]graf.north);
+\draw[seta] (lime.south) -- ++(0,-0.4) -| ([xshift=0.8cm]graf.north);
+% ---------- interfaces (bola e soquete)
+\tikzset{iface/.style={line width=1.1pt, color=azulescuro}}
+\coordinate (c1) at ($(l1.south)!0.5!(l2.north)$);
+\draw[iface, fill=white] (c1) circle (0.13);
+\draw[iface] ($(c1)+(0.26,0)$) arc (0:180:0.26);
+\draw[iface] ($(c1)+(0,0.26)$) -- (ui.south);
+\draw[iface] ($(c1)+(0,-0.13)$) -- (srv.north |- l2.north) -- (srv.north);
+\node[rot] at ($(c1)+(0.5,0)$) {chamado (texto) $\rightarrow$\\categoria, confiança,\\explicações e grafo (JSON) $\leftarrow$};
+\coordinate (c2) at ($(l2.south)!0.5!(l3.north)$);
+\draw[iface, fill=white] (c2) circle (0.13);
+\draw[iface] ($(c2)+(0.26,0)$) arc (0:180:0.26);
+\draw[iface] ($(c2)+(0,0.26)$) -- (srv.south |- l2.south) -- (srv.south);
+\draw[iface] ($(c2)+(0,-0.13)$) -- (dados.north);
+\node[rot] at ($(c2)+(0.5,0)$) {grava e consulta os resultados};
+\end{tikzpicture}
+\end{document}
