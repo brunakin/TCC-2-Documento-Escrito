@@ -384,7 +384,7 @@ Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial 
 \subsubsubsection{\textit{TF-IDF} e modelos baseados em frequência}
 \label{subsubsec:pln_tfidf}
 
-A representação mais simples de um documento para fins de classificação é o modelo \textit{bag-of-words}: cada documento é representado como um vetor de contagens de palavras, sem considerar a ordem em que aparecem. O \textit{TF-IDF} é um refinamento desse modelo que pondera cada termo pelo produto de duas quantidades: a frequência do termo no documento (TF, de \textit{term frequency}) e o inverso de sua frequência no corpus (IDF, de \textit{inverse document frequency}), sendo o corpus o conjunto de textos usado como base, aqui os chamados. Com isso, reduz o peso de termos muito comuns e aumenta o peso de termos mais informativos \cite{razma2026}.
+A representação mais simples de um documento para fins de classificação é o modelo \textit{bag-of-words}: cada documento é representado como um vetor de contagens de palavras, sem considerar a ordem em que aparecem. O \textit{TF-IDF} é um refinamento desse modelo que pondera cada termo pelo produto de duas quantidades: a frequência do termo no documento (TF, de \textit{term frequency}) e o inverso de sua frequência no corpus (IDF, de \textit{inverse document frequency}), sendo o corpus o conjunto de textos usado como base, aqui os chamados. Com isso, reduz o peso de termos muito comuns e aumenta o peso de termos mais informativos.
 
 Formalmente, o peso de um termo $t$ em um documento $d$ é
 \begin{equation}
@@ -521,7 +521,7 @@ A literatura sobre classificação automática de chamados de suporte em portugu
 % ---------------------------------------------------------------
 \subsection{O modelo BERT e suas variantes}
 
-Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é o modelo desta família mais amplamente adotado para tarefas de classificação de texto. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro, sendo o modelo adotado neste trabalho.
+Modelos de linguagem baseados na arquitetura \textit{Transformer} \cite{vaswani2017} aprendem representações contextualizadas de texto por meio de mecanismos de atenção que consideram simultaneamente todas as posições de uma sequência de entrada. O BERT \cite{devlin2019} é um modelo desta família, pré-treinado sobre texto sem rótulos e adaptado a tarefas como a classificação de texto por \textit{fine-tuning}. O BERTimbau \cite{souza2020} é uma variante do BERT pré-treinada especificamente sobre corpora em português brasileiro, sendo o modelo adotado neste trabalho.
 
 \subsubsection{Arquitetura \textit{Transformer} e mecanismo de atenção}
 \label{subsec:bert_transformer}
@@ -672,7 +672,7 @@ A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança exibid
 
 \citeonline{souza2020} desenvolveram o BERTimbau a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 335M parâmetros).
 
-A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT Multilíngue) está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente \cite{devlin2019}, o que dilui a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
+A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT Multilíngue) está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente \cite{pires2019}, o que tende a diluir a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsubsection{Desempenho em tarefas de PLN em PT-BR}
@@ -746,7 +746,7 @@ Essa ideia é consistente com a literatura de XAI mais ampla: as explicações
 \subsubsubsection{Taxonomia de métodos XAI: intrínsecos versus \textit{post-hoc}, locais versus globais}
 \label{subsubsec:xai_taxonomia}
 
-Os métodos de XAI podem ser classificados segundo duas dimensões principais \cite{salih2023}. A primeira dimensão distingue métodos intrínsecos dos métodos \textit{post-hoc}. Métodos intrínsecos são aqueles em que a interpretabilidade é uma propriedade do próprio modelo: árvores de decisão, regressão logística e modelos lineares em geral são interpretáveis por construção, pois seus parâmetros têm significado diretamente interpretável. Métodos \textit{post-hoc} são aplicados após o treinamento, sobre modelos de qualquer complexidade, e produzem explicações sem modificar o modelo original.
+Os métodos de XAI costumam ser classificados segundo duas dimensões principais. A primeira dimensão distingue métodos intrínsecos dos métodos \textit{post-hoc}. Métodos intrínsecos são aqueles em que a interpretabilidade é uma propriedade do próprio modelo: árvores de decisão, regressão logística e modelos lineares em geral são interpretáveis por construção, pois seus parâmetros têm significado diretamente interpretável. Métodos \textit{post-hoc} são aplicados após o treinamento, sobre modelos de qualquer complexidade, e produzem explicações sem modificar o modelo original.
 
 A segunda dimensão distingue explicações locais das globais. Explicações locais descrevem o comportamento do modelo para uma instância específica de entrada (exemplo: por que o modelo classificou \textit{este} chamado como ``Acesso''?). Explicações globais descrevem o comportamento geral do modelo (exemplo: quais termos são mais importantes para cada categoria em média?). SHAP e LIME são métodos \textit{post-hoc} que operam primariamente no nível local, embora o SHAP permita agregações que produzem explicações globais.
 
@@ -1241,10 +1241,7 @@ que combina estrutura relacional do texto com relevância explicativa
 do modelo.
 
 Essa camada de visualização tem o potencial de transformar a saída 
-opaca do modelo em uma representação auditável, o que responde à 
-limitação apontada por \citeonline{zemp2021} e \citeonline{razma2026}: 
-sem acesso às razões da decisão, analistas de suporte não conseguem 
-verificar o comportamento do modelo. O presente trabalho avalia a 
+opaca do modelo em uma representação auditável, o que responde a uma limitação dos classificadores opacos: sem acesso às razões da decisão, fica difícil para os analistas de suporte avaliar o comportamento do modelo e decidir se confiam nele \cite{ribeiro2016}. O presente trabalho avalia a 
 propriedade técnica de auditabilidade da representação proposta, sem 
 medir a adoção efetiva do sistema por usuários. Sua implementação é detalhada no Capítulo~\ref{cap:desenvolvimento}.
 
