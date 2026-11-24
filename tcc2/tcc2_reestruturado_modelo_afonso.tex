@@ -258,7 +258,7 @@ Mas uma explicação só ajuda se for confiável e legível, e há dois obstácu
 
 Quando é possível voltar do resultado ao chamado e conferir quais palavras e pesos o produziram, diz-se que a decisão é auditável (auditabilidade).
 
-Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% (média do F1, que combina precisão e revocação, calculada com o mesmo peso para cada categoria), em 226.438 chamados \cite{yokota2025}, e de 84,0\%, em chamados de um único tribunal \cite{carvalho2026}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
+Em português brasileiro, esse tema é pouco explorado. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% (média do F1, que combina precisão e revocação, calculada com o mesmo peso para cada categoria), em 226.438 chamados \cite{yokota2025}, e de 84,0\% usando apenas título e descrição, em chamados de um único tribunal \cite{carvalho2026}, e nenhum aplica modelos BERT com explicações. Fora do português, \citeonline{razma2026} usaram o LIME e o SHAP sobre chamados de TI, mas mostraram as explicações em exemplos, sem medir sua fidelidade ou estabilidade e sem estruturá-las em grafo. Não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de TI em português (Seção~\ref{sec:trabalhos_relacionados}).
 
 É essa lacuna que este trabalho busca preencher. A proposta é classificar chamados com o BERTimbau, uma versão do BERT para o português brasileiro \cite{souza2020}, explicar cada decisão com SHAP e LIME, comparar os dois métodos quanto à fidelidade e à estabilidade e apresentar as explicações em um grafo de co-ocorrência, para avaliar se ele permite rastrear cada decisão. Isso é feito por meio de um \textit{pipeline}, uma sequência de etapas que vai do chamado à categoria prevista e à sua explicação. O desempenho do BERTimbau é comparado ao de um modelo de referência (\textit{baseline}), um SVM (\textit{Support Vector Machine} -- Máquina de Vetores de Suporte) com TF-IDF (\textit{Term Frequency--Inverse Document Frequency} -- Frequência do Termo--Inverso da Frequência nos Documentos), classificador tradicional que pesa cada palavra pela frequência no chamado e pela raridade no conjunto. Os dados são 53.279 chamados reais, em 11 categorias, cedidos pela Empresa B e pela Empresa A.
 
@@ -333,7 +333,7 @@ No entanto, desempenho não basta para que um sistema de classificação seja ad
 
 A área de XAI oferece métodos para isso, mas a qualidade das explicações ainda precisa ser examinada no contexto de chamados de TI. O LIME depende de amostragem aleatória \cite{ribeiro2016} e, por isso, neste trabalho verifica-se se a explicação varia entre execuções. Os resultados do SHAP e do LIME dependem do modelo adotado e da colinearidade entre as \textit{features} \cite{salih2023}. Um estudo anterior com chamados de TI, por sua vez, mostrou as explicações apenas em exemplos, sem medir fidelidade nem estabilidade \cite{razma2026}. Medir essas propriedades permite comparar os dois métodos com base em evidência, e não apenas em exemplos. Já a modelagem em grafos pode oferecer uma forma visual e estrutural de apresentar como as palavras do chamado se relacionam, além da lista de pesos por palavra.
 
-Há ainda uma lacuna para o português brasileiro. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% e de 84,0\%, sem aplicar modelos BERT com explicações \cite{yokota2025, carvalho2026}. Também não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de suporte. O vocabulário técnico e os erros de ortografia, comuns em chamados de suporte \cite{zemp2021}, tornam essa verificação em português ainda mais necessária.
+Há ainda uma lacuna para o português brasileiro. Os trabalhos encontrados sobre classificação de chamados em português reportam F1-macro de até 61\% e de 84,0\% (este último usando apenas título e descrição), sem aplicar modelos BERT com explicações \cite{yokota2025, carvalho2026}. Também não foi identificado trabalho que reúna a classificação com BERT, a comparação entre SHAP e LIME e o grafo de co-ocorrência para chamados de suporte. O vocabulário técnico e os erros de ortografia, comuns em chamados de suporte \cite{zemp2021}, tornam essa verificação em português ainda mais necessária.
 
 Investigar se essa camada de explicabilidade torna o processo decisório mais compreensível representa, portanto, uma contribuição relevante para a prática e para a ciência. Na prática, o analista pode conferir a decisão do modelo, o gestor pode auditar a triagem e identificar erros, e quem desenvolve o modelo pode encontrar palavras sem valor informativo que pesam na decisão, como já observado por \citeonline{mustafa2025}; além disso, o trabalho entrega uma prova de conceito de interface para chamados em português. Na ciência, compara-se SHAP e LIME em um idioma e um domínio pouco estudados, com medidas de fidelidade, estabilidade e concordância. Mede-se também o ganho do BERTimbau sobre o \textit{baseline} SVM com TF-IDF, relevante porque \citeonline{wahba2023} questiona o custo-benefício do BERT.
 
@@ -349,7 +349,7 @@ Este capítulo apresenta a base teórica e o estado da arte do trabalho. Ele com
 \section{Metodologia da pesquisa bibliográfica}
 \label{sec:metodologia_pesquisa_bib}
 
-A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. Foram selecionados artigos publicados entre 2021 e 2026, em português e inglês, que tivessem relação direta com o tema abordado.
+A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. Foram selecionados artigos publicados entre 2021 e 2026, em português e inglês, que tivessem relação direta com o tema abordado. Foram acrescentadas, fora desse recorte, as obras fundamentais dos métodos utilizados (como o \textit{Transformer}, o BERT, o LIME e o SHAP).
 
 % ---------------------------------------------------------------
 % FUNDAMENTOS TEÓRICOS (inclui as técnicas, métodos e abordagens existentes)
@@ -508,7 +508,7 @@ A automação da triagem de chamados por meio de aprendizado de máquina tem sid
 \subsubsubsection{Modelos clássicos: \textit{Naive Bayes} e SVM com TF-IDF}
 \label{subsubsec:helpdesk_classicos}
 
-As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} (Bayes ingênuo, classificador probabilístico que supõe que as palavras são independentes entre si) e SVM, com vetorização TF-IDF, representação que pondera cada palavra pela frequência no chamado e pela raridade no conjunto de chamados (Seção~\ref{subsubsec:pln_tfidf}). Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia e \textit{F1-score} (métricas definidas na Seção~\ref{subsec:metricas_classificacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
+As primeiras abordagens automatizadas para classificação de chamados utilizaram algoritmos clássicos de aprendizado de máquina combinados com representações baseadas em frequência de termos. \citeonline{harun2023} investigaram a classificação automática de perguntas em um sistema de \textit{help desk} universitário, comparando \textit{Naive Bayes} (Bayes ingênuo, classificador probabilístico que supõe que as palavras são independentes entre si) e SVM, com vetorização TF-IDF, representação que pondera cada palavra pela frequência no chamado e pela raridade no conjunto de chamados (Seção~\ref{subsubsec:pln_tfidf}). Os resultados demonstraram que o SVM com TF-IDF supera o \textit{Naive Bayes} em acurácia (métrica definida na Seção~\ref{subsec:metricas_classificacao}), estabelecendo-se como referência para abordagens clássicas nesse domínio.
 
 Apesar de sua eficiência computacional e facilidade de interpretação, esses modelos apresentam limitações na captura de relações semânticas entre termos. A representação TF-IDF trata cada palavra de forma independente, sem considerar o contexto em que ela aparece, o que restringe a capacidade do modelo de distinguir categorias semanticamente próximas.
 
@@ -682,7 +682,7 @@ A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança exibid
 \subsubsubsection{Corpus de pré-treinamento e diferenças em relação ao mBERT}
 \label{subsubsec:bertimbau_corpus}
 
-\citeonline{souza2020} desenvolveram o BERTimbau a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 330M parâmetros).
+\citeonline{souza2020} desenvolveram o BERTimbau a partir do BrWaC (\textit{Brazilian Web as Corpus}), um grande corpus de páginas \textit{web} em português com 2,68 bilhões de \textit{tokens}. Duas versões foram disponibilizadas: BERTimbau-base (12 camadas, 110M parâmetros) e BERTimbau-large (24 camadas, 335M parâmetros; o artigo arredonda esse total para 330M).
 
 A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT Multilíngue) está no foco linguístico: o mBERT foi pré-treinado sobre 104 idiomas simultaneamente \cite{pires2019}, o que tende a diluir a capacidade de representação para cada língua individualmente. O BERTimbau, ao ser pré-treinado exclusivamente sobre texto em português brasileiro, aprende padrões morfológicos, sintáticos e semânticos específicos do idioma com maior profundidade.
 
@@ -704,11 +704,11 @@ A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT
     \midrule
     Similaridade textual (ASSIN2) & Correlação de Pearson & 0,836 & 0,809 & 0,83 \\
     Inferência textual (ASSIN2) & F1 (\%) & 89,2 & 86,8 & 88,3 \\
-    NER no MiniHAREM (5 classes) & F1 (\%) & 83,1 & 79,2 & 82,3 \\
-    NER no MiniHAREM (10 classes) & F1 (\%) & 77,6 & 73,1 & 74,6 \\
+    NER no MiniHAREM (5 classes, com CRF) & F1 (\%) & 83,1 & 79,2 & 82,3 \\
+    NER no MiniHAREM (10 classes, com CRF) & F1 (\%) & 77,6 & 73,1 & 74,6 \\
     \bottomrule
   \end{tabular}
-  \legend{Fonte: Adaptado de \citeonline{souza2020}.\\ Nota: A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
+  \legend{Fonte: Adaptado de \citeonline{souza2020}.\\ Nota: Nas linhas de NER, os valores do BERTimbau-base e do mBERT são das versões com camada CRF (\textit{Conditional Random Field}) sobre o BERT. A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
 \end{table}
 
 \subsubsection{\textit{Fine-tuning} de BERT para classificação de chamados de TI}
@@ -784,7 +784,7 @@ e interpretável.
 
 O processo de geração de uma explicação LIME para uma instância de 
 texto ocorre em quatro etapas. Primeiro, o texto original é perturbado 
-pela remoção ou substituição aleatória de palavras, criando um conjunto 
+pela remoção aleatória de palavras, criando um conjunto 
 de versões modificadas da frase. Segundo, cada versão modificada é 
 submetida ao modelo para que ele produza uma predição, permitindo 
 observar se e como a resposta muda conforme as palavras são alteradas. 
@@ -959,7 +959,7 @@ valor final do modelo.
 \subsubsubsection{Propriedades matemáticas: eficiência, simetria e ausência}
 \label{subsubsec:shap_propriedades}
 
-A formulação baseada em valores de Shapley garante ao SHAP propriedades matemáticas desejáveis, que o distinguem de métodos \textit{ad hoc} de atribuição de importância. \citeonline{lundberg2017} formulam essas propriedades como acurácia local, ausência (\textit{missingness}) e consistência, que correspondem aos axiomas clássicos de Shapley de eficiência, jogador nulo e monotonicidade. Na forma clássica dos axiomas de Shapley, as propriedades de interesse aqui são três.
+A formulação baseada em valores de Shapley garante ao SHAP propriedades matemáticas desejáveis, que o distinguem de métodos \textit{ad hoc} de atribuição de importância. \citeonline{lundberg2017} formulam essas propriedades como acurácia local, ausência (\textit{missingness}) e consistência, que se relacionam aos axiomas clássicos de Shapley de eficiência, jogador nulo e monotonicidade. Na forma clássica dos axiomas de Shapley, as propriedades de interesse aqui são três.
 
 \textbf{Eficiência (acurácia local):}
 
@@ -1294,7 +1294,7 @@ e o combinou com SHAP, LIME e visualização em grafos para explicar as classifi
 
 \subsection{Trabalho 4: AI-Based Classification of IT Support Requests in Enterprise Service Management Systems}
 
-\citeonline{razma2026} compararam regressão logística com TF-IDF, mBERT e XLM-RoBERTa na classificação de mais de 87 mil chamados multilíngues de uma empresa de manufatura, e aplicaram o LIME (à regressão logística e ao mBERT) e o SHAP (à regressão logística) a exemplos de chamados. Os \textit{transformers} tiveram F1-macro maior, e as explicações do BERT destacaram termos mais contextuais que as do modelo linear. Pelo que o artigo apresenta, as explicações são mostradas em exemplos, sem medidas de fidelidade, estabilidade ou concordância entre os métodos, e sem estruturá-las em grafo. O presente trabalho mede essas propriedades para SHAP e LIME sobre o BERTimbau, em chamados em português, e as representa em um grafo de co-ocorrência.
+\citeonline{razma2026} compararam regressão logística com TF-IDF, mBERT e XLM-RoBERTa na classificação de mais de 87 mil chamados multilíngues de uma empresa de manufatura, e aplicaram o LIME (à regressão logística e ao mBERT) e o SHAP (à regressão logística, em gráficos-resumo globais), mostrando as explicações do LIME em exemplos de chamados. Os \textit{transformers} tiveram F1-macro maior, e as explicações do BERT destacaram termos mais contextuais que as do modelo linear. Pelo que o artigo apresenta, as explicações são mostradas em exemplos, sem medidas de fidelidade, estabilidade ou concordância entre os métodos, e sem estruturá-las em grafo. O presente trabalho mede essas propriedades para SHAP e LIME sobre o BERTimbau, em chamados em português, e as representa em um grafo de co-ocorrência.
 
 \vspace{0.5cm}
 
@@ -1332,7 +1332,7 @@ e o combinou com SHAP, LIME e visualização em grafos para explicar as classifi
 \subsubsection{O debate BERT versus SVM em domínios especializados}
 \label{subsubsec:helpdesk_debate}
 
-\citeonline{wahba2023}, em sua tese de doutorado na Universidade de Western Ontario, propõe um contraponto relevante ao uso indiscriminado de modelos baseados em \textit{transformers} para classificação de texto em domínios especializados. Com base em quatro anos de estudos empíricos com dados reais de uma empresa parceira, a autora argumenta que chamados de suporte de TI utilizam vocabulário técnico específico e de baixa ambiguidade. Nesse contexto, a principal vantagem do BERT, que é compreender 
+\citeonline{wahba2023}, em sua tese de doutorado na Universidade de Western Ontario, propõe um contraponto relevante ao uso indiscriminado de modelos baseados em \textit{transformers} para classificação de texto em domínios especializados. Com base em cinco estudos empíricos realizados ao longo de quatro anos, com dados de uma empresa parceira e também com bases públicas de texto, a autora argumenta que chamados de suporte de TI utilizam vocabulário técnico específico e de baixa ambiguidade. Nesse contexto, a principal vantagem do BERT, que é compreender 
 palavras com múltiplos sentidos dependendo do contexto, tem impacto 
 reduzido, tornando o SVM com TF-IDF competitivo em termos de 
 desempenho.
@@ -1378,7 +1378,7 @@ O trabalho de \citeonline{zemp2021} demonstra que sistemas de classificação de
 \subsubsection{Carência de soluções robustas para PT-BR em \textit{help desk}}
 \label{subsubsec:lacuna_ptbr}
 
-Os trabalhos de \citeonline{yokota2025} e \citeonline{carvalho2026} evidenciam que as soluções para classificação de chamados de suporte em português brasileiro ainda são poucas e limitadas. \citeonline{yokota2025} reporta F1-macro de até 61\% com \textit{Naive Bayes} e MLP sobre \textit{embeddings}. \citeonline{carvalho2026} reporta F1-macro de 84,0\% com BERTimbau ajustado, em chamados de um único tribunal, e os próprios autores apontam como limitações a ausência de métricas por classe e de validação em outras instituições. Nenhum dos dois explica as decisões do modelo. Ou seja, o desempenho em português já chega a 84,0\% em um contexto, mas sem transparência sobre as decisões do modelo, o que limita a auditabilidade. Não foi identificado nenhum trabalho nacional que aplique BERTimbau com XAI a chamados de suporte de TI.
+Os trabalhos de \citeonline{yokota2025} e \citeonline{carvalho2026} evidenciam que as soluções para classificação de chamados de suporte em português brasileiro ainda são poucas e limitadas. \citeonline{yokota2025} reporta F1-macro de até 61\% com \textit{Naive Bayes} e MLP sobre \textit{embeddings}. \citeonline{carvalho2026} reporta F1-macro de 84,0\% com BERTimbau ajustado, usando apenas título e descrição, em chamados de um único tribunal (com o campo ``Serviço'' do catálogo, o valor chega a 99,7\%), e os próprios autores apontam como limitações a ausência de métricas por classe e de validação em outras instituições. Nenhum dos dois explica as decisões do modelo. Ou seja, o desempenho em português já chega a 84,0\% em um contexto, usando apenas o texto do chamado, mas sem transparência sobre as decisões do modelo, o que limita a auditabilidade. Não foi identificado nenhum trabalho nacional que aplique BERTimbau com XAI a chamados de suporte de TI.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 \subsubsection{Custo-benefício do BERT sem camada de explicabilidade}
