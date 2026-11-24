@@ -349,7 +349,35 @@ Este capítulo apresenta a base teórica e o estado da arte do trabalho. Ele com
 \section{Metodologia da pesquisa bibliográfica}
 \label{sec:metodologia_pesquisa_bib}
 
-A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. A revisão reúne 26 referências, sendo 14 trabalhos publicados entre 2021 e 2026, em português e inglês, com relação direta com o tema, dos quais oito tratam da classificação de chamados de TI e são os principais, e seis apoiam o estudo em explicabilidade, grafos e classificação de texto e servem de referência. Fora desse recorte, foram acrescentadas 12 obras anteriores a 2021, das quais cinco são seminais dos métodos utilizados, que são o \textit{Word2Vec}, o \textit{Transformer}, o BERT, o LIME e o SHAP, e sete dão apoio ao trabalho, como o BERTimbau, o BERT multilíngue, as redes de grafos para texto, a avaliação de fidelidade, o método \textit{bootstrap}, o ITIL e a LGPD.
+A pesquisa bibliográfica foi realizada nas bases Google Scholar, IEEE Xplore, arXiv e SciELO, utilizando as palavras-chave ``BERT'', ``Grafos'', ``XAI'', ``PLN'', ``Help Desk'', ``Chamados de TI'', ``SHAP'', ``LIME'', ``Tickets'', ``Support'', ``Pipeline'', ``Classificação'', ``Caixa Preta'' e ``Knowledge Graph'', entre outras. A revisão reúne 26 referências, sendo 14 trabalhos publicados entre 2021 e 2026, em português e inglês, com relação direta com o tema, dos quais oito tratam da classificação de chamados de TI e são os principais, e seis apoiam o estudo em explicabilidade, grafos e classificação de texto e servem de referência. Fora desse recorte, foram acrescentadas 12 obras anteriores a 2021, das quais cinco são seminais dos métodos utilizados, que são o \textit{Word2Vec}, o \textit{Transformer}, o BERT, o LIME e o SHAP, e sete dão apoio ao trabalho, como o BERTimbau, o BERT multilíngue, as redes de grafos para texto, a avaliação de fidelidade, o método \textit{bootstrap}, o ITIL e a LGPD. A Tabela~\ref{tab:referencias_revisao} mostra como as referências se distribuem entre os grupos.
+
+\begin{table}[htb]
+    \centering
+    \caption{Organização das referências da revisão bibliográfica}
+    \label{tab:referencias_revisao}
+    \footnotesize
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{4.6cm}|>{\centering\arraybackslash}p{1.0cm}|>{\raggedright\arraybackslash}p{6.0cm}}
+        \toprule
+        \textbf{Grupo} & \textbf{Critério} & \textbf{Qtd.} & \textbf{Referências} \\
+        \midrule
+        Seminais & Anteriores a 2021; propuseram os métodos utilizados & 5 &
+        \cite{mikolov2013,vaswani2017,devlin2019,ribeiro2016,lundberg2017} \\
+        \midrule
+        De apoio & Anteriores a 2021; sustentam o modelo, a avaliação, a estatística e as normas & 7 &
+        \cite{souza2020,pires2019,yao2019,jacovi2020,efron1993,axelos2019,brasil2018} \\
+        \midrule
+        Principais & De 2021 a 2026; tratam da classificação de chamados de TI & 8 &
+        \cite{zemp2021,wahba2023,yokota2025,pereira2023,harun2023,paramesh2022,razma2026,carvalho2026} \\
+        \midrule
+        De referência & De 2021 a 2026; apoiam em explicabilidade, grafos ou classificação de texto & 6 &
+        \cite{salih2023,mustafa2025,yang2021,talebi2025,attanasio2023,borges2024} \\
+        \midrule
+        \textbf{Total} & & \textbf{26} & \\
+        \bottomrule
+    \end{tabular}
+    \vspace{0.2cm}
+    \legend{Fonte: Elaborado pelos autores.}
+\end{table}
 
 % ---------------------------------------------------------------
 % FUNDAMENTOS TEÓRICOS (inclui as técnicas, métodos e abordagens existentes)
