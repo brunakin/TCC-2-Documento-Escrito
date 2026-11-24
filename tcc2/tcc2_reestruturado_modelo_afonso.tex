@@ -415,7 +415,7 @@ Os \textit{embeddings} de palavras representam um avanço significativo em rela�
 
 O GloVe (\textit{Global Vectors for Word Representation} -- Vetores Globais para Representação de Palavras), proposto por \citeonline{pennington2014}, utiliza estatísticas globais de co-ocorrência do corpus para produzir representações com propriedades algébricas notáveis: vetores de palavras semanticamente relacionadas tendem a ser próximos no espaço vetorial, e operações aritméticas entre vetores refletem relações semânticas; o exemplo clássico é que o vetor de ``rei'' menos ``homem'' mais ``mulher'' resulta em um vetor próximo ao de ``rainha'' \cite{mikolov2013}.
 
-Para tornar a ideia concreta, a Tabela~\ref{tab:embedding_exemplo} mostra um exemplo ilustrativo com vetores de quatro dimensões para três palavras do vocabulário de TI. Em um modelo real, os vetores têm centenas de dimensões e seus valores são aprendidos a partir do corpus. A proximidade entre dois vetores $u$ e $v$ é medida pela similaridade do cosseno, que compara a direção deles:
+Para tornar a ideia concreta, a Tabela~\ref{tab:embedding_exemplo} mostra um exemplo ilustrativo com vetores de quatro dimensões para três palavras do vocabulário de TI. Em um modelo real, os vetores têm centenas de dimensões e seus valores são aprendidos a partir do corpus. A proximidade entre dois vetores $u$ e $v$ costuma ser medida pela similaridade do cosseno \cite{mikolov2013,pennington2014}, que compara a direção deles:
 \begin{equation}
 \cos(u,v) = \frac{u \cdot v}{\lVert u \rVert \, \lVert v \rVert}
           = \frac{\sum_{j=1}^{n} u_j v_j}{\sqrt{\sum_{j=1}^{n} u_j^2}\,\sqrt{\sum_{j=1}^{n} v_j^2}}
