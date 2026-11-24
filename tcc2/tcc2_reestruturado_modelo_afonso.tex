@@ -379,7 +379,7 @@ Chamados categorizados incorretamente são encaminhados para equipes que não po
 % ---------------------------------------------------------------
 \subsection{Processamento de Linguagem Natural para classificação de texto}
 
-Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto da classificação de chamados, o PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários. A Figura~\ref{fig:fluxo_pln} resume esse fluxo.
+Processamento de Linguagem Natural (PLN) é o campo da inteligência artificial dedicado ao desenvolvimento de métodos computacionais para compreender, interpretar e gerar linguagem humana. No contexto da classificação de chamados, o PLN é utilizado para representar chamados de suporte técnico como vetores numéricos que um modelo de aprendizado de máquina possa processar, e para extrair informações semânticas dos textos submetidos pelos usuários. Esses vetores podem ser construídos contando a frequência das palavras, como no \textit{TF-IDF}, ou por meio de \textit{embeddings}, vetores de números em que palavras com sentido parecido tendem a ficar próximas \cite{mikolov2013}. A Figura~\ref{fig:fluxo_pln} resume esse fluxo.
 
 \begin{figure}[H]
     \caption{Fluxo geral de PLN para a classificação de texto de chamados}
