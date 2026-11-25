@@ -173,6 +173,7 @@ The results were integrated into a web interface that classifies a typed ticket,
   \item[CNN] \textit{Convolutional Neural Network} (Rede Neural Convolucional)
   \item[CoT] \textit{Chain-of-Thought} (Cadeia de Raciocínio)
   \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
+  \item[CRF] \textit{Conditional Random Field} (Campo Aleatório Condicional)
   \item[CSS] \textit{Cascading Style Sheets} (Folhas de Estilo em Cascata)
   \item[CUDA] \textit{Compute Unified Device Architecture} (Arquitetura Unificada de Dispositivos de Computação)
   \item[E5] \textit{EmbEddings from bidirEctional Encoder rEpresentations} (\textit{Embeddings} a partir de Representações de Codificador Bidirecional)
@@ -675,7 +676,7 @@ O modelo inteiro é ajustado minimizando a entropia cruzada sobre os $N$ chamado
 \mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} \log p(y_i \mid x_i)
 \label{eq:entropia}
 \end{equation}
-A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança exibida na interface é $\max_c p(c \mid x)$.
+A categoria prevista é $\hat y = \arg\max_c p(c \mid x)$, e a confiança é $\max_c p(c \mid x)$.
 
 \subsubsection{BERTimbau: BERT para o português brasileiro}
 \label{subsec:bertimbau}
@@ -710,7 +711,7 @@ A principal diferença em relação ao mBERT (\textit{Multilingual BERT} -- BERT
     NER no MiniHAREM (10 classes, com CRF) & F1 (\%) & 77,6 & 73,1 & 74,6 \\
     \bottomrule
   \end{tabular}
-  \legend{Fonte: Adaptado de \citeonline{souza2020}.\\ Nota: Nas linhas de NER, os valores do BERTimbau-base e do mBERT são das versões com camada CRF (\textit{Conditional Random Field}) sobre o BERT. A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
+  \legend{Fonte: Adaptado de \citeonline{souza2020}.\\ Nota: Nas linhas de NER, os valores do BERTimbau-base e do mBERT são das versões com camada CRF (\textit{Conditional Random Field} -- Campo Aleatório Condicional) sobre o BERT. A versão \textit{large} obteve valores ainda maiores (0,852; 90,0; 83,7 e 78,5).}
 \end{table}
 
 \subsubsection{\textit{Fine-tuning} de BERT para classificação de chamados de TI}
