@@ -1312,12 +1312,14 @@ e o combinou com SHAP, LIME e visualização em grafos para explicar as classifi
         \textbf{Yokota (2025)} & \textbf{Razma e Jurkus (2026)} & \textbf{Este trabalho} \\
         \midrule
         Objetivo & Classificação & Eficiência & Classificação PT-BR & 
-        Classificação + XAI & Classificação + XAI \\
+        Classificação + XAI & Classificação PT-BR + XAI \\
         \midrule
         Tecnologia & RoBERTa / CNN & SVM / HOOM & E5 + \textit{Naive Bayes} / MLP & 
-        mBERT / XLM-RoBERTa / Reg. logística & BERTimbau + Grafos \\
+        mBERT / XLM-RoBERTa / Reg. logística & BERTimbau + grafos de co-ocorrência \\
         \midrule
-        Explicabilidade & Não aborda & Intrínseca & Não aborda & LIME / SHAP (em exemplos) & SHAP / LIME / Grafos \\
+        Explicabilidade & Não aborda & Intrínseca & Não aborda & LIME / SHAP (em exemplos) & SHAP e LIME em grafo, numa interface \textit{web} \\
+        \midrule
+        Medidas de qualidade das explicações & Não aborda & Não aborda & Não aborda & Sem medidas & Fidelidade, estabilidade e concordância \\
         \midrule
         Limitação & Caixa-preta & Dados em inglês; sem explicação por palavra & Baixo desempenho & 
         Sem medidas de qualidade das explicações & Sem avaliação com analistas \\
