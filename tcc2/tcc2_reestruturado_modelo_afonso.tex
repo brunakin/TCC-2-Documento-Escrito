@@ -475,6 +475,16 @@ Para comparar classificadores, calculam-se métricas sobre os chamados do conjun
 \item \textbf{Matriz de confusão}: representação tabular que detalha os tipos de erros cometidos pelo modelo, permitindo identificar padrões sistemáticos de confusão entre categorias semanticamente próximas.
 \end{itemize}
 
+A Figura~\ref{fig:ilus_vp_fp_fn} ilustra, com um exemplo fictício, os acertos e os dois tipos de erro de uma categoria, usados nas fórmulas a seguir.
+
+\begin{figure}[H]
+    \caption{Verdadeiros positivos, falsos positivos e falsos negativos de uma categoria $c$}
+    \label{fig:ilus_vp_fp_fn}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/ilus_vp_fp_fn.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Exemplo fictício, com valores ilustrativos. $VP_c$: chamados da categoria $c$ previstos como $c$; $FN_c$: chamados da categoria $c$ previstos como outra categoria; $FP_c$: chamados de outra categoria previstos como $c$.}
+\end{figure}
+
 Sejam $VP_c$, $FP_c$ e $FN_c$ os verdadeiros positivos, falsos positivos e falsos negativos da categoria $c$; $N$ o número de chamados avaliados; $K$ o número de categorias; $y_i$ a categoria real e $\hat y_i$ a prevista para o chamado $i$. As métricas são calculadas por
 \begin{equation}
 \mathrm{Acurácia} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}\left[\hat{y}_i = y_i\right]
@@ -1448,7 +1458,15 @@ A abordagem proposta segue as etapas abaixo, em ordem cronológica. O cenário A
     qualidade das explicações (Seções~\ref{sec:metricas_avaliacao} e~\ref{subsec:criterios_validacao}).
 \end{enumerate}
 
-Os dados e a implementação de cada etapa são detalhados na Seção~\ref{sec:implementacao}.
+Os dados e a implementação de cada etapa são detalhados na Seção~\ref{sec:implementacao}. A Figura~\ref{fig:ilus_fluxo_cenarios} resume essas etapas e a relação entre os cenários.
+
+\begin{figure}[H]
+    \caption{Etapas da abordagem proposta e cenários experimentais}
+    \label{fig:ilus_fluxo_cenarios}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/ilus_fluxo_cenarios.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: O cenário A usa um modelo à parte, o SVM; os cenários C e D acrescentam, ao BERTimbau do cenário B, as explicações e o grafo.}
+\end{figure}
 
 \subsubsection{Cenários experimentais}
 \label{subsec:experimentos}
@@ -1568,7 +1586,15 @@ O Tau-LOO (maior é melhor) compara o peso $\phi_i$ de cada palavra $i$ com o ef
 \tau_{\mathrm{Kendall}} = \frac{n_c - n_d}{\sqrt{(n_c + n_d + t_x)(n_c + n_d + t_y)}}
 \label{eq:kendall}
 \end{equation}
-em que $F$ é o conjunto de palavras do campo, $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante, e $t_x$ e $t_y$ são os pares empatados em apenas uma das duas listas. É o tau-b, padrão de \texttt{scipy.stats.kendalltau}, que desconta os empates; o tau-a, que divide só por $\binom{n}{2}$, não foi usado. As duas primeiras medidas são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. A \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado. % CONFERIDO: metricas_xai.py usa scipy.stats.kendalltau, que e tau-b.
+em que $F$ é o conjunto de palavras do campo, $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante, e $t_x$ e $t_y$ são os pares empatados em apenas uma das duas listas. É o tau-b, padrão de \texttt{scipy.stats.kendalltau}, que desconta os empates; o tau-a, que divide só por $\binom{n}{2}$, não foi usado. As duas primeiras medidas são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. A \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado. A Figura~\ref{fig:ilus_fidelidade_exemplo} ilustra, com um chamado fictício, as duas perturbações usadas na \textit{comprehensiveness} e na \textit{sufficiency}. % CONFERIDO: metricas_xai.py usa scipy.stats.kendalltau, que e tau-b.
+
+  \begin{figure}[H]
+      \caption{Exemplo das perturbações usadas na \textit{comprehensiveness} e na \textit{sufficiency}}
+      \label{fig:ilus_fidelidade_exemplo}
+      \centering
+      \includegraphics[width=0.9\textwidth]{imagens/ilus_fidelidade_exemplo.png}
+      \legend{Fonte: Elaborado pelos autores.\\ Nota: Chamado fictício, com valores ilustrativos; as palavras destacadas são as de maior peso a favor da classe prevista. Para simplificar, mostra-se um único conjunto de palavras, sem a média sobre as proporções $k$ das Equações~\ref{eq:comp} e~\ref{eq:suff}.}
+  \end{figure}
   \item \textbf{Estabilidade:} mede se a explicação se mantém ao repetir o método sobre o mesmo chamado. Repete-se cada explicação cinco vezes, com sementes diferentes, em chamados com ao menos oito palavras distintas, e comparam-se as repetições duas a duas com três medidas. A primeira é a similaridade de Jaccard entre as cinco palavras de maior peso (em módulo) de cada repetição: o número de palavras em comum dividido pelo número de palavras distintas nos dois conjuntos, que vai de 0 (nenhuma em comum) a 1 (conjuntos idênticos). Por exemplo, os conjuntos \{senha, acessar, VPN, trocar, consigo\} e \{senha, acessar, VPN, login, erro\} têm 3 palavras em comum entre 7 distintas, e Jaccard de $3/7 \approx 0{,}43$. Para dois conjuntos $A$ e $B$:
 
 \begin{equation}
@@ -1870,7 +1896,7 @@ Na base da Empresa B, a anonimização foi feita em duas etapas. Primeiro, um \t
 
 Na base final usada no treino, a varredura de sanidade da anonimização encontrou 24 ocorrências residuais de padrão telefônico rotulado na descrição completa (0 no resumo), que podem incluir falsos positivos, como números de patrimônio depois de ``Tel:''.
 
-As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
+As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}, e a Figura~\ref{fig:graf_categorias_teste} mostra a distribuição dos chamados de teste entre elas.
 
 \begin{table}[htb]
   \centering
@@ -1898,9 +1924,25 @@ As 11 classes da taxonomia harmonizada estão na Tabela~\ref{tab:categorias}.
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
+\begin{figure}[H]
+    \caption{Distribuição dos chamados do conjunto de teste por categoria}
+    \label{fig:graf_categorias_teste}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_categorias_teste.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores da Tabela~\ref{tab:categorias}; total de 5.293 chamados.}
+\end{figure}
+
 A base da Empresa A possui, além da descrição completa, uma descrição curta, que a base da Empresa B não tem; nesse caso, o campo entra vazio. Ainda há chamados com texto repetido nas bases, sobretudo na Empresa B, o que motivou o agrupamento descrito a seguir.
 
-O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte.
+O conjunto combinado foi dividido em 42.692 chamados de treino, 5.294 de validação e 5.293 de teste (proporção aproximada de 80/10/10). A divisão usou \textit{StratifiedGroupKFold} (8 partes para treino, 1 para validação e 1 para teste), estratificada pela categoria e agrupada pelo texto do chamado: chamados com texto idêntico ficam sempre na mesma parte. A Figura~\ref{fig:ilus_divisao_dados} ilustra essa divisão.
+
+\begin{figure}[H]
+    \caption{Divisão do conjunto combinado em treino, validação e teste}
+    \label{fig:ilus_divisao_dados}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/ilus_divisao_dados.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Cada segmento da barra representa uma das 10 partes da divisão; as porcentagens são aproximadas.}
+\end{figure}
 
 O processo de \textit{fine-tuning} seguiu uma abordagem supervisionada de classificação textual. A entrada do modelo é o par formado pela descrição curta e pela descrição completa, limitado a 256 \textit{tokens}; cerca de 10,2\% dos pares ultrapassam esse limite. O treino usou 3 épocas, \textit{batch} de 16, taxa de aprendizado de $2 \times 10^{-5}$ e semente 42. Para reduzir o risco de \textit{overfitting}, fenômeno que ocorre quando o modelo aprende os dados de treino com precisão excessiva e perde a capacidade de generalizar para novos exemplos, o desempenho é acompanhado no conjunto de validação durante o treino. Não foram aplicadas técnicas de balanceamento de classes nem pesos por classe; o desbalanceamento é tratado na avaliação, com o uso do F1-macro. Uma tentativa posterior com pesos por classe, que não foi adotada, é descrita na Seção~\ref{subsec:res_melhoria}.
 
@@ -1985,9 +2027,25 @@ Para responder ao objetivo específico 1, a Tabela~\ref{tab:res_teste} apresenta
   \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença foi positiva em 99,8\% das reamostragens, mas a estimativa pontual fica abaixo da meta de 5 pontos estabelecida inicialmente (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: em cerca de 21\% das reamostragens, a diferença atingiu ao menos 5 pontos.
+A diferença de F1-macro a favor do BERTimbau foi de 3,7 pontos percentuais, com intervalo de confiança de 95\% de 1,0 a 6,7 (\textit{bootstrap} pareado por grupo de texto, 2.000 reamostragens). A diferença foi positiva em 99,8\% das reamostragens, mas a estimativa pontual fica abaixo da meta de 5 pontos estabelecida inicialmente (Seção~\ref{subsec:criterios_validacao}). Como o intervalo inclui os 5 pontos, os dados também não permitem descartar que a diferença verdadeira os alcance: em cerca de 21\% das reamostragens, a diferença atingiu ao menos 5 pontos. A Figura~\ref{fig:graf_metricas_teste} resume as quatro métricas dos dois classificadores.
 
-A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por cerca de 96\% da diferença de 3,7 pontos no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste. Como o F1-macro dá o mesmo peso a todas as classes, o F1 nulo nessa classe reduz a média.
+\begin{figure}[H]
+    \caption{Métricas gerais do SVM e do BERTimbau no conjunto de teste}
+    \label{fig:graf_metricas_teste}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_metricas_teste.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores da Tabela~\ref{tab:res_teste}. A diferença de F1-macro, de 3,7 pontos percentuais, fica abaixo da meta de 5 pontos, e o intervalo de confiança de 95\% (1,0 a 6,7) inclui essa meta.}
+\end{figure}
+
+A Tabela~\ref{tab:res_classe} mostra o F1 por classe. O ganho do BERTimbau se concentra em quatro classes: SOFTWARE e SOLICITACAO\_DE\_SERVICO, com diferenças de 8,5 e 8,0 pontos e intervalos que não incluem o zero, e SERVIDORES e AQUISICAO\_TI, classes pequenas (40 e 16 chamados) com intervalos largos. Juntas, essas quatro classes respondem por cerca de 96\% da diferença de 3,7 pontos no F1-macro. Na maior classe, SISTEMAS\_E\_APLICACOES (46\% do teste), os dois modelos praticamente empatam (0,811 e 0,809). Nenhum dos dois acertou chamados da classe OUTROS, que tem apenas 12 chamados no teste. Como o F1-macro dá o mesmo peso a todas as classes, o F1 nulo nessa classe reduz a média. A Figura~\ref{fig:graf_f1_classe} compara o F1 dos dois modelos em cada classe.
+
+\begin{figure}[H]
+    \caption{F1 por classe do SVM e do BERTimbau no conjunto de teste}
+    \label{fig:graf_f1_classe}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_f1_classe.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores da Tabela~\ref{tab:res_classe}; entre parênteses, o número de chamados da classe no teste.}
+\end{figure}
 
 \begin{table}[htb]
   \centering
@@ -2016,7 +2074,15 @@ OUTROS & 12 & 0,000 & 0,000 & 0,0 & 0,0 a 0,0 \\
 \end{table}
 
 A Tabela~\ref{tab:res_empresa} separa o teste por empresa. O F1-macro de cada empresa é calculado sobre as classes presentes em seus chamados (7 na Empresa B e 9 na Empresa A). Os dois modelos têm desempenho muito maior na Empresa B, e a diferença a favor do BERTimbau é de 1,3 ponto na Empresa B, com intervalo que inclui o zero, e de 4,0 pontos na Empresa A. Como a Empresa A reúne 86\% dos chamados de teste, o resultado geral reflete sobretudo essa empresa. Os 716 chamados da Empresa B formam apenas 337 grupos de texto, e um desses textos, um roteiro de desligamento de colaborador, aparece em 298 chamados da classe ACESSOS\_E\_IDENTIDADE, todos classificados corretamente pelos dois modelos. 
-Sem esse grupo, restam 418 chamados da Empresa B, ainda nas mesmas 7 classes, e o F1-macro da empresa fica em 0,9014 (BERTimbau) e 0,8885 (SVM). A diferença continua de 1,3 ponto, o que mostra que esse grupo repetido não explica o resultado da Empresa B nem a diferença entre os modelos.
+Sem esse grupo, restam 418 chamados da Empresa B, ainda nas mesmas 7 classes, e o F1-macro da empresa fica em 0,9014 (BERTimbau) e 0,8885 (SVM). A diferença continua de 1,3 ponto, o que mostra que esse grupo repetido não explica o resultado da Empresa B nem a diferença entre os modelos. A Figura~\ref{fig:graf_dif_f1_empresa} mostra a diferença de F1-macro e seu intervalo de confiança no total e em cada empresa, ao lado da meta.
+
+\begin{figure}[H]
+    \caption{Diferença de F1-macro entre BERTimbau e SVM no conjunto de teste}
+    \label{fig:graf_dif_f1_empresa}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_dif_f1_empresa.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores da Tabela~\ref{tab:res_empresa}. Barras de erro: intervalo de confiança de 95\%; linha tracejada: meta de 5 p.p. O intervalo inclui a meta nos três casos e, na Empresa B, também o zero.}
+\end{figure}
 
 Parte da diferença entre as empresas pode vir da própria taxonomia: AQUISICAO\_TI e CIBERSEGURANCA só existem na Empresa B, e CONSULTA\_E\_ORIENTACAO, SOFTWARE, SOLICITACAO\_DE\_SERVICO e OUTROS só existem na Empresa A; apenas cinco classes são comuns às duas empresas. Assim, os chamados da Empresa B pertencem a apenas 7 das 11 classes, duas delas exclusivas da empresa.
 
@@ -2108,7 +2174,15 @@ A escolha do escopo combinado (Empresa A e Empresa B) para essa tentativa foi fe
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
 \label{subsec:res_xai}
-Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, em um computador Apple, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 3.039 segundos (cerca de 51 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11.
+Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, em um computador Apple, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 3.039 segundos (cerca de 51 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11. A Figura~\ref{fig:graf_tempo_explicacao} compara o tempo de execução dos dois métodos.
+
+\begin{figure}[H]
+    \caption{Tempo de execução do LIME e do SHAP nos 98 chamados da amostra}
+    \label{fig:graf_tempo_explicacao}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_tempo_explicacao.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Execução em CPU, em um MacBook Pro com chip Apple M4; no SHAP, orçamento de 2.000 consultas nos campos estimados por amostragem.}
+\end{figure}
 
 \subsubsection{Fidelidade}
 \label{subsubsec:res_fidelidade}
@@ -2138,7 +2212,15 @@ A Tabela~\ref{tab:res_fidelidade} traz a fidelidade dos dois métodos nos 98 cha
 \end{table}
 
 Os dois métodos ficam bem acima do acaso nas três medidas. Retirar as palavras apontadas reduz a probabilidade da classe prevista em 0,54 (LIME) e 0,55 (SHAP), contra 0,19 nos dois ao retirar palavras sorteadas, e manter só as palavras apontadas deixa a probabilidade quase inalterada (queda de 0,019 e 0,005), contra 0,31 nos dois com palavras sorteadas. As diferenças entre os métodos são pequenas: o SHAP tem valores um pouco melhores na \textit{comprehensiveness} (0,546 contra 0,542) e na \textit{sufficiency} (0,005 contra 0,019), e o LIME, um Tau-LOO maior (0,412 contra 0,361).
-Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de 0,004 (intervalo de $-0{,}020$ a 0,028), e na \textit{sufficiency}, de $-0{,}014$ (intervalo de $-0{,}037$ a 0,004); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}051$ (intervalo de $-0{,}081$ a $-0{,}020$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra. % CONFERIDO: diferencas pareadas com fidelidade_shap_por_chamado.csv (SHAP, 2.000) e fidelidade_por_chamado.csv (LIME, 500); bootstrap de 5.000, semente 42.
+Para comparar os métodos nos mesmos chamados, calculou-se a diferença SHAP menos LIME em cada chamado, com intervalo de confiança de 95\% por \textit{bootstrap} sobre os chamados (5.000 reamostragens, semente 42). Na \textit{comprehensiveness}, a diferença média foi de 0,004 (intervalo de $-0{,}020$ a 0,028), e na \textit{sufficiency}, de $-0{,}014$ (intervalo de $-0{,}037$ a 0,004); os dois intervalos incluem o zero, e os dados não distinguem os métodos nessas medidas. No Tau-LOO, a diferença foi de $-0{,}051$ (intervalo de $-0{,}081$ a $-0{,}020$), ou seja, o LIME teve correlação maior com o efeito de retirar cada palavra. A Figura~\ref{fig:graf_fidelidade} compara as três medidas dos dois métodos com a linha de base aleatória. % CONFERIDO: diferencas pareadas com fidelidade_shap_por_chamado.csv (SHAP, 2.000) e fidelidade_por_chamado.csv (LIME, 500); bootstrap de 5.000, semente 42.
+
+\begin{figure}[H]
+    \caption{Fidelidade do SHAP e do LIME comparada à linha de base aleatória}
+    \label{fig:graf_fidelidade}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_fidelidade.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado, da Tabela~\ref{tab:res_fidelidade}. Os dois métodos ficam bem acima da linha de base aleatória; nas diferenças pareadas, só o Tau-LOO distingue os métodos, a favor do LIME. No Tau-LOO não há linha de base aleatória.}
+\end{figure}
 
 \subsubsection{Estabilidade}
 \label{subsubsec:res_estabilidade}
@@ -2162,9 +2244,17 @@ A estabilidade foi medida em 12 chamados com ao menos oito palavras distintas, e
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado. Jaccard: das 5 palavras mais relevantes entre as repetições. ``Topo igual'': fração dos pares de repetições com a mesma palavra no topo. Entre parênteses, o valor esperado ao acaso. ``Só amostragem'' exclui os 3 chamados em que o SHAP foi exato.}
 \end{table}
 
-Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% dos pares de repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,725 e a mesma palavra no topo em 88\% dos pares de repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,634 e 83\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,634 do SHAP, Spearman de 0,706 contra 0,861 e a mesma palavra no topo em 93\% dos pares de repetições contra 83\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 2.000 consultas, foi mais estável que o LIME no Jaccard e no Spearman e menos estável na mesma palavra no topo; só o cálculo exato dá estabilidade total ao SHAP. Como cerca de 80\% das descrições completas do teste têm mais de 10 palavras, a maior parte dos chamados reais cairia no SHAP por amostragem, o que torna essa limitação relevante na prática. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo.
+Os dois métodos ficam acima do acaso nas três medidas, mas nenhum é perfeitamente estável. O LIME manteve a mesma palavra no topo em 95\% dos pares de repetições e teve Jaccard de 0,659. O SHAP teve Jaccard de 0,725 e a mesma palavra no topo em 88\% dos pares de repetições; considerando só os 9 chamados em que houve amostragem, os valores caem para 0,634 e 83\%. Nos 9 chamados em que houve amostragem, a comparação é direta, com os mesmos chamados nos dois métodos: o LIME teve Jaccard de 0,546 contra 0,634 do SHAP, Spearman de 0,706 contra 0,861 e a mesma palavra no topo em 93\% dos pares de repetições contra 83\%. Nessa amostra, portanto, o SHAP estimado por amostragem, com 2.000 consultas, foi mais estável que o LIME no Jaccard e no Spearman e menos estável na mesma palavra no topo; só o cálculo exato dá estabilidade total ao SHAP. Como cerca de 80\% das descrições completas do teste têm mais de 10 palavras, a maior parte dos chamados reais cairia no SHAP por amostragem, o que torna essa limitação relevante na prática. Como são apenas 12 chamados e não houve teste estatístico, o resultado é indicativo. A Figura~\ref{fig:graf_estabilidade} compara as três medidas de estabilidade com o valor esperado ao acaso.
 
-Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amostragem foi medida em 20 chamados com 500, 2.000 e 5.000 consultas por campo (Tabela~\ref{tab:res_orcamento}). A estabilidade aumentou com o orçamento nas três medidas. Adotou-se 2.000 consultas, que melhora bastante a estabilidade em relação a 500 com cerca de 2,5 vezes menos consultas ao modelo que 5.000. % CONFERIDO: estabilidade dos 12 chamados em orcamento_2000/estabilidade/estabilidade_shap_resumo.json (0,725; 0,896; 0,875 e, so amostragem, 0,634; 0,861; 0,833). Orcamentos de 20 chamados: 500 = 0,598; 0,684; 0,815; 2.000 = 0,719; 0,859; 0,925; 5.000 = 0,799; 0,920; 0,970.
+\begin{figure}[H]
+    \caption{Estabilidade do SHAP e do LIME comparada ao valor esperado ao acaso}
+    \label{fig:graf_estabilidade}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_estabilidade.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado, da Tabela~\ref{tab:res_estabilidade}. ``SHAP, todos'' inclui os 3 chamados em que o SHAP foi exato e, por isso, idêntico nas cinco repetições; ``SHAP, só amostragem'' exclui esses 3 chamados. A tabela não traz valor ao acaso para o Spearman.}
+\end{figure}
+
+Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amostragem foi medida em 20 chamados com 500, 2.000 e 5.000 consultas por campo (Tabela~\ref{tab:res_orcamento}). A estabilidade aumentou com o orçamento nas três medidas. Adotou-se 2.000 consultas, que melhora bastante a estabilidade em relação a 500 com cerca de 2,5 vezes menos consultas ao modelo que 5.000. A Figura~\ref{fig:graf_estabilidade_orcamento} mostra essa evolução com o orçamento. % CONFERIDO: estabilidade dos 12 chamados em orcamento_2000/estabilidade/estabilidade_shap_resumo.json (0,725; 0,896; 0,875 e, so amostragem, 0,634; 0,861; 0,833). Orcamentos de 20 chamados: 500 = 0,598; 0,684; 0,815; 2.000 = 0,719; 0,859; 0,925; 5.000 = 0,799; 0,920; 0,970.
 
 \begin{table}[htb]
   \centering
@@ -2182,6 +2272,14 @@ Para escolher o orçamento do SHAP, a estabilidade dos campos estimados por amos
   \end{tabular}
   \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado, em 20 chamados com ao menos um campo estimado por amostragem, explicados 5 vezes cada. Jaccard: das 5 palavras mais relevantes entre as repetições. ``Topo igual'': fração dos pares de repetições com a mesma palavra no topo. Entre parênteses, o valor esperado ao acaso.}
 \end{table}
+
+\begin{figure}[H]
+    \caption{Estabilidade do SHAP por amostragem em função do orçamento de consultas}
+    \label{fig:graf_estabilidade_orcamento}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_estabilidade_orcamento.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores médios por chamado, da Tabela~\ref{tab:res_orcamento}. A tabela não traz valor ao acaso para o Spearman.}
+\end{figure}
 
 \subsubsection{Concordância entre SHAP e LIME}
 \label{subsubsec:res_concordancia}
@@ -2206,7 +2304,15 @@ A concordância compara, para cada um dos 98 chamados, as palavras que o SHAP e 
   \legend{Fonte: Elaborado pelos autores.\\ Nota: O Jaccard considera apenas os 96 chamados com mais de 5 palavras.}
 \end{table}
 
-Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 68 dos 98 chamados (69\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,803. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte.
+Nas quatro medidas, os dois métodos concordam bem acima do acaso, mas longe da concordância total. Em 68 dos 98 chamados (69\%) os dois colocam a mesma palavra no topo, contra 7\% esperados ao acaso, e a mediana da correlação de Spearman é 0,803. A concordância não indica qual dos métodos está certo, apenas que apontam as mesmas palavras; a fidelidade de cada um é tratada à parte. A Figura~\ref{fig:graf_concordancia} compara as quatro medidas de concordância com o valor esperado ao acaso.
+
+\begin{figure}[H]
+    \caption{Concordância entre SHAP e LIME comparada ao valor esperado ao acaso}
+    \label{fig:graf_concordancia}
+    \centering
+    \includegraphics[width=0.9\textwidth]{imagens/graf_concordancia.png}
+    \legend{Fonte: Elaborado pelos autores.\\ Nota: Valores da Tabela~\ref{tab:res_concordancia}. O Jaccard considera apenas os 96 chamados com mais de 5 palavras.}
+\end{figure}
 
 A Tabela~\ref{tab:res_concordancia_grupos} separa os chamados por forma de cálculo do SHAP e por acerto do modelo. A concordância é maior nos 27 chamados em que o SHAP foi calculado de forma exata (Spearman de 0,856) do que nos 71 em que houve amostragem (0,689). Os chamados do primeiro grupo são os mais curtos, então os dados não separam o efeito do método de cálculo do efeito do tamanho do texto. Em todos os chamados, a correlação entre o número de palavras e a concordância de Spearman é de $-0{,}60$ ($p < 0{,}001$): quanto mais palavras, menos os dois métodos concordam. Já entre acertos e erros do modelo, a concordância fica próxima (Spearman de 0,733 nos acertos e de 0,746 nos erros), com amostra de erros pequena (18 chamados). % CONFERIDO: concordancia_shap_lime.py escolhe topo e 5 palavras pelo maior peso em modulo; Spearman so nas palavras comuns, com sinal. Recalculado com shap_explicacoes.csv (2.000) e lime_explicacoes.csv (500): 68 de 98 no topo.
 
