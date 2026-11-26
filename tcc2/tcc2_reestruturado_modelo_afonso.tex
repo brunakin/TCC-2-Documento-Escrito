@@ -1609,7 +1609,7 @@ O Tau-LOO (maior é melhor) compara o peso $\phi_i$ de cada palavra $i$ com o ef
 \tau_{\mathrm{Kendall}} = \frac{n_c - n_d}{\sqrt{(n_c + n_d + t_x)(n_c + n_d + t_y)}}
 \label{eq:kendall}
 \end{equation}
-em que $F$ é o conjunto de palavras do campo, $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante, e $t_x$ e $t_y$ são os pares empatados em apenas uma das duas listas. É o tau-b, padrão de \texttt{scipy.stats.kendalltau}, que desconta os empates; o tau-a, que divide só por $\binom{n}{2}$, não foi usado. As duas primeiras medidas são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. A \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado. A Figura~\ref{fig:ilus_fidelidade_exemplo} ilustra, com um chamado fictício, as duas perturbações usadas na \textit{comprehensiveness} e na \textit{sufficiency}. % CONFERIDO: metricas_xai.py usa scipy.stats.kendalltau, que e tau-b.
+em que $F$ é o conjunto de palavras do campo, $n_c$ e $n_d$ são os números de pares de palavras em ordem concordante e discordante, e $t_x$ e $t_y$ são os pares empatados em apenas uma das duas listas. É o tau-b, padrão de \texttt{scipy.stats.kendalltau}, que desconta os empates; o tau-a, que divide só por $\binom{n}{2}$, não foi usado. As duas primeiras medidas são comparadas a uma linha de base aleatória, que remove ou mantém o mesmo número de palavras sorteadas ao acaso (cinco sorteios por chamado): a explicação só é considerada fiel se superar o sorteio. A \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas neste trabalho, pois a biblioteca \textit{ferret} não pôde ser instalada no ambiente utilizado. A Figura~\ref{fig:ilus_fidelidade_exemplo} ilustra, com um chamado fictício, as duas perturbações usadas na \textit{comprehensiveness} e na \textit{sufficiency}. % CONFERIDO: metricas_xai.py usa scipy.stats.kendalltau, que e tau-b.
 
   \begin{figure}[H]
       \caption{Exemplo das perturbações usadas na \textit{comprehensiveness} e na \textit{sufficiency}}
@@ -1883,14 +1883,13 @@ explicação de um chamado digitado pelo \textit{pipeline} completo.
 \label{subsubsec:autorizacao_dados}
 
 Os dados utilizados neste trabalho são chamados reais de suporte
-técnico cedidos por duas empresas do setor farmacêutico: Empresa B e Empresa A. Os autores solicitaram o
-acesso por e-mail, explicando o objetivo acadêmico do trabalho, quais
+técnico cedidos por duas empresas do setor farmacêutico: Empresa B e Empresa A. O acesso foi solicitado por e-mail, explicando-se o objetivo acadêmico do trabalho, quais
 informações seriam necessárias e como os registros seriam tratados.
 
 Não foi utilizado um conjunto de dados público. Os chamados são dados privados das duas empresas, cedidos com finalidade acadêmica e anonimizados, e por isso os textos originais não são divulgados neste trabalho.
 
 As autorizações de uso foram concedidas pelas duas empresas por e-mail.
-Os autores se comprometeram a usar os chamados apenas neste trabalho e a
+Assumiu-se o compromisso de usar os chamados apenas neste trabalho e de
 anonimizá-los antes de qualquer etapa de processamento. Essas mensagens
 são o registro da autorização concedida e da finalidade acadêmica do uso, e estão
 reproduzidas nos Anexos~\ref{an:autorizacao_empresa_a}
@@ -2142,7 +2141,7 @@ A Figura~\ref{fig:matriz_confusao} mostra a matriz de confusão do BERTimbau no 
 \subsection{Tentativa de melhoria do classificador (C1 e S1)}
 \label{subsec:res_melhoria}
 
-Depois do treino de referência, o grupo avaliou se pesos de classe na função de perda melhorariam o desempenho nas classes pequenas. Para que a escolha não fosse influenciada pelos resultados, o plano do experimento foi declarado em 21/10/2026, antes de qualquer execução, em um documento de experimentos declarados. O candidato C1 manteve toda a configuração do ajuste fino (Seção~\ref{subsubsec:dataset_finetuning}) e a mesma divisão dos dados, mudando apenas a perda: cada classe $c$ recebeu um peso proporcional a $1/\sqrt{n_c}$, normalizado para que o peso médio por exemplo de treino seja 1,
+Depois do treino de referência, avaliou-se se pesos de classe na função de perda melhorariam o desempenho nas classes pequenas. Para que a escolha não fosse influenciada pelos resultados, o plano do experimento foi declarado em 21/10/2026, antes de qualquer execução, em um documento de experimentos declarados. O candidato C1 manteve toda a configuração do ajuste fino (Seção~\ref{subsubsec:dataset_finetuning}) e a mesma divisão dos dados, mudando apenas a perda: cada classe $c$ recebeu um peso proporcional a $1/\sqrt{n_c}$, normalizado para que o peso médio por exemplo de treino seja 1,
 
 \begin{equation}
 w_c = \frac{\tilde w_c}{\frac{1}{N}\sum_{i=1}^{N} \tilde w_{y_i}}, \qquad
@@ -2191,13 +2190,13 @@ O C1 foi treinado com a semente 42 na GTX 1650 (8.007 passos de atualização), 
 
 O S1 foi executado em 21/10/2026 (cerca de 2 minutos, sem uso do teste). Obteve F1-macro de 0,5170 na validação inteira (acurácia de 0,6128) e de 0,5577 na validação corrigida, 0,3 ponto acima do SVM original, com intervalo que inclui o zero e diferença positiva em 55\% das reamostragens. Como o ganho não foi comprovado, o S1 não foi aprovado, e o SVM original continuou sendo a referência do cenário A.
 
-Nenhum dos dois candidatos foi aprovado. Em 26/10/2026, o grupo decidiu manter como modelo final o BERTimbau treinado de 04/10 a 05/10/2026, usado em todos os resultados, nas explicações e na interface, e o modelo foi congelado em 28/10/2026.
+Nenhum dos dois candidatos foi aprovado. Em 26/10/2026, decidiu-se manter como modelo final o BERTimbau treinado de 04/10 a 05/10/2026, usado em todos os resultados, nas explicações e na interface, e o modelo foi congelado em 28/10/2026.
 
 A escolha do escopo combinado (Empresa A e Empresa B) para essa tentativa foi feita depois de observados os resultados de teste do modelo de referência e de um modelo treinado só com chamados da Empresa A; por isso, o resultado da tentativa é relatado como complementar. O modelo só com a Empresa A foi treinado com outra divisão dos dados, e apenas 468 chamados estão no teste dos dois, o que impede uma comparação pareada entre eles; essa comparação não foi feita.
 
 \subsection{Explicabilidade: SHAP e LIME (cenário C)}
 \label{subsec:res_xai}
-Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, em um computador Apple, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 3.039 segundos (cerca de 51 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11. A Figura~\ref{fig:graf_tempo_explicacao} compara o tempo de execução dos dois métodos.
+Para responder ao objetivo específico 2, as explicações do SHAP e do LIME foram geradas para os 98 chamados da amostra (Seção~\ref{subsec:criterios_validacao}). Em CPU, em um MacBook Pro com chip Apple M4, o LIME levou 964 segundos (cerca de 16 minutos) e o SHAP, 3.039 segundos (cerca de 51 minutos). No SHAP, a soma dos pesos das palavras com a probabilidade-base reproduziu a probabilidade do chamado em todas as explicações, com erro máximo da ordem de $10^{-15}$. No LIME, o $R^2$ do modelo linear local, ponderado pela proximidade, teve mediana de 0,68, com mínimo de 0,11. A Figura~\ref{fig:graf_tempo_explicacao} compara o tempo de execução dos dois métodos.
 
 \begin{figure}[H]
     \caption{Tempo de execução do LIME e do SHAP nos 98 chamados da amostra}
@@ -2488,7 +2487,7 @@ Quanto à classificação, os resultados vêm de um único treinamento do BERTim
 
 Quanto à escolha do modelo, o trabalho usou o BERTimbau, um modelo de 2020, e não avaliou modelos generalistas mais recentes, os LLMs (\textit{Large Language Models} -- Modelos de Linguagem de Grande Porte), nem abordagens com recuperação de contexto (RAG, \textit{Retrieval-Augmented Generation} -- Geração Aumentada por Recuperação) ou explicações em texto geradas pelo próprio modelo, como as de CoT (\textit{Chain-of-Thought} -- Cadeia de Raciocínio). O BERTimbau foi mantido por ser específico para o português e por permitir calcular, em máquinas locais, as centenas de consultas ao modelo que o SHAP e o LIME exigem por explicação; com um LLM, esse custo seria bem maior. Já as explicações em texto de um LLM teriam de ter sua fidelidade ao processo de decisão avaliada com medidas como as usadas aqui.
 
-Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 2.000 consultas, enquanto o LIME usou 500 amostras, de modo que a comparação de estabilidade não é entre métodos de mesmo custo; o teste com 500, 2.000 e 5.000 consultas mostrou que a estabilidade do SHAP aumenta com o orçamento. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, a \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas pelos autores, seguindo a definição de \citeonline{attanasio2023}, e o Tau-LOO usa o tau-b de \texttt{scipy.stats.kendalltau}; por isso esses valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
+Quanto às explicações, o SHAP e o LIME foram avaliados em uma amostra de 98 chamados, e a estabilidade em apenas 12 deles, explicados 5 vezes cada e escolhidos entre os que têm ao menos oito palavras distintas, o que impede estender esse resultado a chamados curtos. Em 79 dos 166 campos explicados, o SHAP foi estimado por amostragem, com orçamento de 2.000 consultas, enquanto o LIME usou 500 amostras, de modo que a comparação de estabilidade não é entre métodos de mesmo custo; o teste com 500, 2.000 e 5.000 consultas mostrou que a estabilidade do SHAP aumenta com o orçamento. Em alguns chamados, o modelo linear local do LIME ajusta pouco o comportamento do classificador (o $R^2$ local teve mediana de 0,68 e mínimo de 0,11). Além disso, a \textit{comprehensiveness} e a \textit{sufficiency} foram implementadas neste trabalho, seguindo a definição de \citeonline{attanasio2023}, e o Tau-LOO usa o tau-b de \texttt{scipy.stats.kendalltau}; por isso esses valores podem não ser diretamente comparáveis aos de estudos que usam a biblioteca \textit{ferret}.  A fidelidade e a estabilidade não foram calculadas para o SVM, que é interpretável por construção, e a comparação das explicações entre os cenários A e B fica como trabalho futuro.
 
 Quanto ao grafo, a auditabilidade foi avaliada pela rastreabilidade, em casos aplicados, e não em um teste com analistas de TI. O trabalho, portanto, mostra que cada nó e cada aresta podem ser levados de volta ao chamado, mas não que analistas conseguem, na prática, acompanhar a decisão do classificador a partir do grafo.
 
