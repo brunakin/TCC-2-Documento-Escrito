@@ -1134,7 +1134,7 @@ em cada divisão. O modelo utilizado foi um híbrido de regressão
 \textit{ridge} com regressão logística. O LIME foi utilizado para ilustrar a explicabilidade das
 classificações em um estudo de caso com texto médico; o
 conjunto de dados reúne textos de seis classes: medicina,
-esportes, entretenimento, política, tecnologia e negócios. Após o ajuste do pré-processamento, a acurácia de alguns modelos individuais subiu de 0,43 para 0,64 (\textit{Linear Discriminant Analysis}) e de 0,51 para 0,59 (\textit{AdaBoost}), e o modelo híbrido atingiu até 99\% de acurácia, em um conjunto combinado de 2.494 textos.
+esportes, entretenimento, política, tecnologia e negócios. Após o ajuste do pré-processamento, a acurácia de alguns modelos individuais subiu de 0,43 para 0,64 (\textit{Linear Discriminant Analysis}) e de 0,51 para 0,59 (\textit{AdaBoost}), e o modelo híbrido, formado pelo \textit{ridge} e pela regressão logística, que antes do pré-processamento com NLTK já alcançavam 0,98, atingiu até 99\% de acurácia, em um conjunto combinado de 2.494 textos.
 
 O trabalho demonstra que a integração de XAI ao \textit{pipeline} 
 de classificação não é apenas uma camada de interpretabilidade 
