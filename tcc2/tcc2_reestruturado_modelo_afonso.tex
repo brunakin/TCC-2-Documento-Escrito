@@ -163,63 +163,86 @@ The results were integrated into a web interface that classifies a typed ticket,
 % ---------------------------------------------------------------
 % LISTA DE ABREVIATURAS E SIGLAS
 % ---------------------------------------------------------------
-\begin{siglas}
-  \item[AOPC] \textit{Area Over the Perturbation Curve} (Área sobre a Curva de Perturbação)
-  \item[BEGNN] \textit{BERT-Enhanced Graph Neural Network} (Rede Neural de Grafos Aprimorada por BERT)
-  \item[BERT] \textit{Bidirectional Encoder Representations from Transformers} (Representações de Codificador Bidirecional a partir de Transformers)
-  \item[BERTimbau] Variante do BERT pré-treinada para o português brasileiro
-  \item[BiLSTM] \textit{Bidirectional Long Short-Term Memory} (Memória de Longo e Curto Prazo Bidirecional)
-  \item[BrWaC] \textit{Brazilian Web as Corpus} (Web Brasileira como Corpus)
-  \item[CNN] \textit{Convolutional Neural Network} (Rede Neural Convolucional)
-  \item[CoT] \textit{Chain-of-Thought} (Cadeia de Raciocínio)
-  \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
-  \item[CRF] \textit{Conditional Random Field} (Campo Aleatório Condicional)
-  \item[CSS] \textit{Cascading Style Sheets} (Folhas de Estilo em Cascata)
-  \item[CUDA] \textit{Compute Unified Device Architecture} (Arquitetura Unificada de Dispositivos de Computação)
-  \item[E5] \textit{EmbEddings from bidirEctional Encoder rEpresentations} (\textit{Embeddings} a partir de Representações de Codificador Bidirecional)
-  \item[GCN] \textit{Graph Convolutional Network} (Rede Neural Convolucional em Grafos)
-  \item[GloVe] \textit{Global Vectors for Word Representation} (Vetores Globais para Representação de Palavras)
-  \item[GNN] \textit{Graph Neural Network} (Rede Neural de Grafos)
-  \item[GPT] \textit{Generative Pre-trained Transformer} (Transformer Generativo Pré-treinado)
-  \item[GPU] \textit{Graphics Processing Unit} (Unidade de Processamento Gráfico)
-  \item[HOOM] \textit{Hybrid Online Offline Model} (Modelo Híbrido \textit{Online} e \textit{Offline})
-  \item[IC] Intervalo de Confiança
-  \item[ITIL] \textit{Information Technology Infrastructure Library} (Biblioteca de Infraestrutura de Tecnologia da Informação)
-  \item[ITSM] \textit{IT Service Management} (Gerenciamento de Serviços de TI)
-  \item[JSON] \textit{JavaScript Object Notation} (Notação de Objetos JavaScript)
-  \item[LGPD] Lei Geral de Proteção de Dados Pessoais
-  \item[LIME] \textit{Local Interpretable Model-Agnostic Explanations} (Explicações Locais Interpretáveis Independentes de Modelo)
-  \item[LLM] \textit{Large Language Model} (Modelo de Linguagem de Grande Porte)
-  \item[LOO] \textit{Leave-One-Out} (Deixar Um de Fora)
-  \item[LSTM] \textit{Long Short-Term Memory} (Memória de Longo e Curto Prazo)
-  \item[mBERT] \textit{Multilingual BERT} (BERT Multilíngue)
-  \item[MLM] \textit{Masked Language Modeling} (Modelagem de Linguagem com Máscara)
-  \item[MLP] \textit{Multilayer Perceptron} (Perceptron Multicamadas)
-  \item[NER] \textit{Named Entity Recognition} (Reconhecimento de Entidades Nomeadas)
-  \item[NLTK] \textit{Natural Language Toolkit} (Kit de Ferramentas de Linguagem Natural)
-  \item[NSP] \textit{Next Sentence Prediction} (Predição da Próxima Sentença)
-  \item[PLN] Processamento de Linguagem Natural
-  \item[PMI] \textit{Pointwise Mutual Information} (Informação Mútua Pontual)
-  \item[p.p.] Pontos Percentuais
-  \item[PT-BR] Português Brasileiro
-  \item[RAG] \textit{Retrieval-Augmented Generation} (Geração Aumentada por Recuperação)
-  \item[RNN] \textit{Recurrent Neural Network} (Rede Neural Recorrente)
-  \item[RoBERTa] \textit{Robustly Optimized BERT Pretraining Approach} (Abordagem de Pré-treinamento do BERT Robustamente Otimizada)
-  \item[SHAP] \textit{SHapley Additive exPlanations} (Explicações Aditivas de Shapley)
-  \item[SLA] \textit{Service Level Agreement} (Acordo de Nível de Serviço)
-  \item[SMOTE] \textit{Synthetic Minority Oversampling Technique} (Técnica de Sobreamostragem Sintética de Minorias)
-  \item[SVM] \textit{Support Vector Machine} (Máquina de Vetores de Suporte)
-  \item[TCC] Trabalho de Conclusão de Curso
-  \item[TCC1] Trabalho de Conclusão de Curso I
-  \item[TCC2] Trabalho de Conclusão de Curso II
-  \item[TF-IDF] \textit{Term Frequency–Inverse Document Frequency} (Frequência do Termo–Inverso da Frequência nos Documentos)
-  \item[TI] Tecnologia da Informação
-  \item[VPN] \textit{Virtual Private Network} (Rede Privada Virtual)
-  \item[XAI] \textit{Explainable Artificial Intelligence} (Inteligência Artificial Explicável)
-  \item[XLM] \textit{Cross-lingual Language Model} (Modelo de Linguagem Multilíngue)
-  \item[XLM-RoBERTa] \textit{Cross-lingual Language Model RoBERTa} (Modelo de Linguagem Multilíngue RoBERTa)
-  \item[ZHAW] \textit{Zürcher Hochschule für Angewandte Wissenschaften} (Universidade de Ciências Aplicadas de Zurique)
-\end{siglas}
+\pdfbookmark[0]{Lista de Abreviaturas e Siglas}{loas}
+\chapter*{Lista de Abreviaturas e Siglas}
+
+\noindent A lista a seguir reúne, em ordem alfabética, as abreviaturas e siglas utilizadas neste trabalho, acompanhadas de seus respectivos significados.
+
+\vspace{\onelineskip}
+
+\begin{longtable}{@{}p{3.8cm}p{0.62\textwidth}@{}}
+\toprule
+\textbf{Abreviatura/Sigla} & \textbf{Significado} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Abreviatura/Sigla} & \textbf{Significado} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+AOPC & \textit{Area Over the Perturbation Curve} (Área sobre a Curva de Perturbação) \\
+BEGNN & \textit{BERT-Enhanced Graph Neural Network} (Rede Neural de Grafos Aprimorada por BERT) \\
+BERT & \textit{Bidirectional Encoder Representations from Transformers} (Representações de Codificador Bidirecional a partir de Transformers) \\
+BERTimbau & Variante do BERT pré-treinada para o português brasileiro \\
+BiLSTM & \textit{Bidirectional Long Short-Term Memory} (Memória de Longo e Curto Prazo Bidirecional) \\
+BrWaC & \textit{Brazilian Web as Corpus} (Web Brasileira como Corpus) \\
+CLS & \textit{Classification} (Classificação) \\
+CNN & \textit{Convolutional Neural Network} (Rede Neural Convolucional) \\
+CoT & \textit{Chain-of-Thought} (Cadeia de Raciocínio) \\
+CPF & Cadastro de Pessoas Físicas \\
+CPU & \textit{Central Processing Unit} (Unidade Central de Processamento) \\
+CRF & \textit{Conditional Random Field} (Campo Aleatório Condicional) \\
+CSS & \textit{Cascading Style Sheets} (Folhas de Estilo em Cascata) \\
+CUDA & \textit{Compute Unified Device Architecture} (Arquitetura Unificada de Dispositivos de Computação) \\
+E5 & \textit{EmbEddings from bidirEctional Encoder rEpresentations} (\textit{Embeddings} a partir de Representações de Codificador Bidirecional) \\
+GCN & \textit{Graph Convolutional Network} (Rede Neural Convolucional em Grafos) \\
+GloVe & \textit{Global Vectors for Word Representation} (Vetores Globais para Representação de Palavras) \\
+GNN & \textit{Graph Neural Network} (Rede Neural de Grafos) \\
+GPT & \textit{Generative Pre-trained Transformer} (Transformer Generativo Pré-treinado) \\
+GPU & \textit{Graphics Processing Unit} (Unidade de Processamento Gráfico) \\
+HOOM & \textit{Hybrid Online Offline Model} (Modelo Híbrido \textit{Online} e \textit{Offline}) \\
+IC & Intervalo de Confiança \\
+IP & \textit{Internet Protocol} (Protocolo de Internet) \\
+ITIL & \textit{Information Technology Infrastructure Library} (Biblioteca de Infraestrutura de Tecnologia da Informação) \\
+ITSM & \textit{IT Service Management} (Gerenciamento de Serviços de TI) \\
+JSON & \textit{JavaScript Object Notation} (Notação de Objetos JavaScript) \\
+LGPD & Lei Geral de Proteção de Dados Pessoais \\
+LIME & \textit{Local Interpretable Model-Agnostic Explanations} (Explicações Locais Interpretáveis Independentes de Modelo) \\
+LLM & \textit{Large Language Model} (Modelo de Linguagem de Grande Porte) \\
+LOO & \textit{Leave-One-Out} (Deixar Um de Fora) \\
+LSTM & \textit{Long Short-Term Memory} (Memória de Longo e Curto Prazo) \\
+mBERT & \textit{Multilingual BERT} (BERT Multilíngue) \\
+MLM & \textit{Masked Language Modeling} (Modelagem de Linguagem com Máscara) \\
+MLP & \textit{Multilayer Perceptron} (Perceptron Multicamadas) \\
+NER & \textit{Named Entity Recognition} (Reconhecimento de Entidades Nomeadas) \\
+NLTK & \textit{Natural Language Toolkit} (Kit de Ferramentas de Linguagem Natural) \\
+NSP & \textit{Next Sentence Prediction} (Predição da Próxima Sentença) \\
+PLN & Processamento de Linguagem Natural \\
+PMI & \textit{Pointwise Mutual Information} (Informação Mútua Pontual) \\
+p.p. & Pontos Percentuais \\
+PT-BR & Português Brasileiro \\
+RAG & \textit{Retrieval-Augmented Generation} (Geração Aumentada por Recuperação) \\
+RNN & \textit{Recurrent Neural Network} (Rede Neural Recorrente) \\
+RoBERTa & \textit{Robustly Optimized BERT Pretraining Approach} (Abordagem de Pré-treinamento do BERT Robustamente Otimizada) \\
+SHAP & \textit{SHapley Additive exPlanations} (Explicações Aditivas de Shapley) \\
+SLA & \textit{Service Level Agreement} (Acordo de Nível de Serviço) \\
+SMOTE & \textit{Synthetic Minority Oversampling Technique} (Técnica de Sobreamostragem Sintética de Minorias) \\
+SVM & \textit{Support Vector Machine} (Máquina de Vetores de Suporte) \\
+TCC & Trabalho de Conclusão de Curso \\
+TCC1 & Trabalho de Conclusão de Curso I \\
+TCC2 & Trabalho de Conclusão de Curso II \\
+TF-IDF & \textit{Term Frequency–Inverse Document Frequency} (Frequência do Termo–Inverso da Frequência nos Documentos) \\
+TI & Tecnologia da Informação \\
+UML & \textit{Unified Modeling Language} (Linguagem de Modelagem Unificada) \\
+VPN & \textit{Virtual Private Network} (Rede Privada Virtual) \\
+XAI & \textit{Explainable Artificial Intelligence} (Inteligência Artificial Explicável) \\
+XLM & \textit{Cross-lingual Language Model} (Modelo de Linguagem Multilíngue) \\
+XLM-RoBERTa & \textit{Cross-lingual Language Model RoBERTa} (Modelo de Linguagem Multilíngue RoBERTa) \\
+ZHAW & \textit{Zürcher Hochschule für Angewandte Wissenschaften} (Universidade de Ciências Aplicadas de Zurique) \\
+\end{longtable}
+
+\cleardoublepage
 
 % ---------------------------------------------------------------
 % SUMÁRIO
