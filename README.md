@@ -1,238 +1,48 @@
-# Template de TCC em Ciência da Computação - Senac Santo Amaro
+# Classificação Automática de Chamados de TI Utilizando Processamento de Linguagem Natural com Explicabilidade Baseada em Grafos
 
-Template de Trabalho de Conclusão de Curso (TCC) para o Centro Universitário Senac - Santo Amaro, desenvolvido em LaTeX utilizando a classe `abntex2`.
+Trabalho de Conclusão de Curso (TCC 2) do Bacharelado em Ciência da Computação do Centro Universitário Senac – Santo Amaro, 2026.
 
-## 📋 Sobre o Template
+**Autores:** Agatha Barbosa Marinho dos Santos, Bruna Kinjo Luiz Pinto e Kayke Ahrens Biscegli
+**Orientador:** Prof. Douglas José Baquião Ribeiro
 
-Este template foi desenvolvido para auxiliar os alunos do curso de **Bacharelado em Ciência da Computação** do Senac Santo Amaro na elaboração de seus Trabalhos de Conclusão de Curso, seguindo as normas da ABNT e os padrões acadêmicos da instituição.
+## Contexto
 
-## 📁 Estrutura do Projeto
+Equipes de suporte de TI recebem grandes volumes de chamados em texto livre, e classificá-los à mão é lento e sujeito a erros. Modelos baseados em *transformers*, como o BERT, classificam bem, mas não revelam por que atribuíram uma categoria a um chamado, o que dificulta a auditoria das suas decisões.
 
-O template é composto pelos seguintes arquivos:
+## Objetivo
 
-- **`tcc.tex`**: Arquivo principal do documento LaTeX contendo toda a estrutura do TCC
-- **`bibliografia.bib`**: Arquivo de referências bibliográficas no formato BibTeX
+Investigar como a inclusão de uma camada de explicabilidade baseada em SHAP, LIME e grafos de co-ocorrência (redes em que as palavras são ligadas quando aparecem próximas no texto) a um *pipeline* de classificação com BERTimbau contribui para a auditabilidade do processo decisório, comparando a qualidade das explicações dos dois métodos.
 
-## 🎯 Elementos Incluídos
+## Dados
 
-O template contém as seguintes seções pré-configuradas:
+Chamados de suporte técnico em português brasileiro, anonimizados e cedidos por duas empresas do setor farmacêutico (Empresa A e Empresa B): 53.279 chamados em 11 categorias. Os dados foram divididos em treino, validação e teste de modo que textos repetidos fiquem no mesmo conjunto.
 
-### Elementos Pré-textuais
-- ✅ Capa
-- ✅ Folha de rosto
-- ✅ Dedicatória (opcional)
-- ✅ Agradecimentos
-- ✅ Epígrafe (opcional)
-- ✅ Resumo em português
-- ✅ Abstract em inglês
-- ✅ Lista de ilustrações
-- ✅ Lista de tabelas
-- ✅ Lista de abreviaturas e siglas
-- ✅ Sumário
+## Método
 
-### Elementos Textuais
-- ✅ Introdução (com contexto, justificativa e objetivos)
-- 📝 Desenvolvimento (seções a serem preenchidas pelo aluno)
-- 📝 Resultados
-- 📝 Conclusão
+Foram comparados quatro cenários, que acrescentam um componente por vez:
 
-### Elementos Pós-textuais
-- ✅ Referências bibliográficas (utilizando BibTeX)
+1. *Baseline* com SVM e TF-IDF
+2. *Fine-tuning* do BERTimbau
+3. Explicações SHAP e LIME
+4. Grafo de co-ocorrência ponderado pelas explicações
 
-## 🚀 Como Usar
+Em uma amostra de 98 chamados do conjunto de teste, o SHAP e o LIME foram avaliados quanto à fidelidade, à estabilidade e à concordância entre si. A rastreabilidade do grafo, tomada como critério de auditabilidade, foi examinada em três casos aplicados.
 
-### Organização de ativos
+## Principais resultados
 
-Crie uma pasta `assets` ao lado de `tcc.tex` para guardar imagens, vídeos ou outras mídias que você irá referenciar. Dentro dela, mantenha subpastas como `images/`, `figures/` ou `media/` e use caminhos relativos (`assets/images/minha_figura.png`) nas figuras do LaTeX.
+- **Classificação:** o BERTimbau obteve F1-macro de 0,628 e acurácia de 0,724 no conjunto de teste. O *baseline* SVM com TF-IDF obteve F1-macro de 0,591. A diferença foi de 3,7 pontos percentuais (intervalo de confiança de 95%: 1,0 a 6,7), abaixo da meta de 5 pontos estabelecida inicialmente.
+- **Explicações:** SHAP e LIME tiveram fidelidade bem acima do acaso e apontaram a mesma palavra no topo em 69% dos chamados. Só o Tau-LOO distinguiu os métodos, a favor do LIME.
+- **Estabilidade:** nos chamados em que o SHAP precisou ser estimado por amostragem, ele foi mais estável que o LIME no Jaccard e no Spearman, mas menos estável na mesma palavra no topo (83% dos pares de repetições, contra 93% do LIME).
+- **Grafo:** nos três casos aplicados, cada nó e cada aresta pôde ser levado ao chamado e aos pesos do SHAP e do LIME. O grafo expôs, por exemplo, que um erro do modelo se apoiou em muito pouca evidência.
 
-### Pré-requisitos
+## Interface
 
-Você precisará de uma distribuição LaTeX instalada no seu computador:
+Os resultados foram integrados a uma interface *web* que classifica um chamado digitado, exibe o grafo de co-ocorrência e permite alternar entre os pesos do SHAP e do LIME. A interface é uma prova de conceito e não foi avaliada junto a analistas de TI.
 
-- **Windows**: [MiKTeX](https://miktex.org/) ou [TeX Live](https://www.tug.org/texlive/)
-- **macOS**: [MacTeX](https://www.tug.org/mactex/)
-- **Linux**: TeX Live (geralmente disponível nos repositórios da distribuição)
+## Documento
 
-#### Instalando `pdflatex` no Codespaces/Linux e no Windows
+O texto completo está em [`tcc2/tcc2.pdf`](tcc2/tcc2.pdf).
 
-No GitHub Codespaces (ou qualquer Linux atual), instale o TeX Live com:
+## Palavras-chave
 
-```bash
-sudo apt update
-sudo apt install --yes texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
-```
-
-No Windows, instale o MiKTeX (https://miktex.org/download) e, após a instalação, abra o console do MiKTeX para garantir que `pdflatex` está no `PATH`. Isso garante que `pdflatex` esteja disponível tanto no terminal local quanto no Codespaces.
-
-### Compilação
-
-#### No Terminal
-
-Para compilar o documento, execute os seguintes comandos na ordem:
-
-```bash
-pdflatex tcc.tex
-bibtex tcc
-pdflatex tcc.tex
-pdflatex tcc.tex
-```
-
-**Por que compilar múltiplas vezes?**
-- A primeira compilação gera o documento base
-- O `bibtex` processa as referências bibliográficas
-- As próximas duas compilações atualizam as referências cruzadas e o sumário
-
-## ✏️ Personalizando o Template
-
-### Informações Básicas
-
-Edite as seguintes linhas no arquivo `tcc.tex` (aproximadamente linhas 75-89):
-
-```latex
-\titulo{Título do Seu TCC}
-\autor{Seu Nome Completo}
-\local{São Paulo - Brasil}
-\data{2025}
-\orientador{Nome do Seu Orientador}
-% \coorientador{Nome do Coorientador} % Descomente se houver coorientador
-```
-
-### Resumo e Abstract
-
-Substitua o conteúdo das seções `\begin{resumo}` e `\begin{resumo}[Abstract]` pelos resumos do seu trabalho (entre as linhas 257-299).
-
-### Lista de Siglas
-
-Adicione ou remova siglas na seção `\begin{siglas}` (linhas 318-324):
-
-```latex
-\begin{siglas}
-  \item[API] Application Programming Interface
-  \item[TCC] Trabalho de Conclusão de Curso
-\end{siglas}
-```
-
-### Conteúdo Principal
-
-Edite os capítulos e seções após a linha 333, mantendo a estrutura:
-
-```latex
-\chapter{Título do Capítulo}
-\section{Título da Seção}
-\subsection{Título da Subseção}
-
-Seu conteúdo aqui...
-```
-
-### Referências Bibliográficas
-
-Adicione suas referências no arquivo `bibliografia.bib` seguindo o formato BibTeX. Exemplos já estão incluídos no arquivo.
-
-Para citar uma referência no texto, use:
-```latex
-\cite{chave_da_referencia}
-```
-
-## 📦 Pacotes e Recursos Incluídos
-
-O template já inclui diversos pacotes úteis:
-
-- **Formatação**: `geometry`, `indentfirst`, `microtype`
-- **Gráficos e figuras**: `graphicx`, `tikz`, `float`
-- **Código-fonte**: `listings` (com estilos pré-configurados para C, R, Python e JSON)
-- **Matemática**: `amsmath`
-- **Tabelas**: `csvsimple`
-- **Citações ABNT**: `abntex2cite`
-
-### Inserindo Código-fonte
-
-O template possui estilos pré-definidos para código:
-
-```latex
-\begin{lstlisting}[style=python, caption={Exemplo em Python}]
-def hello_world():
-    print("Hello, World!")
-\end{lstlisting}
-```
-
-Estilos disponíveis: `psceudo`, `r_code`, `json`, `python`
-
-### Inserindo Figuras
-
-```latex
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.8\textwidth]{caminho/para/imagem.png}
-    \caption{Legenda da figura}
-    \label{fig:minha_figura}
-\end{figure}
-```
-
-### Inserindo Tabelas
-
-```latex
-\begin{table}[htb]
-    \centering
-    \caption{Título da tabela}
-    \label{tab:minha_tabela}
-    \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Coluna 1} & \textbf{Coluna 2} & \textbf{Coluna 3} \\
-        \hline
-        Dado 1 & Dado 2 & Dado 3 \\
-        \hline
-    \end{tabular}
-\end{table}
-```
-
-## 📚 Recursos Adicionais
-
-### Documentação
-
-- [Manual do ABNTeX2](https://www.abntex.net.br/)
-- [Documentação LaTeX (LaTeX Project)](https://www.latex-project.org/help/documentation/)
-- [CTAN - Comprehensive TeX Archive Network](https://www.ctan.org/)
-
-### Tutoriais Recomendados
-
-- [LaTeX Wikibook](https://en.wikibooks.org/wiki/LaTeX)
-- [Guia de referências BibTeX](https://www.bibtex.com/g/bibtex-format/)
-
-## ⚠️ Dicas Importantes
-
-1. **Faça backups regulares** do seu trabalho
-2. **Compile frequentemente** para detectar erros cedo
-3. **Use controle de versão** (Git) para gerenciar alterações
-4. **Consulte seu orientador** regularmente sobre o formato e conteúdo
-5. **Revise as normas da ABNT** atualizadas antes da entrega final
-6. **Não deixe para a última hora** - TCC requer tempo e dedicação
-
-## 🔧 Versionamento com Git
-
-1. Inicialize um repositório (local ou no GitHub) e versionize `tcc.tex`, `bibliografia.bib` e a pasta `assets/`.
-2. Sempre revise o status com `git status`, confira diffs (`git diff`) e faça commits com mensagens claras, por exemplo: `git commit -am "Atualiza metodologia proposta"`.
-3. Use branches para trabalhar em capítulos diferentes (`tcc1-metodologia`, `tcc1-referencial` etc.) e abra Pull Requests se estiver colaborando com colegas ou orientador.
-4. Envie (`git push`) regularmente para o remoto para evitar perda de dados.
-5. Gere o PDF antes de entregas com `pdflatex` + `bibtex` e guarde o binário somente quando necessário; prefira manter no repositório apenas os fontes e ativos.
-
-### Como funciona o `.gitignore`
-
-O arquivo `.gitignore` deste repositório evita que saiam arquivos temporários do LaTeX (como `.aux`, `.log`, `.synctex.gz`, `.toc` etc.) e caches de editores (`.idea/`, `.vscode/`). Desse modo, apenas `*.tex`, `*.bib`, `*.pdf` e os ativos importantes são enviados para o repositório. Consulte o `.gitignore` para entender exatamente o que fica de fora antes de fazer commits.
-
-## 🤝 Suporte
-
-Para dúvidas sobre o template ou formatação:
-
-- Consulte seu orientador de TCC
-- Entre em contato com a coordenação do curso
-- Consulte a documentação do ABNTeX2
-
-## 📄 Licença
-
-Este template é fornecido para uso acadêmico dos alunos do Centro Universitário Senac - Santo Amaro.
-
----
-
-**Desenvolvido para a disciplina de TCC 1**  
-**Centro Universitário Senac - Santo Amaro**  
-**Curso: Bacharelado em Ciência da Computação**
+Processamento de Linguagem Natural. BERT. Inteligência Artificial Explicável. Grafos de Co-ocorrência. Classificação de Chamados de TI.
